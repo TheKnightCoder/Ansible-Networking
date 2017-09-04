@@ -11,14 +11,6 @@ FROM williamyeh/ansible:ubuntu14.04
 #FROM williamyeh/ansible:alpine3
 
 
-# ==> Specify requirements filename;  default = "requirements.yml"
-#ENV REQUIREMENTS  requirements.yml
-
-# ==> Specify playbook filename;      default = "playbook.yml"
-#ENV PLAYBOOK      playbook.yml
-
-# ==> Specify inventory filename;     default = "/etc/ansible/hosts"
-#ENV INVENTORY     inventory.ini
 
 #long line = napalm dependencies and ntc ansible from zlib1g
 RUN echo "===> Installing ..."  && \
@@ -30,3 +22,7 @@ RUN echo "===> Installing ..."  && \
 	sudo apt-get -y install && \ 
 	git clone https://github.com/napalm-automation/napalm-ansible.git /usr/share/ansible/napalm/ && \
 	git clone  --recursive https://github.com/networktocode/ntc-ansible /usr/share/ansible/ntc-ansible/ 
+
+# ==> Copying Ansible playbook...
+ONBUILD WORKDIR /tmp
+ONBUILD COPY  .  /tmp
