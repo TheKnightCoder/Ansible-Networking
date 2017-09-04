@@ -28,8 +28,5 @@ RUN echo "===> Installing ..."  && \
     pip install setuptools --upgrade && \
 	pip install netmiko napalm ntc-ansible && \ 
 	sudo apt-get -y install && \ 
-	git clone https://github.com/napalm-automation/napalm-ansible.git /tmp/lib/napalm/ && \
-	git clone  --recursive https://github.com/networktocode/ntc-ansible /tmp/lib/ntc-ansible/ && \
-	if [ ! -f /tmp/ansible.cfg ]; then \
-		echo "library = /tmp/library/" > ansible.cfg;  \
-	fi \
+	git clone https://github.com/napalm-automation/napalm-ansible.git /usr/share/ansible/napalm/ && \
+	git clone  --recursive https://github.com/networktocode/ntc-ansible /usr/share/ansible/ntc-ansible/ 
