@@ -1,0 +1,6 @@
+---
+- name: This is a hello-world example
+  hosts: all
+  tasks:
+  - name: Ping all
+    ping:

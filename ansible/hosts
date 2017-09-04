@@ -1,0 +1,6 @@
+controller ansible_connection=local
+node1      ansible_ssh_host=172.17.177.21
+node2      ansible_ssh_host=172.17.177.22
+
+[nodes]
+node[1:2]
