@@ -26,3 +26,4 @@ RUN echo "===> Installing ..."  && \
 
 # ==> Copying Ansible playbook...
 WORKDIR /Ansible
+CMD ["bash"]
