@@ -10,7 +10,7 @@ FROM williamyeh/ansible:ubuntu14.04
 #FROM williamyeh/ansible:centos6
 #FROM williamyeh/ansible:alpine3
 
-
+WORKDIR /ansible
 
 #long line = napalm dependencies and ntc ansible from zlib1g
 RUN echo "===> Installing ..."  && \
@@ -22,8 +22,9 @@ RUN echo "===> Installing ..."  && \
 	sudo apt-get -y install && \ 
 	git clone https://github.com/napalm-automation/napalm-ansible.git /usr/share/ansible/napalm/ && \
 	git clone  --recursive https://github.com/networktocode/ntc-ansible /usr/share/ansible/ntc-ansible/ && \
-	sudo pip install openpyxl
+	sudo pip install openpyxl && \
+  git clone https://github.com/TheKnightCoder/Ansible-Networking-Docker /ansible
 
 # ==> Copying Ansible playbook...
-WORKDIR /ansible
+
 CMD ["bash"]
