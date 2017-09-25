@@ -2,4 +2,4 @@ docker run -v /c/Users/072920/Documents/run-ansible:/ansible --name Ansible -p 2
 
 docker start Ansible; docker exec -it Ansible bash
 
-ansible-playbook show_run.yml -e ansible_user=telent -k
+ansible-playbook show_run.yml -e ansible_user=user -k
