@@ -1,0 +1,18 @@
+---
+- name: Napalm get facts
+  hosts: "all"
+  gather_facts: false
+  connection: local 
+  
+  roles:
+    - napalm_connect
+    
+  tasks:                                     #Begin Tasks
+    - name: get facts from device            #Task Name
+      napalm_get_facts:                      #Call the napalm module, in this case napal_get_facts
+        provider: "{{ ios_provider }}"
+        filter: 'facts,interfaces'                      #The list of items you want to retrieve. The filter keyword is _inclusive_ of what you want
+      register: output                       #Ansible function for collecting output
+
+    - name: print results                    #Task Name
+      debug: msg="{{ output }}"              #Display the collected output

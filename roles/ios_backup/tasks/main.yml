@@ -1,0 +1,44 @@
+---
+- name: Check if required variables are defined
+  fail: msg="Variable '{{ item }}' is not defined"
+  when: item not in vars
+  with_items: 
+    - backup_dir
+
+- name: Get Date@Time and set in a variable
+  shell: 'date +%Y-%m-%d@%H%M%S'
+  register: timestamp_temp
+  run_once: true
+- set_fact: 
+    timestamp: "{{ timestamp_temp.stdout }}"
+    output_dir: "{{ backup_dir }}/{{ timestamp_temp.stdout }}_Backup"
+  run_once: true
+
+- name: Create our directory before writing to it later on
+  file: path={{ output_dir }} state=directory
+  run_once: true
+
+- name: collect running-config from node 
+  ios_command:
+    commands: show running-config
+  register: config
+
+- name: write running-config to disk on Ansible host 
+  copy:
+    content: "{{ config.stdout[0] }}"
+    dest: "{{ output_dir }}/Config_{{ inventory_hostname }}.txt"
+
+- name: zip config
+  archive:
+    path: "{{ output_dir }}"
+    dest: "{{ output_dir }}.zip"
+    format: zip
+  run_once: true
+  when: isArchive 
+
+- name: Delete config folder
+  file:
+    state: absent
+    path: "{{ output_dir }}"
+  run_once: true
+  when: isArchive 

@@ -1,0 +1,15 @@
+---
+- name: Show run
+  hosts: "all"
+  gather_facts: false
+  connection: local
+
+  tasks:                                    
+    - name: show run 
+      ios_command:
+        commands: show run
+      register: output
+
+    - name: show output
+      debug:
+        var: output
