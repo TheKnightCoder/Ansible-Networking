@@ -21,8 +21,8 @@ RUN echo "===> Installing ..."  && \
 	pip install netmiko napalm ntc-ansible && \ 
 	sudo apt-get -y install && \ 
 	git clone https://github.com/napalm-automation/napalm-ansible.git /usr/share/ansible/napalm/ && \
-	git clone  --recursive https://github.com/networktocode/ntc-ansible /usr/share/ansible/ntc-ansible/ 
+	git clone  --recursive https://github.com/networktocode/ntc-ansible /usr/share/ansible/ntc-ansible/ && \
+	sudo pip install openpyxl
 
 # ==> Copying Ansible playbook...
-ONBUILD WORKDIR /tmp
-ONBUILD COPY  .  /tmp
+WORKDIR /Ansible
