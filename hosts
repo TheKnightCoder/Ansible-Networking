@@ -1,4 +1,4 @@
 
 [ios-devices]
-R1 ansible_host="172.20.0.7"
-R2 ansible_host="172.20.0.6"  
+R1 ansible_host="<IP here>"
+R2 ansible_host=""  
