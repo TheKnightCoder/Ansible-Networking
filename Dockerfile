@@ -25,5 +25,5 @@ RUN echo "===> Installing ..."  && \
 	sudo pip install openpyxl
 
 # ==> Copying Ansible playbook...
-WORKDIR /Ansible
+WORKDIR /ansible
 CMD ["bash"]
