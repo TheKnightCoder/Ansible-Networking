@@ -1,5 +1,7 @@
 docker run -v /c/Users/072920/Documents/run-ansible:/ansible --name Ansible -p 2222:22 -it theknightcoder/ansible-networking bash
 
+git clone https://github.com/TheKnightCoder/Ansible-Networking-Docker /ansible
+
 docker start Ansible; docker exec -it Ansible bash
 
 ansible-playbook show_run.yml -e ansible_user=user -k
