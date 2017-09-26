@@ -22,8 +22,7 @@ RUN echo "===> Installing ..."  && \
 	sudo apt-get -y install && \ 
 	git clone https://github.com/napalm-automation/napalm-ansible.git /usr/share/ansible/napalm/ && \
 	git clone  --recursive https://github.com/networktocode/ntc-ansible /usr/share/ansible/ntc-ansible/ && \
-	sudo pip install openpyxl && \
-  git clone https://github.com/TheKnightCoder/Ansible-Networking-Docker /ansible
+	sudo pip install openpyxl
 
 # ==> Copying Ansible playbook...
 
