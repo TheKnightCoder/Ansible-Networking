@@ -1,0 +1,8 @@
+---
+#user required variable:
+#config_path
+#ios_provider
+#optional vairable:
+#note
+archive_dir: ./Config
+os: ios
