@@ -1,0 +1,12 @@
+---
+- name: Napalm get facts
+  hosts: "test-sw"
+  gather_facts: false
+  connection: local 
+  
+  roles:
+  
+   # - role: ios/merge/commit
+    #  config_path: ./arch.txt  
+    - role: ios/replace/commit
+      config_path: ./Backup_GOMD-1311.txt
