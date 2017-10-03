@@ -1,9 +1,9 @@
 ---
 - name: Merge Config
-  hosts: "all"
+  hosts: "ios-devices"
   gather_facts: false
   connection: local 
   
   roles:
     - role: ios/merge/commit
-      config_path: ./config.txt  
+      config_path: ./config.j2
