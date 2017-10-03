@@ -1,6 +1,6 @@
 ---
-- name: Napalm get facts
-  hosts: "ios-devices"
+- name: Merge Config
+  hosts: "all"
   gather_facts: false
   connection: local 
   
