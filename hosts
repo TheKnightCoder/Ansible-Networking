@@ -1,4 +1,0 @@
-
-[ios-devices]
-R1 ansible_host="<IP here>"
-R2 ansible_host="<IP here>"  
