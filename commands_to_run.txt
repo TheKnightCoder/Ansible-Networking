@@ -3,5 +3,5 @@ docker run -v {PATH HERE e.g. /c/Users/Admin/Documents/Ansible}:/ansible --rm -p
 git clone https://github.com/TheKnightCoder/Ansible-Networking-Docker /ansible
 
 docker start Ansible; docker exec -it Ansible bash
-
+ 
 ansible-playbook show_run.yml -e ansible_user=user -k
