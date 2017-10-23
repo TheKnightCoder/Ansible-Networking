@@ -34,7 +34,7 @@
   run_once: true
   when: note is defined
   
-- name: Merge Config
+- name: Merge/replace Config
   napalm_install_config:
     provider: "{{ provider }}"
     config_file: "{{ config_path }}" 
