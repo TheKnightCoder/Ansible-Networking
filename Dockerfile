@@ -57,8 +57,6 @@ ENV PATH        /opt/ansible/bin:$PATH
 ENV PYTHONPATH  /opt/ansible/lib:$PYTHONPATH
 ENV MANPATH     /opt/ansible/docs/man:$MANPATH
 
-# default command: display Ansible version
-CMD [ "ansible-playbook", "--version" ]
 #FROM williamyeh/ansible:ubuntu14.04
 #################################################
 WORKDIR /ansible
