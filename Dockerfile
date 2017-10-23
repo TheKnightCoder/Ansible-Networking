@@ -1,5 +1,11 @@
-# Dockerfile
- 
+# Dockerfile for building Ansible image for Ubuntu 14.04 (trusty), with as few additional software as possible.
+#
+# @see https://launchpad.net/~ansible/+archive/ubuntu/ansible
+#
+# Version  1.0
+#
+
+
 # pull base image
 FROM ubuntu:14.04
 
@@ -26,6 +32,9 @@ RUN echo "===> Adding Ansible's PPA..."  && \
     \
     echo "===> Adding hosts for convenience..."  && \
     echo 'localhost' > /etc/ansible/hosts && \
+    \
+    \
+    \    
     echo "===> Installing extra modules..."  && \
     apt-get update -y  &&  apt-get -y install  && \
     sudo apt-get install git -y  && \
@@ -37,6 +46,7 @@ RUN echo "===> Adding Ansible's PPA..."  && \
     pip install openpyxl fasteners
 #################################################
 WORKDIR /ansible
+
 
 # ==> Copying Ansible playbook...
 
