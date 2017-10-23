@@ -4,9 +4,6 @@
 # pull base image
 FROM ubuntu:14.04
 
-MAINTAINER William Yeh <william.pjyeh@gmail.com>
-
-
 RUN echo "===> Adding Ansible's prerequisites..."   && \
     apt-get update -y            && \
     DEBIAN_FRONTEND=noninteractive  \
@@ -57,7 +54,6 @@ ENV PATH        /opt/ansible/bin:$PATH
 ENV PYTHONPATH  /opt/ansible/lib:$PYTHONPATH
 ENV MANPATH     /opt/ansible/docs/man:$MANPATH
 
-#FROM williamyeh/ansible:ubuntu14.04
 #################################################
 WORKDIR /ansible
 
