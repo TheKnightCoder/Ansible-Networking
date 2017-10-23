@@ -1,6 +1,6 @@
 ---
 - name: Napalm get facts
-  hosts: "ios-devices"
+  hosts: "all"
   gather_facts: false
   connection: local 
   
@@ -12,11 +12,20 @@
       password: '{{ ansible_password }}'     
     
   tasks:                                     
-    - name: get facts from device            
+    - name: get facts from device
       napalm_get_facts:                      
         provider: "{{ provider }}"
-        filter: 'facts,interfaces'                      
+        filter: 'facts'                      
       register: output                      
 
-    - name: print results                  
-      debug: msg="{{ output }}"         
+    - debug:
+        var: output.ansible_facts.napalm_facts
+    - name: delete file
+      local_action: file path=./output/facts.xlsx state=absent
+      run_once: true
+      
+    - name: Output JSON variable as XLSX file
+      output_excel: 
+        content: "{{ output }}"
+        dest: ./output/facts.xlsx
+      register: result

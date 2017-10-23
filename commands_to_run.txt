@@ -1,4 +1,4 @@
-docker run -v {PATH HERE e.g. /c/Users/Admin/Documents/Ansible}:/ansible --name Ansible -p 2222:22 -it theknightcoder/ansible-networking bash
+docker run -v {PATH HERE e.g. /c/Users/Admin/Documents/Ansible}:/ansible --rm -p 2222:22 -it theknightcoder/ansible-networking bash
 
 git clone https://github.com/TheKnightCoder/Ansible-Networking-Docker /ansible
 

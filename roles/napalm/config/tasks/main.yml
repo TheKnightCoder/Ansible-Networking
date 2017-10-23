@@ -29,28 +29,15 @@
   file: path="{{ output_dir }}" state=directory
   run_once: true
   
-- name: Create config template directory 
-  file: path="./template" state=directory
-  state: absent
-  run_once: true
-- file: path="./template" state=directory
-  run_once: true
-  
-  
 - name: Config Note
   copy: content="{{ note }}" dest="{{ output_dir }}/{{ timestamp }}_Note.txt"
   run_once: true
   when: note is defined
-
-- template:
-    src: "{{ config_path }}"
-    dest: "./template/{{ inventory_hostname }}.conf" 
-    force: yes
   
 - name: Merge Config
   napalm_install_config:
     provider: "{{ provider }}"
-    config_file: "./template/{{ inventory_hostname }}.conf" 
+    config_file: "{{ config_path }}" 
     commit_changes: "{{ isCommit }}"     #true = apply change
     replace_config: "{{ isReplace }}"    #true = config replace false = merge/add to current config
     get_diffs: true
@@ -60,7 +47,7 @@
 - name: Validate and backup
   napalm_install_config:
     provider: "{{ provider }}"
-    config_file: "./template/{{ inventory_hostname }}.conf"
+    config_file: "{{ config_path }}"
     commit_changes: false    
     replace_config: "{{ isReplace }}"    #true = config replace false = merge/add to current config
     get_diffs: true
