@@ -8,7 +8,7 @@ RUN echo "===> Adding Ansible's PPA..."  && \
     DEBIAN_FRONTEND=noninteractive  apt-get update  && \
     \
     \
-    sudo apt-get install -y --force-yes libssl-dev libffi-dev python-dev python-cffi libxslt1-dev libssl-dev python-pip zlib1g-dev libxml2-dev libxslt-dev && \ 
+    apt-get install -y --force-yes libssl-dev libffi-dev python-dev python-cffi libxslt1-dev libssl-dev python-pip zlib1g-dev libxml2-dev libxslt-dev && \ 
     echo "===> Installing Ansible..."  && \
     apt-get install -y ansible  && \
     \
@@ -32,13 +32,13 @@ RUN echo "===> Adding Ansible's PPA..."  && \
 #long line = napalm dependencies and ntc ansible from zlib1g
 RUN echo "===> Installing ..."  && \
 	apt-get update -y  &&  apt-get install  && \
-    sudo apt-get install git -y  && \
+    apt-get install git -y  && \
     pip install setuptools --upgrade && \
     pip install netmiko napalm ntc-ansible && \ 
-    sudo apt-get -y install && \ 
+    apt-get -y install && \ 
     git clone https://github.com/napalm-automation/napalm-ansible.git /usr/share/ansible/napalm/ && \
     git clone  --recursive https://github.com/networktocode/ntc-ansible /usr/share/ansible/ntc-ansible/ && \
-    sudo pip install openpyxl fasteners
+    pip install openpyxl fasteners
 
 # ==> Copying Ansible playbook....
 WORKDIR /ansible
