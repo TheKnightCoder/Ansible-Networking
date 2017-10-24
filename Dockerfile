@@ -40,7 +40,7 @@ RUN echo "===> Installing ..."  && \
     git clone  --recursive https://github.com/networktocode/ntc-ansible /usr/share/ansible/ntc-ansible/ && \
     sudo pip install openpyxl fasteners
 
-# ==> Copying Ansible playbook...
+# ==> Copying Ansible playbook....
 WORKDIR /ansible
 
 CMD ["bash"]
