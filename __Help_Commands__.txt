@@ -1,0 +1,13 @@
+Start Docker container (Ansible) example
+docker run -v /c/Users/Admin/Documents/Ansible:/ansible --rm -p 2222:22 -it theknightcoder/ansible-networking bash
+                      ^   ^   ^  ^
+                   CHANGE THIS PATH to your working dir
+
+Copy playbooks from github
+git clone https://github.com/TheKnightCoder/Ansible-Networking-Docker /ansible
+
+Update to latest ansible docker image
+docker pull theknightcoder/ansible-networking
+
+Run playbook example
+ansible-playbook show_run.yml -e ansible_user=user -k
