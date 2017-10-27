@@ -1,0 +1,10 @@
+Value INTERFACE (\S+)
+Value ADMIN (\S+)
+Value OPERATION (on|off)
+Value POWER (\d+.\d+)
+Value DEVICE (\S+)
+Value CLASS (\S+)
+Value MAX (\d+.\d+)
+
+Start
+  ^${INTERFACE}\s+${ADMIN}\s+${OPERATION}\s+${POWER}\s+${DEVICE}\s+${CLASS}\s+${MAX} -> Record

@@ -33,14 +33,14 @@ def WriteDictToXl(csv_file,dict_data):
     wb = Workbook()
     ws = wb.active
     ws.title = "Facts"
-    for i in range(1,len(dict_data)):
-      ws.cell(row=1, column=i, value=dict_data.keys()[i])
+    for i in range(0,len(dict_data)): #adding column headers
+      ws.cell(row=1, column=i+1, value=dict_data.keys()[i])
   
   cur_row = ws.max_row+1
-  for i in range(1,len(dict_data)):
-    if(isinstance(dict_data.values()[i], list)):
+  for i in range(0,len(dict_data)):
+    if(isinstance(dict_data.values()[i], list)): #if a column/value has multiple values and is an array then turn into string e.g. dict_data['interface']= [1,2,3] ==> 1 /n 2 /n 3
       dict_data.values()[i]= str('\n'.join(dict_data.values()[i]))
-    ws.cell(row=cur_row, column=i, value=str(dict_data.values()[i]))
+    ws.cell(row=cur_row, column=i+1, value=str(dict_data.values()[i]))
     
   wb.save(csv_file)
   return
