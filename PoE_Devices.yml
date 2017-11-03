@@ -1,7 +1,7 @@
 ---
  
 - name: PoE Devices
-  hosts: localhost
+  hosts: chelsea
   connection: local
   gather_facts: False
  
@@ -10,7 +10,7 @@
       ntc_show_command:
         #connection: offline
         connection: ssh
-        template_dir: library/ntc_templates
+        template_dir: library/ntc_templates  
         #file: show_template/test.txt
         platform: cisco_ios 
         command: 'show power inline'
@@ -18,20 +18,21 @@
         username: "{{ ansible_user }}"
         password: "{{ ansible_password }}"
       register: poeVar
-    - debug: var=poeVar.response
+    #- debug: var=poeVar.response
     
     
     - name: cdp neighbors
       ntc_show_command:
         connection: ssh
-        template_dir: /usr/share/ansible/ntc-ansible/ntc-templates/templates        
+        template_dir: library/ntc_templates 
+        #/usr/share/ansible/ntc-ansible/ntc-templates/templates        
         platform: cisco_ios 
         command: "show cdp neighbors" 
         host: "{{ ansible_host }}"
         username: "{{ ansible_user }}"
         password: "{{ ansible_password }}"
       register: cdpVar
-    - debug: var=cdpVar.response
+    #- debug: var=cdpVar.response
     
     - name: output excel
       poe_devices:

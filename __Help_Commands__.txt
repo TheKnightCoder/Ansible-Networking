@@ -11,3 +11,6 @@ docker pull theknightcoder/ansible-networking
 
 Run playbook example
 ansible-playbook show_run.yml -e ansible_user=user -k
+
+Excel forumla for inventory file
+=A47 & "    ansible_host='" & B47 & "'"

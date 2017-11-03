@@ -8,8 +8,6 @@
     - archive_dir
     - isCommit
     - isReplace
-    - isArchive
-    - isBackup
   run_once: true
 
 - name: Folder name suffix
@@ -34,17 +32,29 @@
   run_once: true
   when: note is defined
   
+- name: Get Diff
+  napalm_install_config:
+    provider: "{{ provider }}"
+    config_file: "{{ config_path }}" 
+    commit_changes: false     
+    replace_config: "{{ isReplace }}"    #true = config replace false = merge/add to current config
+    get_diffs: true
+    diff_file: "{{ output_dir }}/Diff_{{ inventory_hostname }}.txt"
+    archive_file: "{{ output_dir }}/Backup_{{ inventory_hostname }}.txt"
+
+  
+- pause:
+    prompt: "CHECK DIFF FILES!!! \nPress Enter to Apply Config and Ctrl+C to exit"
+    
 - name: Merge/replace Config
   napalm_install_config:
     provider: "{{ provider }}"
     config_file: "{{ config_path }}" 
     commit_changes: "{{ isCommit }}"     #true = apply change
     replace_config: "{{ isReplace }}"    #true = config replace false = merge/add to current config
-    get_diffs: true
-    diff_file: "{{ output_dir }}/Diff_{{ inventory_hostname }}.txt"
-    archive_file: "{{ output_dir }}/Backup_{{ inventory_hostname }}.txt"
+    get_diffs: false
 
-- name: Validate and backup
+- name: Validate and backup after change
   napalm_install_config:
     provider: "{{ provider }}"
     config_file: "{{ config_path }}"
@@ -55,7 +65,6 @@
   register: diff                       #Ansible function for collecting output
   failed_when: diff.changed == true
   ignore_errors: yes    
-  when: isBackup 
   
 - name: zip config
   archive:
@@ -63,11 +72,10 @@
     dest: "{{ output_dir }}.zip"
     format: zip
   run_once: true
-  when: isArchive 
+
 
 - name: Delete config folder
   file:
     state: absent
     path: "{{ output_dir }}"
   run_once: true
-  when: isArchive 

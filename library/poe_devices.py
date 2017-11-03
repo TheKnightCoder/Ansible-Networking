@@ -1,5 +1,5 @@
 #!/usr/bin/python
-
+import re
 import json
 import fasteners
 from pprint import pprint
@@ -48,30 +48,50 @@ def main():
   }
   
   module = AnsibleModule(argument_spec=fields)
-  
+  poe = []
+  cdp = []
   poe = module.params['poe']['response']
   cdp = module.params['cdp']['response']
   
   #merging the two tables into preferred output
   merged = []
   for c in cdp:
-    c['local_interface'] = c['local_interface'].split(" ")[1]
-    print c['local_interface']
-  for p in poe:
-    found = False
-    for c in cdp:
-      if c['local_interface'] in p['interface']:
-        found = True
+    c['interface'] = c['local_interface'].split(" ")[1]
+  
+  if poe:
+    for p in poe:
+      found = False
+      if cdp:
+        for c in cdp:
+          int = re.search('\d+\/\d+\/\d+', p['interface']).group(0)
+          if c['interface'] == int:
+            found = True
+            merged.append(OrderedDict([
+              ("Interface", p['interface']),
+              ("POE Status", p['operation']),
+              ("AP", c['neighbor'])
+            ]))
+      if not found:
         merged.append(OrderedDict([
-          ("Interface", p['interface']),
-          ("POE Status", p['operation']),
-          ("AP", c['neighbor'])
+            ("Interface", p['interface']),
+            ("POE Status", p['operation']),
+            ("AP", "")
         ]))
+        
+  for c in cdp:
+    found = False
+    for m in merged:
+      try:
+        int = re.search('\d+\/\d+\/\d+', m['Interface']).group(0)
+        if c['interface'] == int:
+          found = True
+      except:
+        pass
     if not found:
       merged.append(OrderedDict([
-          ("Interface", p['interface']),
-          ("POE Status", p['operation']),
-          ("AP", "")
+        ("Interface", c['local_interface']),
+        ("POE Status", 'N/A'),
+        ("AP", c['neighbor'])
       ]))
 
   try:

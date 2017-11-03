@@ -7,4 +7,4 @@ Value CLASS (\S+)
 Value MAX (\d+.\d+)
 
 Start
-  ^${INTERFACE}\s+${ADMIN}\s+${OPERATION}\s+${POWER}\s+${DEVICE}\s+${CLASS}\s+${MAX} -> Record
+  ^${INTERFACE}\s+${ADMIN}\s+${OPERATION}\s+${POWER}\s+${DEVICE}(\n|\r)?\s+${CLASS}\s+${MAX} -> Record
