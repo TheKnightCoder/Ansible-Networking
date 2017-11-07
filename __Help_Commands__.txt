@@ -1,9 +1,9 @@
 Start Docker container (Ansible) example
 
-for vagrant
+for vagrant:
 docker run -v /c/Users/Admin/Documents/Ansible:/ansible --rm -p 2222:22 -it theknightcoder/ansible-networking bash
 
-for others
+for others:
 docker run -v /c/Users/Admin/Documents/Ansible:/ansible --rm -p 2222:22 -it theknightcoder/ansible-networking bash
                       ^   ^   ^  ^
                    CHANGE THIS PATH to your working dir
