@@ -1,5 +1,4 @@
 ---
 dependencies:
   - role: napalm/config
-    isCommit: true
     isReplace: false

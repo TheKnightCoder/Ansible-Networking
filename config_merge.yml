@@ -1,6 +1,6 @@
 ---
 - name: Merge Config
-  hosts: "all"
+  hosts: "gns3"
   gather_facts: false
   connection: local 
 
@@ -11,7 +11,7 @@
   
   roles:
     - role: generate_config
-      template_path: {{ template }}
+      template_path: "{{ template }}"
       config_path: ./data/template
       
     - role: ios/merge/commit

@@ -1,8 +1,0 @@
----
-#user required variable:
-#config_path
-#ios_provider
-#optional vairable:
-#note
-archive_dir: ./Diff
-os: ios

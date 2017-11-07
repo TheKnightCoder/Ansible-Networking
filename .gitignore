@@ -1,3 +1,5 @@
 inventory
 other/*
 output/*
+.vagrant/*
+.vagrant

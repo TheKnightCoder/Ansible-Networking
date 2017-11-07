@@ -29,7 +29,7 @@ RUN echo "===> Adding Ansible's PPA..."  && \
 RUN echo "===> Installing ..."  && \
 	  apt-get update -y && \
     apt-get install -y libssl-dev libffi-dev python-dev python-cffi libxslt1-dev libssl-dev python-pip zlib1g-dev libxml2-dev libxslt-dev && \
-    apt-get install git -y && \
+    apt-get install git iputils-ping -y && \
     pip install setuptools --upgrade && \
     pip install netmiko napalm ntc-ansible && \ 
     git clone https://github.com/napalm-automation/napalm-ansible.git /usr/share/ansible/napalm/ && \

@@ -6,7 +6,6 @@
     - config_path 
     - provider
     - archive_dir
-    - isCommit
     - isReplace
   run_once: true
 
@@ -44,13 +43,13 @@
 
   
 - pause:
-    prompt: "CHECK DIFF FILES!!! \nPress Enter to Apply Config and Ctrl+C to exit"
+    prompt: "CHECK DIFF FILES!!! \nPath: {{ output_dir }}/ \nPress Enter to Apply Config and Ctrl+C and then a to exit"
     
 - name: Merge/replace Config
   napalm_install_config:
     provider: "{{ provider }}"
     config_file: "{{ config_path }}" 
-    commit_changes: "{{ isCommit }}"     #true = apply change
+    commit_changes: true
     replace_config: "{{ isReplace }}"    #true = config replace false = merge/add to current config
     get_diffs: false
 
