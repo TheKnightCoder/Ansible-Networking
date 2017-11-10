@@ -32,8 +32,6 @@ RUN echo "===> Installing ..."  && \
     apt-get install git iputils-ping -y && \
     pip install setuptools --upgrade && \
     pip install netmiko napalm ntc-ansible && \ 
-    git clone https://github.com/napalm-automation/napalm-ansible.git /usr/share/ansible/napalm/ && \
-    git clone  --recursive https://github.com/networktocode/ntc-ansible /usr/share/ansible/ntc-ansible/ && \
     pip install openpyxl fasteners
 
 # ==> Copying Ansible playbook....
