@@ -1,0 +1,34 @@
+---
+
+- name: Napalm get facts
+  hosts: all
+  gather_facts: false
+  connection: local 
+  
+  vars:
+    provider:
+      hostname: "{{ ansible_host }}"         
+      username: '{{ ansible_user }}'         
+      dev_os: 'ios'                          
+      password: '{{ ansible_password }}'     
+    
+  tasks:                                     
+    - name: get facts from device
+      napalm_get_facts:                      
+        provider: "{{ provider }}"
+        filter: 'facts'                      
+      register: output                      
+
+    - name: output to screen
+      debug:
+        var: output.ansible_facts.napalm_facts
+   
+    - name: Get Date@Time and set in a variable
+      shell: 'date +%Y-%m-%d@%H%M%S'
+      register: timestamp
+      run_once: true
+
+    - name: Export as Excel file
+      export_facts: 
+        content: "{{ output }}"
+        dest: "./files/{{ timestamp.stdout }}_facts.xlsx"

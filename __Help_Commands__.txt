@@ -1,7 +1,7 @@
 Start Docker container (Ansible) example
 
 for vagrant:
-docker run -v /c/Users/Admin/Documents/Ansible:/ansible --rm -p 2222:22 -it theknightcoder/ansible-networking bash
+docker run -v /vagrant:/ansible --rm -p 2222:22 -it theknightcoder/ansible-networking bash
 
 for others:
 docker run -v /c/Users/Admin/Documents/Ansible:/ansible --rm -p 2222:22 -it theknightcoder/ansible-networking bash
@@ -10,6 +10,7 @@ docker run -v /c/Users/Admin/Documents/Ansible:/ansible --rm -p 2222:22 -it thek
 
 Copy playbooks from github
 git clone https://github.com/TheKnightCoder/Ansible-Networking-Docker /ansible
+git submodule update --recursive --remote
 
 Update to latest ansible docker image
 docker pull theknightcoder/ansible-networking

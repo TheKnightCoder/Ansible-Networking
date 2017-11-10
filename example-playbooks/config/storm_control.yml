@@ -1,0 +1,26 @@
+---
+- name: Apply storm control to all access ports (not trunk)
+  hosts: "SW1"
+  gather_facts: false
+  connection: local
+  
+  tasks:                                    
+    - name: Get access ports
+      ios_command:
+        commands: "show interface status"
+      register: interfaces_temp
+    - set_fact: 
+        interfaces: "{{ interfaces_temp.stdout[0] | parse_cli_textfsm('/ansible/lib/parse_cli/cisco_ios_get_access_ports.template') }}"
+
+    #- template:
+     #   src: "files/templates/storm_control.j2"
+      #  dest: "files/tmp/{{ inventory_hostname }}" 
+       # force: yes
+    - name: Pass variables to role
+      include_role:
+        name: generate_config
+      vars:
+        template_path: "files/templates/storm_control.j2"
+        config_path: files/tmp
+      #vars:
+       # rolevar1: 'value from task'

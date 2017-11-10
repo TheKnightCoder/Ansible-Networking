@@ -1,0 +1,20 @@
+---
+- name: Show command
+  hosts: "all"
+  gather_facts: false
+  connection: local
+  
+  vars_prompt:
+    - name: "cmd"
+      prompt: "Please enter you show command"
+      private: no
+      
+  tasks:                                    
+    - name: show cmd that user entered 
+      ios_command:
+        commands: "{{ cmd }}"
+      register: output
+
+    - name: show output on screen
+      debug:
+        var: output

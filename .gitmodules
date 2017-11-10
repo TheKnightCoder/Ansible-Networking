@@ -1,0 +1,6 @@
+[submodule "lib/modules/napalm-ansible"]
+	path = lib/modules/napalm-ansible
+	url = https://github.com/napalm-automation/napalm-ansible.git
+[submodule "lib/modules/ntc-ansible"]
+	path = lib/modules/ntc-ansible
+	url = https://github.com/networktocode/ntc-ansible.git

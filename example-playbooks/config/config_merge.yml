@@ -1,0 +1,18 @@
+---
+- name: Merge Config
+  hosts: all
+  gather_facts: false
+  connection: local 
+
+  vars_prompt:
+    - name: "template path"
+      prompt: "Please enter config template path"
+      private: no
+  
+  roles:
+    - role: generate_config
+      template_path: "{{ template }}"
+      config_path: files/tmp
+      
+    - role: ios/merge/commit
+      config_path: "files/tmp/{{ inventory_hostname }}"

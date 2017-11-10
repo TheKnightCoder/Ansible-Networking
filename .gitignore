@@ -1,5 +1,6 @@
 inventory
-other/*
-output/*
+playbooks/*
+files/*
 .vagrant/*
 .vagrant
+tmp/

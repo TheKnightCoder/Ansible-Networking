@@ -1,0 +1,33 @@
+---
+ 
+- name: PoE Devices
+  hosts: all
+  connection: local
+  gather_facts: false
+ 
+  tasks:
+    - name: parse power inline
+      ios_command:
+        commands: "show power inline"
+      register: poeVar_temp
+    - set_fact: 
+        poeVar: "{{ poeVar_temp.stdout[0] | parse_cli_textfsm('/ansible/lib/parse_cli/cisco_ios_show_power_inline.template') }}"
+
+    - name: parse cdp neighbors
+      ios_command:
+        commands: "show cdp neighbors"
+      register: cdpVar_temp
+    - set_fact: 
+        cpdVar: "{{ cdpVar_temp.stdout[0] | parse_cli_textfsm('/ansible/lib/parse_cli/cisco_ios_show_cdp_neighbors.template') }}"
+
+    - name: Get Date@Time and set in a variable
+      shell: 'date +%Y-%m-%d@%H%M%S'
+      register: timestamp
+      run_once: true
+
+    - name: Export as Excel file
+      poe_devices:
+        poe: "{{ poeVar }}"
+        cdp: "{{ cdpVar }}"
+        hostname: "{{ inventory_hostname }}"
+        dest: "./files/{{ timestamp.stdout }}_PoE.xlsx"
