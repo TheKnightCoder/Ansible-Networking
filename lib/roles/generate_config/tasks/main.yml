@@ -6,7 +6,8 @@
 - file: path="{{ config_path }}" state=directory
   run_once: true
 
-- template:
+- name: Generating config
+  template:
     src: "{{ template_path }}"
     dest: "{{ config_path }}/{{ inventory_hostname }}" 
     force: yes
