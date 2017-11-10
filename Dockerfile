@@ -1,4 +1,4 @@
-FROM ubuntu:14.04
+FROM ubuntu:16.04
 
 RUN echo "===> Adding Ansible's PPA..."  && \
     echo "deb http://ppa.launchpad.net/ansible/ansible/ubuntu xenial main" | tee /etc/apt/sources.list.d/ansible.list           && \
@@ -28,7 +28,7 @@ RUN echo "===> Adding Ansible's PPA..."  && \
 #long line = napalm dependencies and ntc ansible from zlib1g
 RUN echo "===> Installing ..."  && \
 	  apt-get update -y && \
-    apt-get install -y libssl-dev libffi-dev python-dev python-cffi libxslt1-dev libssl-dev python-pip zlib1g-dev libxml2-dev libxslt-dev && \
+    apt-get install -y libssl-dev libjpeg8-dev libffi-dev python-dev python-cffi libxslt1-dev libssl-dev python-pip zlib1g-dev libxml2-dev libxslt-dev && \
     apt-get install git iputils-ping -y && \
     pip install setuptools --upgrade && \
     pip install netmiko napalm ntc-ansible && \ 
