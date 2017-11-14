@@ -1,4 +1,4 @@
 Value INTERFACE (\S+\/\d+)
 
 Start
-  ^$INTERFACE\s+\S*\s+\S+\s+\d+\s+\S+\s+\S+\s+\S+ -> Record
+  ^$INTERFACE\s+\S*\s+\S+\s+(\d+|routed)\s+\S+\s+\S+\s+\S+ -> Record

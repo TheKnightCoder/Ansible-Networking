@@ -32,7 +32,7 @@ RUN echo "===> Installing ..."  && \
     apt-get install git iputils-ping -y && \
     pip install setuptools --upgrade && \
     pip install netmiko napalm ntc-ansible && \ 
-    pip install openpyxl fasteners
+    pip install openpyxl fasteners epdb
 
 # ==> Copying Ansible playbook....
 WORKDIR /ansible
