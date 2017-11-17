@@ -5,6 +5,7 @@ docker run -v /vagrant:/ansible --rm -p 2222:22 --name ansible -it theknightcode
 Additional docker shell:
 docker exec -it ansible  bash
 
+
 for others:
 docker run -v /c/Users/Admin/Documents/Ansible:/ansible --rm -p 2222:22 -it theknightcoder/ansible-networking bash
                       ^   ^   ^  ^
