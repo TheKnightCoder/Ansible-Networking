@@ -51,7 +51,10 @@
     config_file: "{{ config_path }}" 
     commit_changes: true
     replace_config: "{{ isReplace }}"    #true = config replace false = merge/add to current config
-    get_diffs: false
+    get_diffs: true
+    diff_file: "{{ output_dir }}/Diff_{{ inventory_hostname }}.txt"
+    archive_file: "{{ output_dir }}/Backup_{{ inventory_hostname }}.txt"
+
 
 - name: Validate and backup after change
   napalm_install_config:

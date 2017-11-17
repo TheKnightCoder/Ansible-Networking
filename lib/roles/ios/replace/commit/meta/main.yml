@@ -1,7 +1,0 @@
----
-dependencies:
-  - role: napalm/config
-    isCommit: true
-    isReplace: true
-    isArchive: true
-    isBackup: true
