@@ -12,6 +12,13 @@
     - set_fact: 
         interfaces: "{{ interfaces_temp.stdout[0] | parse_cli_textfsm('/ansible/lib/parse_cli/cisco_ios_get_access_ports.template') }}"
         
+    #- expand_interfaces:
+     #   interfaces: "{{ interfaces }}"
+      #register: out
+      
+    #- set_fact: 
+     #   interfaces: "{{ out.interfaces }}"
+        
     - include_role:
         name: generate_config
       vars:

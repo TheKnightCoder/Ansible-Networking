@@ -5,6 +5,8 @@ docker run -v /vagrant:/ansible --rm -p 2222:22 --name ansible -it theknightcode
 Additional docker shell:
 docker exec -it ansible  bash
 
+docker run -v /vagrant:/ansible -p 2222:22 -p 8081:9191 --name ansible -it theknightcoder/ansible-networking bash
+
 
 for others:
 docker run -v /c/Users/Admin/Documents/Ansible:/ansible --rm -p 2222:22 -it theknightcoder/ansible-networking bash
@@ -23,3 +25,7 @@ ansible-playbook show_run.yml -e ansible_user=user -k
 
 Excel forumla for inventory file
 =A47 & "    ansible_host='" & B47 & "'"
+
+
+resources
+https://github.com/Animosity/CraftIRC/wiki/Complete-idiot's-introduction-to-yaml

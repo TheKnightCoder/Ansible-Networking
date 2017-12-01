@@ -1,0 +1,105 @@
+---
+- name: Check if required variables are defined
+  fail: msg="Variable '{{ item }}' is not defined"
+  when: item not in vars
+  with_items: 
+    - template_path 
+    - provider
+    - dest
+  run_once: true
+  
+##############IOS REPLACE SPECIFIC CODE###############
+- name: configure archive
+  ios_config:
+    lines:
+      - "path flash:mybackup"
+    parents: archive 
+#################################################
+
+- name: Get Date@Time and set in a variable
+  shell: 'date +%Y-%m-%d@%H%M%S'
+  register: timestamp_temp
+  run_once: true
+- set_fact: 
+    timestamp: "{{ timestamp_temp.stdout }}"
+    output_dir: "{{ dest }}/{{ timestamp_temp.stdout }}_Merge"
+  run_once: true
+  
+
+- name: Create config output directories
+  file: path="{{ output_dir }}" state=directory
+  run_once: true
+- file: path="{{ output_dir }}/Diff" state=directory
+  run_once: true
+- file: path="{{ output_dir }}/Backup" state=directory
+  run_once: true
+- file: path="{{ output_dir }}/After_Change" state=directory
+  run_once: true
+- file: path="{{ output_dir }}/Applied_Config" state=directory
+  run_once: true
+
+- name: Remove previous vars
+  file: path="host_vars/" state=directory
+  state: absent
+  run_once: true
+  when: var_path is defined
+- name: Remove previous vars
+  file: path="group_vars/" state=directory
+  state: absent
+  run_once: true
+  when: var_path is defined
+- name: generating vars
+  generate_vars:
+    src: "{{ var_path }}"
+  when: var_path is defined
+  
+- name: Generating config
+  template:
+    src: "{{ template_path }}"
+    dest: "{{ output_dir }}/Applied_Config/{{ inventory_hostname }}" 
+    force: yes
+  
+- name: Config Note
+  copy: content="{{ note }}" dest="{{ output_dir }}/{{ timestamp }}_Note.txt"
+  run_once: true
+  when: note is defined
+  
+- name: Get Diff
+  napalm_install_config:
+    provider: "{{ provider }}"
+    config_file: "{{ output_dir }}/Applied_Config/{{ inventory_hostname }}"  
+    commit_changes: false     
+    replace_config: true    #true = config replace false = merge/add to current config
+    get_diffs: true
+    diff_file: "{{ output_dir }}/Diff/{{ inventory_hostname }}.txt"
+    archive_file: "{{ output_dir }}/Backup/{{ inventory_hostname }}.txt"
+
+- pause:
+    prompt: "CHECK DIFF FILES!!! \nPath: {{ output_dir }}/ \nPress Enter to Apply Config and Ctrl+C and then a to exit"
+    
+- name: Replace Config
+  napalm_install_config:
+    provider: "{{ provider }}"
+    config_file: "{{ output_dir }}/Applied_Config/{{ inventory_hostname }}"  
+    commit_changes: true
+    replace_config: true    
+    get_diffs: false
+
+- include_role:
+    name: ios/backup
+  vars:
+    isArchive: false
+    backup_dir: "{{ output_dir }}"
+  
+- name: zip config
+  archive:
+    path: "{{ output_dir }}"
+    dest: "{{ output_dir }}.zip"
+    format: zip
+  run_once: true
+
+- name: Delete config folder
+  file:
+    state: absent
+    path: "{{ output_dir }}"
+  run_once: true

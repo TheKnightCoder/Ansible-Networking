@@ -1,6 +1,7 @@
 ---
 provider:
+  host: "{{ ansible_host }}"
   hostname: "{{ ansible_host }}"         #This is a parameter and is derived from your ansible inventory file
   username: '{{ ansible_user }}'         #The username to ssh with
-  dev_os: '{{ os }}'                          #The hardware operating system
+  dev_os: 'ios'                          #The hardware operating system
   password: '{{ ansible_password }}'     #The line level password

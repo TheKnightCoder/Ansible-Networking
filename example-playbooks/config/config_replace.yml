@@ -8,11 +8,11 @@
     - name: "template"
       prompt: "Please enter config template path"
       private: no
-  
+
   roles:
     - role: generate_config
       template_path: "{{ template }}"
       config_path: files/tmp
-      
+
     - role: ios/replace/commit
       config_path: "files/tmp/{{ inventory_hostname }}"

@@ -3,6 +3,10 @@
 
 Vagrant.configure(2) do |config|
   config.vm.box = "alpine/alpine64"
+  
+
+  config.vm.network "forwarded_port", guest: 9191, host: 9191
+  
   config.vm.provision "shell", inline: "sudo apk update"
   config.vm.provision "shell", inline: "sudo apk add docker"
   config.vm.provision "shell", inline: "sudo rc-update add docker boot"

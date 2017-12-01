@@ -1,4 +1,0 @@
----
-dependencies:
-  - role: napalm/config
-    isReplace: false

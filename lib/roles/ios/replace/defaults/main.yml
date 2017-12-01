@@ -1,0 +1,8 @@
+---
+#user required variable:
+#template_path
+#provider
+#optional vairable:
+#note
+#var_path
+dest: ./files/config

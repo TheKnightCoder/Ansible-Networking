@@ -1,4 +1,0 @@
----
-dependencies:
-  - role: napalm/validate
-    isReplace: true
