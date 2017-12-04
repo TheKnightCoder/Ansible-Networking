@@ -19,14 +19,16 @@ Think of Ansible as the distribution center, it will send a task to many devices
 
 So if we break it down we are essentially running python code on multiple devices and Ansible is helping us do that, it is like the glue that sticks all the tools we use together.
 
-For more information visit the [Ansible docs](http://docs.ansible.com/ansible/latest/intro_getting_started.html).
-
 Also check out these video tutorials to gain a greater understanding of Ansible: 
-	> - [Code Review Videos](https://www.codereviewvideos.com/course/ansible-tutorial) - (First 4 videos are just installation, it is recommended to use the installation guide below rather than the one in this video)
-	> - [Ben's IT Lessons](https://www.youtube.com/watch?v=icR-df2Olm8&list=PLFiccIuLB0OiWh7cbryhCaGPoqjQ62NpU)
+> - [Code Review Videos](https://www.codereviewvideos.com/course/ansible-tutorial) - (First 4 videos are just installation, it is recommended to use the installation guide below rather than the one in this video)
+> - [Ben's IT Lessons](https://www.youtube.com/watch?v=icR-df2Olm8&list=PLFiccIuLB0OiWh7cbryhCaGPoqjQ62NpU)
+
+For more information visit the [Ansible docs](http://docs.ansible.com/ansible/latest/intro_getting_started.html).
 
 Templating with Jinja2
 -------------------------------
+![Jinja2 Logo](http://jinja.pocoo.org/docs/2.10/_static/jinja-small.png)
+
 Templating is the most important thing to know when implementing network automation, thankfully it is also the simplest. If the only thing you are interested in using network automation for is config changes then Jinja2 is all you need to know. 
 
 An in-depth understanding of Ansible and Python is not needed for most config changes, however it can be useful when making more complex templates. An example of this is when you need to add storm control to every interface on multiple devices. One device may have 4 interfaces while the other has 7, and the interfaces may have different names such as Fa0/1 and Gi0/1. One way to solve this problem is to use a show command to dynamically get the list of interfaces and then apply the config to those interfaces, this will need comprehensive understanding of Ansible. A simpler solution to this problem would be to group the devices by model and manually list the interfaces for each group. This would require knowledge of the amount and names of each interface for each model in the network but would require no additional Ansible/Python.
