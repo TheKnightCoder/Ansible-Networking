@@ -3,9 +3,9 @@ Network Automation using Ansible
 
 The focus of this document is to explain the process of automating Cisco IOS network devices. I will take you through the fundamentals on Ansible and provide a user guide for this[Ansible-Networking Git repository](https://github.com/TheKnightCoder/Ansible-Networking).
 
-The two main automation proccesses covered in this document are:
-	> - Adding/Replacing Config
-	> - Gathering facts/information on network devices
+The two main automation processes covered in this document are:
+> - Adding/Replacing Config
+> - Gathering facts/information on network devices
 
 To understand the automation process it is important to have a brief understanding of the following libraries and frameworks:
 
