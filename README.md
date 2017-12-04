@@ -7,11 +7,12 @@ The two main automation proccesses covered in this document are:
 	> - Adding/Replacing Config
 	> - Gathering facts/information on network devices
 
-
 To understand the automation process it is important to have a brief understanding of the following libraries and frameworks:
+
 Ansible's role in Network Automation
 -----------------------------------------------------
 ![Ansible Logo](https://upload.wikimedia.org/wikipedia/commons/0/05/Ansible_Logo.png)
+
 Ansible is an open source automation platform. It can help you with configuration management, application deployment, task automation and IT orchestration. For example it can install a software on hundreds of servers from a single control machine, it will not reinstall software if the same version is already installed and can make server specific configuration changes. It can also run IOS commands and config changes!
 
 Think of Ansible as the distribution center, it will send a task to many devices from a central Ansible control machine. Ansible runs set of 'tasks' in a single 'playbook'.  A playbook is simple put a list of tasks along with some settings such as which machines to run the playbook on. A task is a command that should take place, such as create a new folder. Every task corresponds to a module, which is either in-built, community created or custom. Every module is written in the Python programming language, therefore you can run your own python code in ansible by creating a custom modules.
