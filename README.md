@@ -114,16 +114,14 @@ Running VM / Vagrant File
 --------------------------------------
 1. Create a New Folder and rename it
 	This will be where all your Ansible files are stored.
-2. Download the [vagrant file](https://raw.githubusercontent.com/TheKnightCoder/Ansible-Networking/master/Vagrantfile) from the repository and store it in the folder.
->Right click and click 'save link as...' on [this link](https://raw.githubusercontent.com/TheKnightCoder/Ansible-Networking/master/Vagrantfile) to download the Vagrant file. Save the file as `Vagrantfile` with no extentsions.
+2. Download and extract the [repository](https://github.com/TheKnightCoder/Ansible-Networking/archive/master.zip) into the new folder.
+>Make sure the root of the new folder has the vagrantfile etc. not just a single folder
 
 3. Open command prompt and navigate to the folders location
 	- Win+R the type `cmd` then ok
 	- Enter command `cd C:\Path\to\Asible` (replace the path)
 >Tip: `Shift + Right Click` in the file explorer and select `open command window here`
-4. To make sure the Vagrantfile has no extension enter
-	`ren Vagrantfile.* Vagrantfile`
-5. Type `vagrant up` to start the VM
+4. Type `vagrant up` to start the VM
 > Note: The first time this is run the vagrant image will be downloaded and VM will be provisioned. This may take some time, it will be faster after initial launch. (Make sure you are on a network that can download the image) 
 
 Download Repository
