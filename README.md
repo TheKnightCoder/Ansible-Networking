@@ -1,7 +1,7 @@
 Network Automation using Ansible
 ============================
 
-\[(TOC|toc)\]
+[TOC]
 
 The focus of this document is to explain the process of automating Cisco IOS network devices. I will take you through the fundamentals on Ansible and provide a user guide for this[Ansible-Networking Git repository](https://github.com/TheKnightCoder/Ansible-Networking).
 
