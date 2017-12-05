@@ -1,7 +1,7 @@
-Network Automation using Ansible
-============================
+<p style="text-align: center;">Network Automation using Ansible
+============================</p>
 
-The focus of this document is to explain the process of automating Cisco IOS network devices. I will take you through the fundamentals on Ansible and provide a user guide for this[Ansible-Networking Git repository](https://github.com/TheKnightCoder/Ansible-Networking).
+The focus of this document is to explain the process of automating Cisco IOS network devices. I will take you through the fundamentals on Ansible and provide a user guide for this [Ansible-Networking Git repository](https://github.com/TheKnightCoder/Ansible-Networking).
 
 The two main automation processes covered in this document are:
 > - Adding/Replacing Config
@@ -88,6 +88,7 @@ You must enable virtualisation to run a VM. To do this you need to enable Intel 
 1.  Turn on your computer and repeatedly press Delete, Esc, F1, F2, or F4. (Exact button depends on the model).
 2. Find and enable Intel-VTx (The option may also be called VT-x, AMD-V, SVM, or Vanderpool).
 3. If available enable Intel VT-d or AMD IOMMU
+4. 
 ![virtualisation_bios](https://user-images.githubusercontent.com/24293640/33605215-a9727aaa-d9b0-11e7-8c28-987473d5b2ff.jpg)
 
 See [this guide](http://bce.berkeley.edu/enabling-virtualization-in-your-pc-bios.html) detailing the steps on enabling virtualisation.
