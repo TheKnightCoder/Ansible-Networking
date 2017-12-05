@@ -36,6 +36,10 @@ Think of Ansible as the distribution center, it will send a task to many devices
 
 So if we break it down we are essentially running python code on multiple devices and Ansible is helping us do that, it is like the glue that sticks everything together.
 
+As Cisco IOS devices cannot run python we set Ansible to run in 'local' connection mode and we access the IOS devices via SSH. The python code is run on the local machine and commands are sent to the devices and outputs retrieved from the devices via SSH.
+
+![1ansible_diagram](https://user-images.githubusercontent.com/24293640/33616163-0c3ff590-d9d4-11e7-95f4-19280b1c223c.png)
+
 Also check out these video tutorials to gain a greater understanding of Ansible: 
 > - [Code Review Videos](https://www.codereviewvideos.com/course/ansible-tutorial) - (First 4 videos are just installation, it is recommended to use the installation guide below rather than the one in this video)
 > - [Ben's IT Lessons](https://www.youtube.com/watch?v=icR-df2Olm8&list=PLFiccIuLB0OiWh7cbryhCaGPoqjQ62NpU)
@@ -121,7 +125,7 @@ Install Vagrant
 --------------------
 Vagrant is a tool for building and managing virtual machine environments in a single workflow. It will allow you to set up your virtual machine and install all the software packages with a single command `vagrant up` and the vagrant file found in this repository. 
 
- To install Vagrant [download](https://www.vagrantup.com/downloads.html) the [installer](https://www.vagrantup.com/downloads.html), run the installer and keep hitting next until the installation is complete.
+ To install Vagrant [download](https://www.vagrantup.com/downloads.html) the installer, run the installer and keep hitting next until the installation is complete.
 
 You will now need to reboot to complete the installation.
 
