@@ -1,7 +1,7 @@
-<p style="text-align: center;">Network Automation using Ansible
-============================</p>
+Network Automation using Ansible
+============================
 
-The focus of this document is to explain the process of automating Cisco IOS network devices. I will take you through the fundamentals on Ansible and provide a user guide for this [Ansible-Networking Git repository](https://github.com/TheKnightCoder/Ansible-Networking).
+The focus of this document is to explain the process of automating Cisco IOS network devices. I will take you through the fundamentals on Ansible and provide a user guide for this[Ansible-Networking Git repository](https://github.com/TheKnightCoder/Ansible-Networking).
 
 The two main automation processes covered in this document are:
 > - Adding/Replacing Config
@@ -79,20 +79,27 @@ Also practice regular expressions at [regexr.com](https://regexr.com/). Make sur
 
 Installation
 =========
-Ansible only runs on linux and therefore needs Virtual Machine (VM) if you are running Mac OSX or Windows. This guide will assume you are running windows, if you are using linux you will need to install docker and skip to _X_ .
+Ansible only runs on linux and therefore needs Virtual Machine (VM) if you are running Mac OSX or Windows. A VM is second virtual operating system (OS) running on-top of your current OS. This guide will assume you are running windows, if you are using Linux you will need to install docker and skip to X .
 
 Enable Virtualisation
 -----------------------------
-You must enable virtualisation to run a VM. To do this you need to enable Intel VT-x and VT-d if available in the BIOS/UEFI. You may need to visit your system Administrator. 
+You must enable virtualisation to run Virtual Machine (VM). To do this you need to enable Intel VT-x and VT-d if available in the BIOS/UEFI. You may need to visit your system Administrator. 
 
 1.  Turn on your computer and repeatedly press Delete, Esc, F1, F2, or F4. (Exact button depends on the model).
 2. Find and enable Intel-VTx (The option may also be called VT-x, AMD-V, SVM, or Vanderpool).
 3. If available enable Intel VT-d or AMD IOMMU
-4. 
 ![virtualisation_bios](https://user-images.githubusercontent.com/24293640/33605215-a9727aaa-d9b0-11e7-8c28-987473d5b2ff.jpg)
 
 See [this guide](http://bce.berkeley.edu/enabling-virtualization-in-your-pc-bios.html) detailing the steps on enabling virtualisation.
 
 Install Virtual Box
 --------------------------
-Virtual Box is a free open-source software that allows you to run a virtual machine. A VM is second virtual operating system (OS) running on-top of your windows machine. This VM is required 
+Virtual Box is a free open-source software that allows you to run a virtual machine.  To install Virtual Box [download](https://www.virtualbox.org/wiki/Downloads) the ['Virtual box platform package'](https://www.virtualbox.org/wiki/Downloads), run the installer and keep hitting next until the installation is complete.
+
+Install Vagrant
+--------------------
+Vagrant is a tool for building and managing virtual machine environments in a single workflow. It will allow you to set up your virtual machine and install all the software packages with a single command `vagrant up` and the vagrant file found in this repository. 
+
+ To install Vagrant [download](https://www.vagrantup.com/downloads.html) the [installer](https://www.vagrantup.com/downloads.html), run the installer and keep hitting next until the installation is complete.
+
+You will now need to reboot to complete the installation.
