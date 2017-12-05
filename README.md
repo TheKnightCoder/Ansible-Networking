@@ -60,9 +60,9 @@ stup
 Installation
 Docker
 
-Regular Expression / TextFSM
-------------------------------------------
-Regex is another essential skill which is needed in network automation, it will give you the ability to format a 'show' command into something a computer can easily handle. Currently the Cisco IOS is built for human-readability however it is not very good for computers. For computers to be able to handle data it needs to be formatted in a way that is more appropriate such as csv, json, sql etc rather than a block of text. TextFSM will help you do just that, TextFSM will help you format blocks of text. It is a python library which is also integrated into Ansible and also the method NTC-Ansible ntc_show_commands parse it's data.
+Regex / TextFSM
+-------------------------
+Regular Expression (Regex) is another essential skill which is needed in network automation, it will give you the ability to format a 'show' command into something a computer can easily handle. Currently the Cisco IOS is built for human-readability however it is not very good for computers. For computers to be able to handle data it needs to be formatted in a way that is more appropriate such as csv, json, sql etc rather than a block of text. TextFSM will help you do just that, TextFSM will help you format blocks of text. It is a python library which is also integrated into Ansible and also the method NTC-Ansible ntc_show_commands parse it's data.
 
 TextFSM parses data is using regex, you will need to know regex to create TextFSM templates so that you parse any show command. To learn regex I recommend watching these [YouTube videos](https://www.youtube.com/watch?v=7DG3kCDx53c&list=PLRqwX-V7Uu6YEypLuls7iidwHMdCM6o2w) by The Coding Train. The ntc_show_commands has many templates already written for IOS show commands.
 
@@ -73,4 +73,25 @@ The ntc_show_command templates do not take into account text which spans over mu
 See section _X_ to see how a custom template was used to resolve this problem. Although this solution works for a span over 2 lines it may not work for more.
 
 To learn more about regular expressions watch [The Coding Train Videos](https://www.youtube.com/watch?v=7DG3kCDx53c&list=PLRqwX-V7Uu6YEypLuls7iidwHMdCM6o2w) 
+
 Also practice regular expressions at [regexr.com](https://regexr.com/). Make sure to turn on the multi-line flag as TextFSM uses multi-line regex.
+
+
+Installation
+=========
+Ansible only runs on linux and therefore needs Virtual Machine (VM) if you are running Mac OSX or Windows. This guide will assume you are running windows, if you are using linux you will need to install docker and skip to _X_ .
+
+Enable Virtualisation
+-----------------------------
+You must enable virtualisation to run a VM. To do this you need to enable Intel VT-x and VT-d if available in the BIOS/UEFI. You may need to visit your system Administrator. 
+
+1.  Turn on your computer and repeatedly press Delete, Esc, F1, F2, or F4. (Exact button depends on the model).
+2. Find and enable Intel-VTx (The option may also be called VT-x, AMD-V, SVM, or Vanderpool).
+3. If available enable Intel VT-d or AMD IOMMU
+![virtualisation_bios](https://user-images.githubusercontent.com/24293640/33605215-a9727aaa-d9b0-11e7-8c28-987473d5b2ff.jpg)
+
+See [this guide](http://bce.berkeley.edu/enabling-virtualization-in-your-pc-bios.html) detailing the steps on enabling virtualisation.
+
+Install Virtual Box
+--------------------------
+Virtual Box is a free open-source software that allows you to run a virtual machine. A VM is second virtual operating system (OS) running on-top of your windows machine. This VM is required 
