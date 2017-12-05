@@ -1,6 +1,8 @@
 Network Automation using Ansible
 ============================
 
+\[(TOC|toc)\]
+
 The focus of this document is to explain the process of automating Cisco IOS network devices. I will take you through the fundamentals on Ansible and provide a user guide for this[Ansible-Networking Git repository](https://github.com/TheKnightCoder/Ansible-Networking).
 
 The two main automation processes covered in this document are:
@@ -76,6 +78,8 @@ To learn more about regular expressions watch [The Coding Train Videos](https://
 
 Also practice regular expressions at [regexr.com](https://regexr.com/). Make sure to turn on the multi-line flag as TextFSM uses multi-line regex.
 
+
+----------
 
 Installation
 =========
