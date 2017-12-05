@@ -1,3 +1,4 @@
 ---
-isArchive: true
-backup_dir: ./files/backup/
+#These are the default values for the variable used in the ios/backup role
+isArchive: true #True = Compress backup       False = No compression
+backup_dir: ./files/backup/ #The directory where the backups are stored

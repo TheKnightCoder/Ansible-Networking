@@ -1,34 +1,39 @@
 ---
+#IOS Running Config Backups
+#This role is for Cisco IOS only
+#It runs the command `show run` the devices and stores into a text file within a dated folder
+#It then compresses it if isArchive is True
+
 - name: Check if required variables are defined
   fail: msg="Variable '{{ item }}' is not defined"
   when: item not in vars
   with_items: 
     - backup_dir
+    - isArchive
 
 - name: Get Date@Time and set in a variable
   shell: 'date +%Y-%m-%d@%H%M%S'
-  register: timestamp_temp
+  register: timestamp #Time output is stored in timestamp.stdout
   run_once: true
 - set_fact: 
-    timestamp: "{{ timestamp_temp.stdout }}"
-    output_dir: "{{ backup_dir }}/{{ timestamp_temp.stdout }}_Backup"
+    output_dir: "{{ backup_dir }}/{{ timestamp.stdout }}_Backup"
   run_once: true
 
-- name: Create our directory before writing to it later on
+- name: Create output directory
   file: path={{ output_dir }} state=directory
   run_once: true
 
-- name: collect running-config from node 
+- name: Collect running-config from node 
   ios_command:
     commands: show running-config
   register: config
 
-- name: write running-config to disk on Ansible host 
+- name: write running-config to Ansible host
   copy:
     content: "{{ config.stdout[0] }}"
     dest: "{{ output_dir }}/Config_{{ inventory_hostname }}.txt"
 
-- name: zip config
+- name: Compress Config
   archive:
     path: "{{ output_dir }}"
     dest: "{{ output_dir }}.zip"
@@ -36,7 +41,7 @@
   run_once: true
   when: isArchive 
 
-- name: Delete config folder
+- name: Delete uncompressed config folder
   file:
     state: absent
     path: "{{ output_dir }}"

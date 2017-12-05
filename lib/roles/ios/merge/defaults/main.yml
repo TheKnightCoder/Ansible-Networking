@@ -1,8 +1,15 @@
 ---
-#user required variable:
-#template_path
-#provider
-#optional vairable:
-#note
-#var_path
+#This is a list of variables used in the Merge Role
+
+#required variable:
+#template_path - Path to template file to be used in Config Merge (Must be set by user)
+#provider - to connect to nodes. This is set by ios/connect role so does not need to be defined by user
+
+#optional variable:
+#note - Adds a message to a text file in the output folder. Useful to note reason for change
+#var_path - This is a path to an excel file with a sheet for host_vars/group_vars.
+#This role will create the host_var and group_var folders and the excel file will  
+#be converted into files which ansible can read. All current host_var/group_vars will be removed. 
+#If this variable is not set then the default host_var and group_var folder will be used
+#It is recommended the user sets this variable. See README.md for more detail
 dest: ./files/config

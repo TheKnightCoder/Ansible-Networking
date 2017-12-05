@@ -1,3 +1,3 @@
 ---
 dependencies:
-  - role: ios/connect
+  - role: ios/connect 

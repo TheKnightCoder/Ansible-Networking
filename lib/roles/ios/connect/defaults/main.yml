@@ -1,7 +1,22 @@
 ---
+#This role sets the variables for the NAPALM provider to ansible vars 
+#so it will connect as long as ansible_user and ansible_password is set
+#
+#It also works for in-built IOS commands but not needed as the values are 
+#automatically mapped by Ansible if no provider is given
+#
+#Will not work for NTC-Ansible. See NTC-Ansible doc to find out how to connect
 provider:
-  host: "{{ ansible_host }}"
   hostname: "{{ ansible_host }}"         #This is a parameter and is derived from your ansible inventory file
+  host: "{{ ansible_host }}"             #Added for use with in-build IOS modules  
   username: '{{ ansible_user }}'         #The username to ssh with
-  dev_os: 'ios'                          #The hardware operating system
   password: '{{ ansible_password }}'     #The line level password
+  dev_os: 'ios'                          #The hardware operating system 
+
+
+
+                                         #!! Change dev_os for compatability with other Network OS !!
+                                         #!! like junos. Any custom tasks used within roles must   !!
+                                         #!! also be adapted to work with the OS.                  !! 
+                                         #!! Feel free to make a pull request to add to the repo   !!
+  

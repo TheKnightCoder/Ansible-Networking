@@ -1,4 +1,16 @@
 ---
+#This role will: 
+#get your template file
+#generate the config file either using the excel sheet or the standard group_vars/host_vars folder.
+#Create a backup of your current running config
+#Generate Diff files of differences between old and new config
+#Merge the config
+#Create config backup after changes
+
+#to use this role with other vendors you only need to change the 'Backup Config After Change' task 
+#and chanage the dev_os in ios/connect (NAPALM provider)
+#you may also remove the task and use the commented task below it which uses napalm therefore works for all vendors
+
 - name: Check if required variables are defined
   fail: msg="Variable '{{ item }}' is not defined"
   when: item not in vars
@@ -77,7 +89,8 @@
     replace_config: false    
     get_diffs: false
 
-- include_role:
+- name: Backup Config After Change
+  include_role:
     name: ios/backup
   vars:
     isArchive: false

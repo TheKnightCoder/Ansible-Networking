@@ -1,3 +1,9 @@
+#This is the ultimate Ansible Image for Network Automation on Cisco IOS
+#This Dockerfile has all essential tools for Automation such as NAPALM and NTC-Ansible
+#It is built to be used through iteractive bash mode
+#Example of docker command to run:
+#docker run -v /vagrant:/ansible --rm -p 2222:22 --name ansible -it theknightcoder/ansible-networking bash
+
 FROM ubuntu:16.04
 
 RUN echo "===> Adding Ansible's PPA..."  && \
@@ -8,14 +14,31 @@ RUN echo "===> Adding Ansible's PPA..."  && \
     \
     \
     echo "===> Installing Ansible..."  && \
-    apt-get install -y ansible  && \
+    apt-get update -y                  && \
+    apt-get upgrade -y                 && \
+    apt-get install -y ansible         && \
+    \
+    \
+    echo "===> Installing NAPALM and NTC-Ansible..."  && \
+    apt-get install -y libssl-dev libjpeg8-dev           \ #Installing NAPALM dependencies
+    libffi-dev python-dev python-cffi libxslt1-dev       \
+    libssl-dev python-pip zlib1g-dev libxml2-dev         \
+    libxslt-dev                                       && \
+    pip install --upgrade pip                         && \
+    pip install setuptools --upgrade                  && \
+    pip install netmiko napalm ntc-ansible            && \  
     \
     \
     echo "===> Installing handy tools (not absolutely required)..."  && \
-    apt-get install -y python-pip              && \
-    pip install --upgrade pip                  && \
     pip install --upgrade pywinrm              && \
     apt-get install -y sshpass openssh-client  && \
+    apt-get install git iputils-ping -y && \
+    pip install openpyxl fasteners epdb
+    #
+    #iputils-ping - allows you to ping
+    #openpyxl - create/read excel files in python 
+    #fasteners - lock file so it can only be written to one at a time (Ansible runs in parallel)
+    #epdb - Help debug Ansible modules
     \
     \
     echo "===> Removing Ansible PPA..."  && \
@@ -25,15 +48,6 @@ RUN echo "===> Adding Ansible's PPA..."  && \
     echo "===> Adding hosts for convenience..."  && \
     echo 'localhost' > /etc/ansible/hosts
     
-#long line = napalm dependencies and ntc ansible from zlib1g
-RUN echo "===> Installing ..."  && \
-	  apt-get update -y && \
-    apt-get install -y libssl-dev libjpeg8-dev libffi-dev python-dev python-cffi libxslt1-dev libssl-dev python-pip zlib1g-dev libxml2-dev libxslt-dev && \
-    apt-get install git iputils-ping -y && \
-    pip install setuptools --upgrade && \
-    pip install netmiko napalm ntc-ansible && \ 
-    pip install openpyxl fasteners epdb
-
 # ==> Copying Ansible playbook....
 WORKDIR /ansible
 CMD ["bash"]
