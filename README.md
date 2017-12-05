@@ -1,19 +1,7 @@
 Network Automation using Ansible
 ============================
 
-
-*   [Network Automation using Ansible](#network-automation-using-ansible)
-	*   [Ansible’s role in Network Automation](#ansibles-role-in-network-automation)
-    *   [Templating with Jinja2](#templating-with-jinja2)
-    *   [NAPALM](#napalm)
-    *   [NTC-Ansible](#ntc-ansible)
-    *   [Regex / TextFSM](#regex-textfsm)
-*   [Installation](#installation)
-	*   [Enable Virtualisation](#enable-virtualisation)
-    *   [Install Virtual Box](#install-virtual-box)
-    *   [Install Vagrant](#install-vagrant)
-
-
+[TOC]
 
 The focus of this document is to explain the process of automating Cisco IOS network devices. I will take you through the fundamentals on Ansible and provide a user guide for this [Ansible-Networking Git repository](https://github.com/TheKnightCoder/Ansible-Networking).
 
@@ -79,7 +67,7 @@ Regex / TextFSM
 -------------------------
 Regular Expression (Regex) is another essential skill which is needed in network automation, it will give you the ability to format a 'show' command into something a computer can easily handle. Currently the Cisco IOS is built for human-readability however it is not very good for computers. For computers to be able to handle data it needs to be formatted in a way that is more appropriate such as csv, json, sql etc rather than a block of text. TextFSM will help you do just that, TextFSM will help you format blocks of text. It is a python library which is also integrated into Ansible and also the method NTC-Ansible ntc_show_commands parse it's data.
 
-TextFSM parses data is using regex, you will need to know regex to create TextFSM templates so that you parse any show command. To learn regex I recommend watching these [YouTube videos](https://www.youtube.com/watch?v=7DG3kCDx53c&list=PLRqwX-V7Uu6YEypLuls7iidwHMdCM6o2w) by The Coding Train. The ntc_show_commands has many templates already written for IOS show commands.
+TextFSM parses data is using regex, you will need to know regex to create TextFSM templates so that you parse any show command. To learn regex I recommend watching these [videos by The Coding Train](https://www.youtube.com/watch?v=7DG3kCDx53c&list=PLRqwX-V7Uu6YEypLuls7iidwHMdCM6o2w) . The ntc_show_commands has many templates already written for IOS show commands.
 
 The ntc_show_command templates do not take into account text which spans over multiple lines in a CLI table. An example of this situation is when you have a very long hostname, which results in the initial portion of the hostname being cut off. This is a problem I faced with `show cdp neigbors`. 
 
@@ -124,9 +112,25 @@ You will now need to reboot to complete the installation.
 
 Running VM / Vagrant File
 --------------------------------------
+1. Create a New Folder and rename it
+	This will be where all your Ansible files are stored.
+2. Download the [vagrant file](https://raw.githubusercontent.com/TheKnightCoder/Ansible-Networking/master/Vagrantfile) from the repository and store it in the folder.
+>Right click and click 'save link as...' on [this link](https://raw.githubusercontent.com/TheKnightCoder/Ansible-Networking/master/Vagrantfile) to download the Vagrant file. Save the file as `Vagrantfile` with no extentsions.
 
+3. Open command prompt and navigate to the folders location
+	- Win+R the type `cmd` then ok
+	- Enter command `cd C:\Path\to\Asible` (replace the path)
+>Tip: `Shift + Right Click` in the file explorer and select `open command window here`
+4. To make sure the Vagrantfile has no extension enter the following command
+	`ren Vagrantfile.* Vagrantfile`
+5. Type `vagrant up` to start the VM
+> Note: The first time this is run the vagrant image will be downloaded and VM will be provisioned. This may take some time, it will be faster after initial launch. (Make sure you are on a network that can download the image) 
+Download Repository
+-----------------------------
+
+----------
 Running Ansible
-------------------------
+==============
 
 Explaining Docker
 --------------------------
