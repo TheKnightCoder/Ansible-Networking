@@ -121,10 +121,11 @@ Running VM / Vagrant File
 	- Win+R the type `cmd` then ok
 	- Enter command `cd C:\Path\to\Asible` (replace the path)
 >Tip: `Shift + Right Click` in the file explorer and select `open command window here`
-4. To make sure the Vagrantfile has no extension enter the following command
+4. To make sure the Vagrantfile has no extension enter
 	`ren Vagrantfile.* Vagrantfile`
 5. Type `vagrant up` to start the VM
 > Note: The first time this is run the vagrant image will be downloaded and VM will be provisioned. This may take some time, it will be faster after initial launch. (Make sure you are on a network that can download the image) 
+
 Download Repository
 -----------------------------
 
