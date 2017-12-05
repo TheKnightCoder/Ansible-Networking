@@ -88,6 +88,7 @@ You must enable virtualisation to run Virtual Machine (VM). To do this you need 
 1.  Turn on your computer and repeatedly press Delete, Esc, F1, F2, or F4. (Exact button depends on the model).
 2. Find and enable Intel-VTx (The option may also be called VT-x, AMD-V, SVM, or Vanderpool).
 3. If available enable Intel VT-d or AMD IOMMU
+
 ![virtualisation_bios](https://user-images.githubusercontent.com/24293640/33605215-a9727aaa-d9b0-11e7-8c28-987473d5b2ff.jpg)
 
 See [this guide](http://bce.berkeley.edu/enabling-virtualization-in-your-pc-bios.html) detailing the steps on enabling virtualisation.
