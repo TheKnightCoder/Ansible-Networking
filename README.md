@@ -114,7 +114,7 @@ Running VM / Vagrant File
 --------------------------------------
 1. Create a New Folder and rename it
 	This will be where all your Ansible files are stored.
-2. Download and extract the [repository](https://github.com/TheKnightCoder/Ansible-Networking/archive/master.zip) into the new folder.
+2. Download and extract the [repository](https://github.com/TheKnightCoder/Ansible-Networking/archive/master.zip) into the root of your Ansible folder.
 >Make sure the root of the new folder has the vagrantfile etc. not just a single folder
 
 3. Open command prompt and navigate to the folders location
@@ -123,9 +123,16 @@ Running VM / Vagrant File
 >Tip: `Shift + Right Click` in the file explorer and select `open command window here`
 4. Type `vagrant up` to start the VM
 > Note: The first time this is run the vagrant image will be downloaded and VM will be provisioned. This may take some time, it will be faster after initial launch. (Make sure you are on a network that can download the image) 
+5. Type `vagrant ssh` to ssh into the VM and access it's shell
+6. To exit SSH type `exit` 
+7. To turn off the VM type `vagrant halt -f`
 
-Download Repository
------------------------------
+Start/Stop Vagrant image
+------------------------------------
+
+- Start VM - To start the VM you simply need to navigate to the Ansible folder and type `vagrant up`
+- SSH - You can access the VM shell by entering `vagrant ssh` command. Type `exit` to exit ssh. You can ssh into the VM in multiple windows.
+- Stop VM - To stop the VM either type `poweroff` from the SSH shell or `vagrant halt -f` from cmd.
 
 ----------
 Running Ansible
