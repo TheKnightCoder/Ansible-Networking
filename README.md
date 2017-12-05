@@ -3,7 +3,7 @@ Network Automation using Ansible
 
 
 
-<div class="toc">*   [Network Automation using Ansible](#network-automation-using-ansible)*   [Ansible’s role in Network Automation](#ansibles-role-in-network-automation)
+*   [Network Automation using Ansible](#network-automation-using-ansible)*   [Ansible’s role in Network Automation](#ansibles-role-in-network-automation)
     *   [Templating with Jinja2](#templating-with-jinja2)
     *   [NAPALM](#napalm)
     *   [NTC-Ansible](#ntc-ansible)
@@ -12,7 +12,7 @@ Network Automation using Ansible
     *   [Install Virtual Box](#install-virtual-box)
     *   [Install Vagrant](#install-vagrant)
 
-</div>
+
 
 The focus of this document is to explain the process of automating Cisco IOS network devices. I will take you through the fundamentals on Ansible and provide a user guide for this[Ansible-Networking Git repository](https://github.com/TheKnightCoder/Ansible-Networking).
 
