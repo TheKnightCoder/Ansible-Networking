@@ -15,7 +15,7 @@ Network Automation using Ansible
 
 
 
-The focus of this document is to explain the process of automating Cisco IOS network devices. I will take you through the fundamentals on Ansible and provide a user guide for this[Ansible-Networking Git repository](https://github.com/TheKnightCoder/Ansible-Networking).
+The focus of this document is to explain the process of automating Cisco IOS network devices. I will take you through the fundamentals on Ansible and provide a user guide for this [Ansible-Networking Git repository](https://github.com/TheKnightCoder/Ansible-Networking).
 
 The two main automation processes covered in this document are:
 > - Adding/Replacing Config
@@ -50,6 +50,7 @@ A Jinja2 template is a regular text file with a twist, it contains special notat
 A lot can be accomplished with the above information however Jinja2 is capable of much more with its ability to use for loops, if statements, filters and inheritance. The [Jinja2 documentation](http://jinja.pocoo.org/docs/2.10/) is very well written and can be used to learn how to implement these concepts
 
 An in-depth understanding of Ansible and Python is not needed for most config changes, however it can be useful when making more complex templates. An example of this is when you need to add storm control to every interface on multiple switches. One device may have 4 interfaces while the other has 7, and the interfaces may have different names such as Fa0/1 and Gi0/1. One way to solve this problem is to use a show command to dynamically get the list of interfaces and then apply the config to those interfaces, this will need comprehensive understanding of Ansible. A simpler solution to this problem would be to group the devices by model and manually list the interfaces for each group (in the group vars). This would require knowledge of the number and names of the interfaces for each model in the network but would require no additional Ansible/Python.
+
 N.B. This specific problem has been solved, see _X_ for more detail.
  
 For more information visit the [Jinja2 docs](http://jinja.pocoo.org/docs/).
@@ -120,3 +121,13 @@ Vagrant is a tool for building and managing virtual machine environments in a si
  To install Vagrant [download](https://www.vagrantup.com/downloads.html) the [installer](https://www.vagrantup.com/downloads.html), run the installer and keep hitting next until the installation is complete.
 
 You will now need to reboot to complete the installation.
+
+Running VM / Vagrant File
+--------------------------------------
+
+Running Ansible
+------------------------
+
+Explaining Docker
+--------------------------
+
