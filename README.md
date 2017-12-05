@@ -2,13 +2,14 @@ Network Automation using Ansible
 ============================
 
 
-
-*   [Network Automation using Ansible](#network-automation-using-ansible)*   [Ansible’s role in Network Automation](#ansibles-role-in-network-automation)
+*   [Network Automation using Ansible](#network-automation-using-ansible)
+	*   [Ansible’s role in Network Automation](#ansibles-role-in-network-automation)
     *   [Templating with Jinja2](#templating-with-jinja2)
     *   [NAPALM](#napalm)
     *   [NTC-Ansible](#ntc-ansible)
     *   [Regex / TextFSM](#regex-textfsm)
-*   [Installation](#installation)*   [Enable Virtualisation](#enable-virtualisation)
+*   [Installation](#installation)
+	*   [Enable Virtualisation](#enable-virtualisation)
     *   [Install Virtual Box](#install-virtual-box)
     *   [Install Vagrant](#install-vagrant)
 
