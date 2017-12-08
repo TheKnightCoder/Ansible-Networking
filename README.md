@@ -145,6 +145,7 @@ Running VM / Vagrant File
 5. Type `vagrant ssh` to ssh into the VM and access it's shell
 6. To exit SSH type `exit` 
 7. To turn off the VM type `vagrant halt -f`
+8. Synced Folders - Any files stored in the Ansible folder can be accessed by the VM via the path /vagrant
 
 Start/Stop Vagrant image
 ------------------------------------
@@ -156,7 +157,31 @@ Start/Stop Vagrant image
 ----------
 Running Ansible
 ==============
+To run Ansible I have created a Docker container with all the tools needed for network automation in this container. This has quite a few advantages over installing it directly onto the VM via vagrant such as being able to run network automation on any Linux machine and using less resources if multiple instances of Ansible is needed.
+
+Watch this video on [Docker Containers](https://www.youtube.com/watch?v=pGYAg7TMmp0) to find out more about the differences between Docker and Vagrant.
 
 Explaining Docker
 --------------------------
+Docker is a resource friendly way to applications in an isolated environment which is easily replicable across multiple machines. Vagrant VMs achieve a similar function however are much more resource heavy because each VM needs an entire OS. They also usually have more than one application per VM which causes instability.
+
+![docker-vm-container](https://user-images.githubusercontent.com/24293640/33762832-02dabeca-dc06-11e7-8bde-c6be1fa530b8.png)
+
+Docker File - A Docker file is the source code of the Docker image. It is very similar to a vagrant file and contains information on what packages to install when building the image. Once compiled it forms a Docker Image.
+Docker Image - This image contains the actual packages etc that were defined in the Docker File.
+
+Container - This is an instance of the docker image. You may have multiple containers of one image and any change in one container is not reflected in the next container.
+
+Volume - This is the permanent storage for a container. Containers are meant to be destroyed and recreated and important  data should be kept in a volume. The volume can be accessed by the host machine and any other container that is linked to the volume. Volumes can be mapped to a specific directory on the host machine.
+
+Port Forwarding - For the docker container to access ports on your machine you must map the ports. 
+Note: This must also be define in your Vagrant file so that the VM can access your machine
+
+(In this setup we use a Vagrant Synced folder to map your Ansible folder to /vagrant. We will then map this /vagrant folder to the Docker Container using volumes resulting in a link between your machine and the Docker container).
+
+
+docker exec -it ansible  bash
+
+docker run -v /vagrant:/ansible -p 2222:22 -p 8081:9191 --name ansible -it theknightcoder/ansible-networking bash
+
 
