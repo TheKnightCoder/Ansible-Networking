@@ -10,6 +10,7 @@ from openpyxl import load_workbook
 from openpyxl.styles import Font, PatternFill
 from collections import OrderedDict
 
+#writing excel sheet
 def WriteDictToXl(file_path, hostname, data):
   
   bold = Font(bold=True)
