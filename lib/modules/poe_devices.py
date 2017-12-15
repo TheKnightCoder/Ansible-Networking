@@ -48,51 +48,52 @@ def main():
   }
   
   module = AnsibleModule(argument_spec=fields)
-  poe = []
-  cdp = []
-  poe = module.params['poe']['response']
-  cdp = module.params['cdp']['response']
+  poeList = []
+  cdpList = []
+  poeList = module.params['poe']['response']
+  cdpList = module.params['cdp']['response']
   
   #merging the two tables into preferred output
   merged = []
-  for c in cdp:
-    c['interface'] = c['local_interface'].split(" ")[1]
-  
-  if poe:
-    for p in poe:
+
+  #Matching poeList interfaces with cdpList interfaces
+  if poeList:
+    for poeInterface in poeList:
       found = False
-      if cdp:
-        for c in cdp:
-          int = re.search('\d+\/\d+\/\d+', p['interface']).group(0)
-          if c['interface'] == int:
-            found = True
-            merged.append(OrderedDict([
-              ("Interface", p['interface']),
-              ("POE Status", p['operation']),
-              ("AP", c['neighbor'])
-            ]))
-      if not found:
+      if cdpList:
+        for cdpNeighbor in cdpList:
+          poe = re.search('([a-zA-z]+)(\d\S*)', poeInterface['interface']).group(1)
+          poeName = poe.group(1)
+          poeInt = poe.group(2)
+          
+          cdp = cdpNeighbor['local_interface'].split(" ")
+          cdpName = cdp[0]
+          cdpInt = cdp[1]
+          
+          if (cdpName in poeName) or (poeName in cdpName):
+            if cdpInt == poeInt:
+              found = True
+              merged.append(OrderedDict([
+                ("Interface", poeInterface['interface']),
+                ("POE Status", poeInterface['operation']),
+                ("AP", cdpNeighbor['neighbor'])
+              ]))
+              cdpList[:] = [d for d in cdpList if d.get('local_interface') != cdpNeighbor['local_interface']] #remove current cdp that has a match from cdp list
+              break
+      if not found: #add poe that has no match
         merged.append(OrderedDict([
-            ("Interface", p['interface']),
-            ("POE Status", p['operation']),
+            ("Interface", poeInterface['interface']),
+            ("POE Status", poeInterface['operation']),
             ("AP", "")
         ]))
         
-  for c in cdp:
+  for cdpNeighbor in cdpList: #add cdp that has no match
     found = False
-    for m in merged:
-      try:
-        int = re.search('\d+\/\d+\/\d+', m['Interface']).group(0)
-        if c['interface'] == int:
-          found = True
-      except:
-        pass
-    if not found:
-      merged.append(OrderedDict([
-        ("Interface", c['local_interface']),
-        ("POE Status", 'N/A'),
-        ("AP", c['neighbor'])
-      ]))
+    merged.append(OrderedDict([
+      ("Interface", cdpNeighbor['local_interface']),
+      ("POE Status", 'N/A'),
+      ("AP", cdpNeighbor['neighbor'])
+    ]))
 
   try:
     with fasteners.InterProcessLock('/tmp/ansible_lock_file'):
