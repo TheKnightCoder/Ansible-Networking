@@ -1,0 +1,13 @@
+---
+- name: backup running-config
+  hosts: "all"
+  gather_facts: false
+  connection: local
+
+- name: Backup Config After Change
+  include_role:
+    name: ios/backup
+  vars:
+    isArchive: false
+    backup_dir: "{{ output_dir }}"
+  

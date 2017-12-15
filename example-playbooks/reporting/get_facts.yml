@@ -4,19 +4,16 @@
   hosts: all
   gather_facts: false
   connection: local 
-  
-  vars:
-    provider:
-      hostname: "{{ ansible_host }}"         
-      username: '{{ ansible_user }}'         
-      dev_os: 'ios'                          
-      password: '{{ ansible_password }}'     
+   
     
-  tasks:                                     
+  tasks:      
+    - include_role:
+        name: ios/connect
+        
     - name: get facts from device
       napalm_get_facts:                      
         provider: "{{ provider }}"
-        filter: 'facts'                      
+        filter: 'facts' #Other fact filters can be found here https://napalm.readthedocs.io/en/latest/base.html               
       register: output                      
 
     - name: output to screen

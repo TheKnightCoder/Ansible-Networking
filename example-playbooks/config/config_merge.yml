@@ -9,10 +9,9 @@
       prompt: "Please enter config template path"
       private: no
   
-  roles:
-    - role: generate_config
-      template_path: "{{ template }}"
-      config_path: files/tmp
-      
-    - role: ios/merge/commit
-      config_path: "files/tmp/{{ inventory_hostname }}"
+  tasks:
+    - include_role: 
+        name: ios/merge
+      vars:
+        template_path: "{{ template }}"
+        #var_path: vars.xlsx

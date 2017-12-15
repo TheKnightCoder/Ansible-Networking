@@ -1,5 +1,5 @@
 ---
-- name: Show command
+- name: Output Show command
   hosts: "all"
   gather_facts: false
   connection: local

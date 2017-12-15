@@ -12,7 +12,8 @@
       register: poeVar_temp
     - set_fact: 
         poeVar: "{{ poeVar_temp.stdout[0] | parse_cli_textfsm('/ansible/lib/parse_cli/cisco_ios_show_power_inline.template') }}"
-
+        #Uses TextFSM template to parse the show output into structured data
+        
     - name: parse cdp neighbors
       ios_command:
         commands: "show cdp neighbors"

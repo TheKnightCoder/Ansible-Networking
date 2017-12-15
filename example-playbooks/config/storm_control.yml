@@ -12,20 +12,8 @@
     - set_fact: 
         interfaces: "{{ interfaces_temp.stdout[0] | parse_cli_textfsm('/ansible/lib/parse_cli/cisco_ios_get_access_ports.template') }}"
         
-    #- expand_interfaces:
-     #   interfaces: "{{ interfaces }}"
-      #register: out
-      
-    #- set_fact: 
-     #   interfaces: "{{ out.interfaces }}"
-        
-    - include_role:
-        name: generate_config
+    - include_role: 
+        name: ios/merge
       vars:
         template_path: "files/templates/storm_control.j2"
-        config_path: files/tmp
-
-    - include_role:
-        name: ios/merge/commit
-      vars:
-        config_path: "files/tmp/{{ inventory_hostname }}"
+        #var_path: vars.xlsx
