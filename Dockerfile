@@ -29,10 +29,10 @@ RUN echo "===> Adding Ansible's PPA..."  && \
     pip install netmiko napalm ntc-ansible            && \  
     \
     \
-    echo "===> Installing handy tools (not absolutely required)..."  && \
-    pip install --upgrade pywinrm              && \
-    apt-get install -y sshpass openssh-client  && \
-    apt-get install git iputils-ping -y && \
+    echo "===> Installing handy tools (optional)..."  && \
+    pip install --upgrade pywinrm                     && \
+    apt-get install -y sshpass openssh-client         && \
+    apt-get install git iputils-ping -y               && \
     pip install openpyxl fasteners epdb
     #
     #iputils-ping - allows you to ping
@@ -41,7 +41,14 @@ RUN echo "===> Adding Ansible's PPA..."  && \
     #epdb - Help debug Ansible modules
     \
     \
-    echo "===> Removing Ansible PPA..."  && \
+    echo "===> Installing ara Ansible record report (optional)..."  && \
+    pip install ara                                                 && \
+    export ANSIBLE_CALLBACK_PLUGINS="$(python -c 'import os,ara; print(os.path.dirname(ara.__file__))')/plugins/callbacks"  && \
+    export ARA_DATABASE="sqlite:////ansible/files/db/ara.sqlite"    && \
+    ara-manage runserver -h 0.0.0.0 -p 9191
+    \
+    \
+    echo "===> Removing Ansible PPA..."                                && \
     rm -rf /var/lib/apt/lists/*  /etc/apt/sources.list.d/ansible.list  && \
     \
     \
