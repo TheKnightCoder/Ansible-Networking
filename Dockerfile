@@ -20,7 +20,7 @@ RUN echo "===> Adding Ansible's PPA..."  && \
     \
     \
     echo "===> Installing NAPALM and NTC-Ansible..."  && \
-    apt-get install -y libssl-dev libjpeg8-dev           \ #Installing NAPALM dependencies
+    apt-get install -y libssl-dev libjpeg8-dev           \ 
     libffi-dev python-dev python-cffi libxslt1-dev       \
     libssl-dev python-pip zlib1g-dev libxml2-dev         \
     libxslt-dev                                       && \
@@ -33,7 +33,7 @@ RUN echo "===> Adding Ansible's PPA..."  && \
     pip install --upgrade pywinrm                     && \
     apt-get install -y sshpass openssh-client         && \
     apt-get install git iputils-ping -y               && \
-    pip install openpyxl fasteners epdb
+    pip install openpyxl fasteners epdb               && \
     #
     #iputils-ping - allows you to ping
     #openpyxl - create/read excel files in python 
