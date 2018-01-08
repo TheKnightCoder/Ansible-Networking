@@ -5,7 +5,7 @@ docker run -v /vagrant:/ansible --rm -p 2222:22 --name ansible -it theknightcode
 Additional docker shell:
 docker exec -it ansible  bash
 
-docker run -v /vagrant:/ansible -p 2222:22 -p 9191:9191 --name ansible -it theknightcoder/ansible-networking bash
+docker run -v /vagrant:/ansible --rm -p 2222:22 -p 9191:9191 --name ansible -it theknightcoder/ansible-networking bash
 
 pip install ara
 (export needed every bash ssh hmmm add to dockerfile may solve this)
@@ -16,8 +16,8 @@ autostart ara in backgroun!!!
 
 for others:
 docker run -v /c/Users/Admin/Documents/Ansible:/ansible --rm -p 2222:22 -it theknightcoder/ansible-networking bash
-                      ^   ^   ^  ^
-                   CHANGE THIS PATH to your working dir
+                      ^   ^   ^   ^
+                     CHANGE THIS PATH to your working dir
 
 Copy playbooks from github
 git clone https://github.com/TheKnightCoder/Ansible-Networking-Docker /ansible
