@@ -2,7 +2,7 @@
 #This Dockerfile has all essential tools for Automation such as NAPALM and NTC-Ansible
 #It is built to be used through iteractive bash mode
 #Example of docker command to run:
-#docker run -v /vagrant:/ansible --rm -p 2222:22 --name ansible -it theknightcoder/ansible-networking bash
+#docker run -v /vagrant:/ansible --rm -p 2222:22 -p 9191:9191 --name ansible -it theknightcoder/ansible-networking bash
 
 FROM ubuntu:16.04
 
@@ -45,7 +45,7 @@ RUN echo "===> Adding Ansible's PPA..."  && \
     pip install ara                                                 && \
     export ANSIBLE_CALLBACK_PLUGINS="$(python -c 'import os,ara; print(os.path.dirname(ara.__file__))')/plugins/callbacks"  && \
     export ARA_DATABASE="sqlite:////ansible/files/db/ara.sqlite"    && \
-    ara-manage runserver -h 0.0.0.0 -p 9191
+    #ara-manage runserver -h 0.0.0.0 -p 9191
     \
     \
     echo "===> Removing Ansible PPA..."                                && \
