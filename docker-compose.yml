@@ -1,0 +1,21 @@
+version: '3.2'
+services:
+  ansible:
+    image: theknightcoder/ansible-networking
+    entrypoint: bash
+    ports:
+      - "2222:22"
+    volumes:
+      - "./:/ansible"
+      
+  ara:
+    image: theknightcoder/ara
+    ports:
+      - 9191:9191
+    volumes:
+      - "./files/db/ara.sqlite:/db/ara.sqlite"
+    environment:
+      ARA_DATABASE: "sqlite:////db/ara.sqlite"
+
+#docker-compose run --service-ports -d --name ara --rm ara
+#docker-compose run --service-ports --rm ansible
