@@ -16,6 +16,10 @@ Vagrant.configure(2) do |config|
   #Download latest Ansible-Networking Docker Image
   config.vm.provision "shell", inline: "sudo docker pull theknightcoder/ansible-networking"
 
+  #Install Docker Compose
+  config.vm.provision "shell", inline: "apk add py-pip"
+  config.vm.provision "shell", inline: "pip install docker-compose"
+  
   #These commands will run everytime a shell is started
   # 1. sudo su - become superuser
   # 2. cd /vagrant - cd to Ansible folder
