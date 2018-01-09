@@ -23,7 +23,7 @@ Vagrant.configure(2) do |config|
   #These commands will run everytime a shell is started
   # 1. sudo su - become superuser
   # 2. cd /vagrant - cd to Ansible folder
+  
   config.vm.provision "shell", inline: "echo 'sudo su' >> /home/vagrant/startup.sh"
-  config.vm.provision "shell", inline: "echo 'cd /vagrant' >> /home/vagrant/startup.sh"
-  config.vm.provision "shell", inline: "sudo echo '. /home/vagrant/startup.sh' >> /home/vagrant/.profile"  
+  config.vm.provision "shell", inline: "sudo echo '. /home/vagrant/startup.sh' >> /home/vagrant/.profile"
 end
