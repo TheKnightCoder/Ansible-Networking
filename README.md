@@ -1,4 +1,9 @@
 <!DOCTYPE html>
+  <style>
+    #toc li {
+      list-style-type: none;
+    }
+  </style>
 <html>
 
 <head>
@@ -8,11 +13,7 @@
 </head>
 
 <body class="stackedit">
-  <style>
-    #toc li {
-      list-style-type: none;
-    }
-  </style>
+
   <h1>Ansible Networking</h1>
   <div class="stackedit__left">
     <div class="stackedit__toc" id="toc">
