@@ -1,4 +1,9 @@
-<div style="list-style-type: none;">
+<div>
+<style>
+#otis li {
+    list-style-type: none;
+}
+</style>
 
 <ul>
 <li><a href="#network-automation-using-ansible">Network Automation using Ansible</a>
