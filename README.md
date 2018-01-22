@@ -9,6 +9,7 @@
     #toc li {
       list-style-type: none;
     }
+  </style>
 </head>
 
 <body class="stackedit">
@@ -44,7 +45,7 @@
 </ul>
 
       
-    </div>
+    
   </div>
   <div class="stackedit__right">
     <div class="stackedit__html">
