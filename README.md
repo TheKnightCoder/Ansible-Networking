@@ -1,9 +1,5 @@
 <h1>Ansible Networking</h1>
 
-[object Object]
-
-[object Object],[object Object],[object Object]
-
 
 <ul>
 <li><a href="#network-automation-using-ansible">Network Automation using Ansible</a>
@@ -32,4 +28,6 @@
 </li>
 </ul>
  
+
+[object Object]
 
