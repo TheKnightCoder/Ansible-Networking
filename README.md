@@ -1,6 +1,6 @@
 <div>
 <style>
-#otis li {
+li {
     list-style-type: none;
 }
 </style>
