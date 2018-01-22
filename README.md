@@ -5,12 +5,16 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://stackedit.io/style.css" />
+  <style>
+    #toc li {
+      list-style-type: none;
+    }
 </head>
 
 <body class="stackedit">
   <h1>Ansible Networking</h1>
   <div class="stackedit__left">
-    <div class="stackedit__toc">
+    <div class="stackedit__toc" id="toc">
       
 <ul>
 <li><a href="#network-automation-using-ansible">Network Automation using Ansible</a>
@@ -39,6 +43,7 @@
 </li>
 </ul>
 
+      
     </div>
   </div>
   <div class="stackedit__right">
