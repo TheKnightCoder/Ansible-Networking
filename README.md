@@ -1,9 +1,3 @@
-<div>
-<style>
-li {
-    list-style-type: none;
-}
-</style>
 
 <ul>
 <li><a href="#network-automation-using-ansible">Network Automation using Ansible</a>
@@ -32,7 +26,6 @@ li {
 </li>
 </ul>
  
-</div>
 
 Network Automation using Ansible
 ============================
