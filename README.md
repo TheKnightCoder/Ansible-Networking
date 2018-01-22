@@ -1,10 +1,4 @@
-<style>
-  #toc li {
-    list-style-type: none;
-  }
-</style>
-
-<div id="toc">
+<div style="list-style-type: none;">
 
 <ul>
 <li><a href="#network-automation-using-ansible">Network Automation using Ansible</a>
