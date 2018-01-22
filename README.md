@@ -3,6 +3,7 @@
     list-style-type: none;
   }
 </style>
+
 <div id="toc">
 
 <ul>
@@ -33,7 +34,7 @@
 </ul>
  
 </div>
-<br>
+
 Network Automation using Ansible
 ============================
 
