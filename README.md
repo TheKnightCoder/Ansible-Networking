@@ -1,3 +1,9 @@
+<style>
+  #toc li {
+    list-style-type: none;
+  }
+</style>
+<div id="toc">
 
 <ul>
 <li><a href="#network-automation-using-ansible">Network Automation using Ansible</a>
@@ -26,6 +32,7 @@
 </li>
 </ul>
  
+</div>
 Network Automation using Ansible
 ============================
 
