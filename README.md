@@ -1,56 +1,9 @@
-<!DOCTYPE html>
-  <style>
-    #toc li {
-      list-style-type: none;
-    }
-  </style>
-<html>
+---
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://stackedit.io/style.css" />
-</head>
 
-<body class="stackedit">
+---
 
-  <h1>Ansible Networking</h1>
-  <div class="stackedit__left">
-    <div class="stackedit__toc" id="toc">
-      
-<ul>
-<li><a href="#network-automation-using-ansible">Network Automation using Ansible</a>
-<ul>
-<li><a href="#ansibles-role-in-network-automation">Ansible’s role in Network Automation</a></li>
-<li><a href="#templating-with-jinja2">Templating with Jinja2</a></li>
-<li><a href="#napalm">NAPALM</a></li>
-<li><a href="#ntc-ansible">NTC-Ansible</a></li>
-<li><a href="#regex--textfsm">Regex / TextFSM</a></li>
-<li><a href="#ara-ansible-run-analysis">ARA: Ansible Run Analysis</a></li>
-</ul>
-</li>
-<li><a href="#installation">Installation</a>
-<ul>
-<li><a href="#enable-virtualisation">Enable Virtualisation</a></li>
-<li><a href="#install-virtual-box">Install Virtual Box</a></li>
-<li><a href="#install-vagrant">Install Vagrant</a></li>
-<li><a href="#running-vm--vagrant-file">Running VM / Vagrant File</a></li>
-<li><a href="#startstop-vagrant-image">Start/Stop Vagrant image</a></li>
-</ul>
-</li>
-<li><a href="#running-ansible">Running Ansible</a>
-<ul>
-<li><a href="#explaining-docker">Explaining Docker</a></li>
-</ul>
-</li>
-</ul>
-
-      
-    
-  </div>
-  <div class="stackedit__right">
-    <div class="stackedit__html">
-      <h1 id="network-automation-using-ansible">Network Automation using Ansible</h1>
+<h1 id="network-automation-using-ansible">Network Automation using Ansible</h1>
 <p>The focus of this document is to explain the process of network automation for Cisco IOS devices. I will take you through the fundamentals of Ansible and provide a user guide for this <a href="https://github.com/TheKnightCoder/Ansible-Networking">Ansible-Networking Git repository</a>.</p>
 <p>The two main automation processes covered in this document are:</p>
 <blockquote>
@@ -180,8 +133,3 @@ Note: This must also be define in your Vagrant file so that the VM can access yo
 <p>docker exec -it ansible  bash</p>
 <p>docker run -v /vagrant:/ansible -p 2222:22 -p 8081:9191 --name ansible -it theknightcoder/ansible-networking bash</p>
 
-    </div>
-  </div>
-</body>
-
-</html>
