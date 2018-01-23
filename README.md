@@ -225,7 +225,9 @@ docker run -v /vagrant:/ansible -p 2222:22 -p 8081:9191 --name ansible -it thekn
 
 `cd /vagrant && docker-compose run --service-ports -d --name ara --rm ara && docker-compose run --service-ports --rm ansible`
 
+<code>cd /vagrant && docker-compose run --service-ports -d --name ara --rm ara && docker-compose run --service-ports --rm ansible</code>
 
+<pre>cd /vagrant && docker-compose run --service-ports -d --name ara --rm ara && docker-compose run --service-ports --rm ansible</pre>
 
 GNS3 as a test platform (optional)
 Host File
