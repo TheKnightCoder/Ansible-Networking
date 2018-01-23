@@ -223,6 +223,8 @@ docker exec -it ansible  bash
 docker run -v /vagrant:/ansible -p 2222:22 -p 8081:9191 --name ansible -it theknightcoder/ansible-networking bash
 
 
+`cd /vagrant && docker-compose run --service-ports -d --name ara --rm ara && docker-compose run --service-ports --rm ansible`
+
 
 
 GNS3 as a test platform (optional)
@@ -238,7 +240,9 @@ Config Backup
 Config on interfaces / Dynamic Config
 
 Show Commands
+
 NAPALM Get Facts
+
 ntc_show_command 
 
 
