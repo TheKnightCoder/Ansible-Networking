@@ -25,7 +25,12 @@ Ansible Networking
 <li><a href="#running-ansible">Running Ansible</a>
 <ul>
 <li><a href="#explaining-docker">Explaining Docker</a></li>
-<li><a href="#running-ansible-docker-container">Running Ansible Docker Container</a></li>
+<li><a href="#running-ansible-docker-container">Running Ansible Docker Container</a>
+<ul>
+<li><a href="#start-ara-and-ansible-container">Start ARA and Ansible container:</a></li>
+<li><a href="#stop-and-remove-containers">Stop and remove containers:</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -228,10 +233,22 @@ The Ansible networking repository has two containers that can be run. One is the
 
 To run these two containers we will utilising the `docker-compose.yml` file which contains configuration for the containers such as ports and volumes.
 
-Steps to run Ansible container:
+### Start ARA and Ansible container:
 1. SSH into vagrant VM (see [Running VM / Vagrant File](#running-vm--vagrant-file))
 2. Enter the following command:
-<pre>cd /vagrant && docker-compose run --service-ports -d --name ara --rm ara && docker-compose run --service-ports --rm ansible</pre>
+<pre>cd /vagrant && docker-compose run --service-ports --name ara -d ara && docker-compose run --service-ports --rm ansible</pre>
+
+> cd /vagrant - change directory to Ansible folder
+> docker-compose run - starts the container using the configuration in the `docker-compose.yml` file
+> --name <container name> - specifies container name
+> --service-ports - maps the ports defined in the `docker-compose.yml` file
+> -d - run in detached mode
+> --rm - remove container on exit (Not working on ara container?)
+
+Note: docker-compose up is not used as the ansible container needs to run bash in interactive mode
+### Stop and remove containers:
+1. `exit` out of Ansible container (also removed due to --rm flag)
+2. `docker rm ara -f`  stop and remove ARA container
 
 
 
