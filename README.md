@@ -238,12 +238,12 @@ To run these two containers we will utilising the `docker-compose.yml` file whic
 2. Enter the following command:
 <pre>cd /vagrant && docker-compose run --service-ports --name ara -d ara && docker-compose run --service-ports --rm ansible</pre>
 
-> cd /vagrant - change directory to Ansible folder
-> docker-compose run - starts the container using the configuration in the `docker-compose.yml` file
-> --name <container name> - specifies container name
-> --service-ports - maps the ports defined in the `docker-compose.yml` file
-> -d - run in detached mode
-> --rm - remove container on exit (Not working on ara container?)
+>  - cd /vagrant - change directory to Ansible folder
+>  - docker-compose run - starts the container using the configuration in the `docker-compose.yml` file
+>  - --name <container name> - specifies container name
+>  - --service-ports - maps the ports defined in the `docker-compose.yml` file
+>  - -d - run in detached mode
+>  - --rm - remove container on exit (Not working on ara container?)
 
 Note: docker-compose up is not used as the ansible container needs to run bash in interactive mode
 ### Stop and remove containers:
