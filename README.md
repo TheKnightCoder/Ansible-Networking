@@ -229,36 +229,27 @@ The Ansible networking repository has two containers that can be run. One is the
 To run these two containers we will utilising the `docker-compose.yml` file which contains configuration for the containers such as ports and volumes.
 
 Steps to run Ansible container:
-1. SSH into vagrant VM
+1. SSH into vagrant VM (see [Running VM / Vagrant File](#running-vm--vagrant-file))
 2. Enter the following command:
 <pre>cd /vagrant && docker-compose run --service-ports -d --name ara --rm ara && docker-compose run --service-ports --rm ansible</pre>
 
 
 
 
-
-
-docker exec -it ansible  bash
-
-docker run -v /vagrant:/ansible -p 2222:22 -p 8081:9191 --name ansible -it theknightcoder/ansible-networking bash
-
-GNS3 as a test platform (optional)
-Host File
-host vars / group vars
-vars excel sheet
-TextFSM
-Jinja2 Templating
-Running test playbook
-Config Merge
-Config Replace
-Config Backup
-Config on interfaces / Dynamic Config
-
-Show Commands
-
-NAPALM Get Facts
-
-ntc_show_command 
+- GNS3 as a test platform (optional)
+- Host File
+- host vars / group vars
+- vars excel sheet
+- TextFSM
+- Jinja2 Templating
+- Running test playbook
+- Config Merge
+- Config Replace
+- Config Backup
+- Config on interfaces / Dynamic Config
+- Show Commands
+- NAPALM Get Facts
+- ntc_show_command 
 
 
 
