@@ -25,6 +25,7 @@ Ansible Networking
 <li><a href="#running-ansible">Running Ansible</a>
 <ul>
 <li><a href="#explaining-docker">Explaining Docker</a></li>
+<li><a href="#running-ansible-docker-container">Running Ansible Docker Container</a></li>
 </ul>
 </li>
 </ul>
@@ -92,7 +93,7 @@ Other useful NAPALM Modules:
 - [napalm_validate](https://github.com/napalm-automation/napalm-ansible/blob/develop/napalm_ansible/napalm_validate.py) - Validate deployments using YAML file describing the state you expect your devices to be in. See [Validating deployments docs](http://napalm.readthedocs.io/en/latest/validate/).
 >Note that this is meant to validate state, meaning live data from the device, not the configuration. Because that something is configured doesn’t mean it looks as you want.
 
-Although the code in our repository has been designed for Cisco IOS, it can be adapted to work with other vendors by changing very little code thanks to NAPALM. 
+---Although the code in our repository has been designed for Cisco IOS, it can be adapted to work with other vendors by changing very little code thanks to NAPALM. 
 
 This can be done by copying the `Ansible-Networking\lib\roles\ios` folder and adapting the code:
 - Adapting the dev_os variable in `Ansible-Networking\lib\roles\ios\connect\defaults` (see [drivers names](http://napalm.readthedocs.io/en/latest/support/index.html) for supported devices) 
@@ -216,13 +217,30 @@ Port Forwarding - For the docker container to access ports on your machine you m
 
 Note: This must also be define in your Vagrant file so that the VM can access your machine
 
-(In this setup we use a Vagrant Synced folder to map your Ansible folder to /vagrant. We will then map this /vagrant folder to the Docker Container using volumes resulting in a link between your machine and the Docker container).
+In this setup we use a Vagrant Synced folder to map your Ansible folder to /vagrant. We will then map this /vagrant folder to the Docker Container using volumes resulting in a link between your machine and the Docker container.
+
+See [this video](https://www.youtube.com/watch?v=pGYAg7TMmp0&index=1&list=PLoYCgNOIyGAAzevEST2qm2Xbe3aeLFvLc) from LearnCode.academy for a overview of docker.
+For an in-depth guide on Docker see the many tutorials on YouTube.  
+
+Running Ansible Docker Container
+------------------------------------------
+The Ansible networking repository has two containers that can be run. One is the container that runs Ansible itself, the source code for this container can be found in `Dockerfile`. The other is ARA web server which allows you to view a report of all Ansible playbooks that have run via the web browser, the source code for this container can be found in `ARADokcerfile`.
+
+To run these two containers we will utilising the `docker-compose.yml` file which contains configuration for the containers such as ports and volumes.
+
+Steps to run Ansible container:
+1. SSH into vagrant VM
+2. Enter the following command:
+<pre>cd /vagrant && docker-compose run --service-ports -d --name ara --rm ara && docker-compose run --service-ports --rm ansible</pre>
+
+
+
+
+
 
 docker exec -it ansible  bash
 
 docker run -v /vagrant:/ansible -p 2222:22 -p 8081:9191 --name ansible -it theknightcoder/ansible-networking bash
-
-<pre>cd /vagrant && docker-compose run --service-ports -d --name ara --rm ara && docker-compose run --service-ports --rm ansible</pre>
 
 GNS3 as a test platform (optional)
 Host File
