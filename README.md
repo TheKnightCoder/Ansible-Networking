@@ -246,6 +246,7 @@ To run these two containers we will utilising the `docker-compose.yml` file whic
 >  - --rm - remove container on exit (Not working on ara container?)
 
 Note: docker-compose up is not used as the ansible container needs to run bash in interactive mode
+
 ### Stop and remove containers:
 1. `exit` out of Ansible container (also removed due to --rm flag)
 2. `docker rm ara -f`  stop and remove ARA container
