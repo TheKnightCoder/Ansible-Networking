@@ -33,9 +33,9 @@ Ansible Networking
 </li>
 <li><a href="#running-ansible-playbook">Running Ansible Playbook</a>
 <ul>
+<li><a href="#run-playbook---helloworld.yml">Run Playbook - HelloWorld.yml</a></li>
 <li><a href="#ansible.cfg---configuration-file">Ansible.cfg - Configuration file</a></li>
 <li><a href="#inventory-file--hosts-file">Inventory File / Hosts File</a></li>
-<li><a href="#run-playbook---helloworld.yml">Run Playbook - HelloWorld.yml</a></li>
 </ul>
 </li>
 </ul>
@@ -260,6 +260,46 @@ Note: docker-compose up is not used as the ansible container needs to run bash i
 
 Running Ansible Playbook
 --------------------------------
+
+### Run Playbook - HelloWorld.yml
+To run the `HelloWorld.yml` playbook go the `example-playbooks` folder directory then enter the following command:
+```ansible-run HelloWorld.yml```
+
+If successful the playbook will have created a new folder with the name `hello_world`
+
+> Note: You must have an `ansible.cfg` file in the same folder with at least the following setting:
+>```
+> [defaults]
+> inventory=./inventory
+> ```
+
+```
+---
+- name: Hello World!
+  hosts: localhost
+  gather_facts: false
+  
+  tasks:
+  - name: Create a directory
+    file: path=hello_world state=directory
+```
+YAML is white space sensitive, the indentation is very important when writing in YAML. Also take note of the single hyphens which denote the start of a list. See [YAML Syntax](http://docs.ansible.com/ansible/latest/YAMLSyntax.html) for more info.
+
+- `---` Three Hyphens - This serves to signal the start of a document for YAML files
+- `- name: Hello World!` - This is the name of the playbook being run
+- `hosts: localhost`  - This tells Ansible which hosts to run the playbook on
+- `gather_facts: false` - By default ansible will gather facts about each host it connects to. This task fails when connecting to Cisco devices and therefore is set to false.
+- `tasks:`  - This is where the list of tasks begin for the playbook
+- `-name: Create a directory` - descriptive name of task
+- `file: path=hello_world state=directory` - The name of the module to be run followed by arguments sent to the module.
+`path` is the file being managed and `state=directory` is the state the path should be in. 
+See [docs](http://docs.ansible.com/ansible/latest/file_module.html) for more information on the file module.
+
+To understand the capabilities of each in-built module you must visit the [Ansible Documentation.](http://docs.ansible.com/ansible/latest/list_of_all_modules.html)
+
+
+
+
 ### Ansible.cfg - Configuration file
 The `ansible.cfg` file is used to modify the settings of Ansible, it resides in the same folder as the Ansible playbook.
 The following are the the `ansible.cfg` settings used in this repository to run playbooks on Cisco IOS devices.
@@ -303,19 +343,6 @@ hostA
 hostD ansible_host='192.168.1.4'
 ```
 Visit the [docs](http://docs.ansible.com/ansible/latest/intro_inventory.html) for more information on the inventory file.
-### Run Playbook - HelloWorld.yml
-
-```
----
-- name: Hello World!
-  hosts: localhost
-  gather_facts: false
-  
-  tasks:
-  - name: Create a directory
-    file: path=hello_world state=directory
-```
-
 - GNS3 as a test platform (optional)
 - Host File
 - host vars / group vars
