@@ -34,7 +34,7 @@ Ansible Networking
 <li><a href="#running-ansible-playbook">Running Ansible Playbook</a>
 <ul>
 <li><a href="#ansible.cfg---configuration-file">Ansible.cfg - Configuration file</a></li>
-<li><a href="#inventory-file">Inventory File</a></li>
+<li><a href="#inventory-file--hosts-file">Inventory File / Hosts File</a></li>
 <li><a href="#run-playbook---helloworld.yml">Run Playbook - HelloWorld.yml</a></li>
 </ul>
 </li>
@@ -285,7 +285,11 @@ ask_pass = True
 
 For more settings visit the [docs](http://docs.ansible.com/ansible/latest/intro_configuration.html)
 
-### Inventory File
+### Inventory File / Hosts File
+The inventory file lists all the hosts that Ansible will connect to. These hosts can be put into groups to allow running playbooks against a specific group. The heading in brackets are the group names, under the group name is a list of hosts in the group.
+Hosts can be listed with their domain name, if a domain name does not exist then an alias can be used and paired with the hosts IP address as shown below.
+A host can have multiple groups and groups can child group within it. See [docs.](http://docs.ansible.com/ansible/latest/intro_inventory.html#groups-of-groups-and-group-variables)
+
 ```
 [group_A]
 hostA ansible_host='192.168.1.1'
@@ -296,7 +300,7 @@ hostC ansible_host='192.168.1.3'
 hostA
 hostD ansible_host='192.168.1.4'
 ```
-
+Visit the [docs](http://docs.ansible.com/ansible/latest/intro_inventory.html) for more information on the inventory file.
 ### Run Playbook - HelloWorld.yml
 
 ```
