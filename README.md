@@ -32,7 +32,6 @@ Ansible Networking
 <li><a href="#run-playbook---helloworld.yml">Run Playbook - HelloWorld.yml</a></li>
 </ul>
 </li>
-<li></li>
 </ul>
 </li>
 </ul>
@@ -255,7 +254,7 @@ Note: docker-compose up is not used as the ansible container needs to run bash i
 
 ### Run Playbook - HelloWorld.yml
 
-<code>
+```
 ---
 - name: Hello World!
   hosts: localhost
@@ -264,7 +263,7 @@ Note: docker-compose up is not used as the ansible container needs to run bash i
   tasks:
   - name: Create a directory
     file: path=hello_world state=directory
- </code>
+```
 
 - GNS3 as a test platform (optional)
 - Host File
