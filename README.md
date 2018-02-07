@@ -29,8 +29,10 @@ Ansible Networking
 <ul>
 <li><a href="#start-ara-and-ansible-container">Start ARA and Ansible container:</a></li>
 <li><a href="#stop-and-remove-containers">Stop and remove containers:</a></li>
+<li><a href="#run-playbook---helloworld.yml">Run Playbook - HelloWorld.yml</a></li>
 </ul>
 </li>
+<li></li>
 </ul>
 </li>
 </ul>
@@ -98,7 +100,7 @@ Other useful NAPALM Modules:
 - [napalm_validate](https://github.com/napalm-automation/napalm-ansible/blob/develop/napalm_ansible/napalm_validate.py) - Validate deployments using YAML file describing the state you expect your devices to be in. See [Validating deployments docs](http://napalm.readthedocs.io/en/latest/validate/).
 >Note that this is meant to validate state, meaning live data from the device, not the configuration. Because that something is configured doesn’t mean it looks as you want.
 
----Although the code in our repository has been designed for Cisco IOS, it can be adapted to work with other vendors by changing very little code thanks to NAPALM. 
+Although the code in our repository has been designed for Cisco IOS, it can be adapted to work with other vendors by changing very little code thanks to NAPALM. 
 
 This can be done by copying the `Ansible-Networking\lib\roles\ios` folder and adapting the code:
 - Adapting the dev_os variable in `Ansible-Networking\lib\roles\ios\connect\defaults` (see [drivers names](http://napalm.readthedocs.io/en/latest/support/index.html) for supported devices) 
@@ -251,11 +253,20 @@ Note: docker-compose up is not used as the ansible container needs to run bash i
 1. `exit` out of Ansible container (also removes due to --rm flag)
 2. `docker rm ara -f`  stop and remove ARA container
 
+### Run Playbook - HelloWorld.yml
+
+<code>
+---
+- name: Hello World!
+  hosts: localhost
+  gather_facts: false
+  
+  tasks:
+  - name: Create a directory
+    file: path=hello_world state=directory
+ </code>
+
 - GNS3 as a test platform (optional)
-
-
-
-
 - Host File
 - host vars / group vars
 - vars excel sheet
