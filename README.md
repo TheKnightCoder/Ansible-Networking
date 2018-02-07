@@ -34,10 +34,35 @@ Ansible Networking
 <li><a href="#running-ansible-playbook">Running Ansible Playbook</a>
 <ul>
 <li><a href="#run-playbook---helloworld.yml">Run Playbook - HelloWorld.yml</a></li>
-<li><a href="#ansible.cfg---configuration-file">Ansible.cfg - Configuration file</a></li>
-<li><a href="#inventory-file--hosts-file">Inventory File / Hosts File</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li><a href="#running-ansible-on-network-devices">Running Ansible on Network Devices</a>
+<ul>
+<li><a href="#gns3-as-a-test-platform-optional">GNS3 as a test platform (optional)</a></li>
+<li><a href="#configuration-file---ansible.cfg">Configuration file - Ansible.cfg</a></li>
+<li><a href="#inventory-file--hosts-file">Inventory File / Hosts File</a></li>
+<li><a href="#host-vars--group-vars">host vars / group vars</a></li>
+<li><a href="#vars-in-excel-sheet">Vars in Excel sheet</a></li>
+<li><a href="#running-playbook-on-ios">Running Playbook on IOS</a></li>
+</ul>
+</li>
+<li><a href="#facts">Facts</a>
+<ul>
+<li><a href="#show-commands">Show Commands</a></li>
+<li><a href="#napalm-get-facts">NAPALM Get Facts</a></li>
+<li><a href="#ntc_show_command">ntc_show_command</a></li>
+<li><a href="#textfsm">TextFSM</a></li>
+</ul>
+</li>
+<li><a href="#config">Config</a>
+<ul>
+<li><a href="#jinja2-templating">Jinja2 Templating</a></li>
+<li><a href="#config-merge">Config Merge</a></li>
+<li><a href="#config-replace">Config Replace</a></li>
+<li><a href="#config-backup">Config Backup</a></li>
+<li><a href="#config-on-interfaces--dynamic-config">Config on interfaces / Dynamic Config</a></li>
 </ul>
 </li>
 </ul>
@@ -298,9 +323,12 @@ See [docs](http://docs.ansible.com/ansible/latest/file_module.html) for more inf
 To understand the capabilities of each in-built module you must visit the [Ansible Documentation.](http://docs.ansible.com/ansible/latest/list_of_all_modules.html)
 
 
-
-
-### Ansible.cfg - Configuration file
+Running Ansible on Network Devices
+=============================
+GNS3 as a test platform (optional)
+-----------------------------------------
+Configuration file - Ansible.cfg
+-------------------------------------
 The `ansible.cfg` file is used to modify the settings of Ansible, it resides in the same folder as the Ansible playbook.
 The following are the the `ansible.cfg` settings used in this repository to run playbooks on Cisco IOS devices.
 ```
@@ -325,7 +353,8 @@ ask_pass = True
 
 For more settings visit the [docs](http://docs.ansible.com/ansible/latest/intro_configuration.html)
 
-### Inventory File / Hosts File
+Inventory File / Hosts File
+--------------------------------
 The inventory file lists all the hosts that Ansible will connect to. These hosts can be put into groups to allow running playbooks against a specific group. The heading in brackets are the group names, under the group name is a list of hosts in the group.
 
 Hosts can be listed with their domain name, if a domain name does not exist then an alias can be used and paired with the hosts IP address as shown below.
@@ -343,20 +372,41 @@ hostA
 hostD ansible_host='192.168.1.4'
 ```
 Visit the [docs](http://docs.ansible.com/ansible/latest/intro_inventory.html) for more information on the inventory file.
-- GNS3 as a test platform (optional)
-- Host File
-- host vars / group vars
-- vars excel sheet
-- TextFSM
-- Jinja2 Templating
-- Running test playbook
-- Config Merge
-- Config Replace
-- Config Backup
-- Config on interfaces / Dynamic Config
-- Show Commands
-- NAPALM Get Facts
-- ntc_show_command 
+
+host vars / group vars
+--------------------------
+Vars in Excel sheet
+--------------------
+Running Playbook on IOS
+-------------------------------
+
+
+
+Facts
+=====
+Show Commands
+----------------------
+NAPALM Get Facts
+-----------------------
+ntc_show_command 
+--------------------------
+TextFSM
+-----------
+
+Config
+======
+Jinja2 Templating
+---------------------
+Config Merge
+----------------
+Config Replace
+-----------------
+Config Backup
+------------------
+Config on interfaces / Dynamic Config
+-----------------------------------------------
+
+
 
 
 
