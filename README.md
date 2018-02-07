@@ -29,6 +29,12 @@ Ansible Networking
 <ul>
 <li><a href="#start-ara-and-ansible-container">Start ARA and Ansible container:</a></li>
 <li><a href="#stop-and-remove-containers">Stop and remove containers:</a></li>
+</ul>
+</li>
+<li><a href="#running-ansible-playbook">Running Ansible Playbook</a>
+<ul>
+<li><a href="#ansible.cfg---configuration-file">Ansible.cfg - Configuration file</a></li>
+<li><a href="#inventory-file">Inventory File</a></li>
 <li><a href="#run-playbook---helloworld.yml">Run Playbook - HelloWorld.yml</a></li>
 </ul>
 </li>
@@ -251,6 +257,45 @@ Note: docker-compose up is not used as the ansible container needs to run bash i
 ### Stop and remove containers:
 1. `exit` out of Ansible container (also removes due to --rm flag)
 2. `docker rm ara -f`  stop and remove ARA container
+
+Running Ansible Playbook
+--------------------------------
+### Ansible.cfg - Configuration file
+The `ansible.cfg` file is used to modify the settings of Ansible, it resides in the same folder as the Ansible playbook.
+The following are the the `ansible.cfg` settings used in this repository to run playbooks on Cisco IOS devices.
+```
+[defaults]
+inventory = ./inventory
+host_key_checking = false
+timeout = 5
+library = /ansible/lib/modules/
+roles_path = /ansible/lib/roles/
+retry_files_save_path = /ansible/files/tmp/
+remote_user = user
+ask_pass = True
+```
+- inventory - Path to the inventory file
+- host_key_checking - SSH key checking (see [docs](http://docs.ansible.com/ansible/latest/intro_getting_started.html#host-key-checking) for more info)
+- timeout - SSH timeout to use on connection attempts
+- library - Path to library files
+- roles_path - Path to Roles
+- retry_files_save_path - Path to .retry files when a playbook fails
+- remote_user - default username ansible will connect as 
+- ask_pass - This controls whether an Ansible playbook should prompt for a password by default. 
+
+For more settings visit the [docs](http://docs.ansible.com/ansible/latest/intro_configuration.html)
+
+### Inventory File
+```
+[group_A]
+hostA ansible_host='192.168.1.1'
+hostB ansible_host='192.168.1.2'
+hostC ansible_host='192.168.1.3' 
+
+[group_B]
+hostA
+hostD ansible_host='192.168.1.4'
+```
 
 ### Run Playbook - HelloWorld.yml
 
