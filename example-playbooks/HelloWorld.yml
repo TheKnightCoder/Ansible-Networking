@@ -1,0 +1,8 @@
+---
+- name: Hello World!
+  hosts: localhost
+  gather_facts: false
+  
+  tasks:
+  - name: Create a directory
+    file: path=hello_world state=directory
