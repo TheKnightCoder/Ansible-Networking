@@ -17,5 +17,7 @@ services:
     environment:
       ARA_DATABASE: "sqlite:////db/ara.sqlite"
 
-#docker-compose run --service-ports -d --name ara --rm ara
+#docker-compose run --service-ports -d --rm ara
 #docker-compose run --service-ports --rm ansible
+
+#cd /vagrant && docker-compose run --service-ports -d ara && docker-compose run --service-ports --rm ansible
