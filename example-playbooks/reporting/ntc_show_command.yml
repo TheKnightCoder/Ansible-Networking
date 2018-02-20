@@ -1,0 +1,23 @@
+---
+
+- name: NTC Ansible show
+  hosts: all
+  gather_facts: false
+  connection: local 
+  roles: 
+    - ios/connect 
+   
+    
+  tasks:      
+
+    # get vlan data using netmiko and provider
+    - ntc_show_command:
+        command: 'show ip int brief'
+        template_dir: '/ansible/lib/modules/ntc-ansible/ntc-templates/templates'
+        provider: "{{ provider }}"
+      register: output                      
+
+    - name: output to screen
+      debug:
+        var: output
+   
