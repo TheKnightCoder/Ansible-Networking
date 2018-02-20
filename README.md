@@ -28,6 +28,7 @@ Ansible Networking
 <li><a href="#running-ansible-docker-container">Running Ansible Docker Container</a>
 <ul>
 <li><a href="#start-ara-and-ansible-container">Start ARA and Ansible container:</a></li>
+<li><a href="#start-ansible-container-only">Start Ansible container only:</a></li>
 <li><a href="#stop-and-remove-containers">Stop and remove containers:</a></li>
 </ul>
 </li>
@@ -121,13 +122,13 @@ NAPALM
 
 NAPALM (Network Automation and Programmability Abstraction Layer with Multi-vendor support) is a Python library that implements a set of functions to interact with different network device Operating Systems using a unified API. By using NAPALM it makes it much easier to carry out tasks on network devices such as config replacement. NAPALM has Ansible modules which allows them to fully integrate.
 
-In the Ansible Networking repository NAPALM is primarily used to install config by using the [napalm_install_config](https://github.com/napalm-automation/napalm-ansible/blob/develop/napalm_ansible/napalm_install_config.py) module. When NAPALM is used to replace/merge your config it is able to generate a diff file, this file will outline all changes that will be made on the devices which can then be verified and then committed. A backup is also automatically generated and stored in a offline location (and locally on network device) ensuring you are able to rollback changes.
+In the Ansible Networking repository NAPALM is primarily used to install config by using the [napalm_install_config](https://github.com/napalm-automation/napalm-ansible/blob/develop/napalm_ansible/modules/napalm_install_config.py) module. When NAPALM is used to replace/merge your config it is able to generate a diff file, this file will outline all changes that will be made on the devices which can then be verified and then committed. A backup is also automatically generated and stored in a offline location (and locally on network device) ensuring you are able to rollback changes.
 
-NAPALM also has other useful modules. [napalm_get_facts](https://github.com/napalm-automation/napalm-ansible/blob/develop/napalm_ansible/napalm_get_facts.py) is a module that standardises the retrieval of information from network devices regardless of which vendor is being used. This means that the same code can be used and the structure of the output is known. To find out more about the information napalm_get_facts is capable of retrieving visit 'NetworkDevices' in the [docs](http://napalm.readthedocs.io/en/latest/base.html). Also see `Ansible-Networking\example-playbooks\reporting\napalm_get_facts.yml` playbook for an example of how to use 'napalm_get_facts' with Ansible.
+NAPALM also has other useful modules. [napalm_get_facts](https://github.com/napalm-automation/napalm-ansible/blob/develop/napalm_ansible/modules/napalm_get_facts.py) is a module that standardises the retrieval of information from network devices regardless of which vendor is being used. This means that the same code can be used and the structure of the output is known. To find out more about the information napalm_get_facts is capable of retrieving visit 'NetworkDevices' in the [docs](http://napalm.readthedocs.io/en/latest/base.html). Also see `Ansible-Networking\example-playbooks\reporting\napalm_get_facts.yml` playbook for an example of how to use 'napalm_get_facts' with Ansible.
 
 Other useful NAPALM Modules:
-- [napalm_ping](https://github.com/napalm-automation/napalm-ansible/blob/develop/napalm_ansible/napalm_ping.py) - Executes ping on the device and returns response using NAPALM
-- [napalm_validate](https://github.com/napalm-automation/napalm-ansible/blob/develop/napalm_ansible/napalm_validate.py) - Validate deployments using YAML file describing the state you expect your devices to be in. See [Validating deployments docs](http://napalm.readthedocs.io/en/latest/validate/).
+- [napalm_ping](https://github.com/napalm-automation/napalm-ansible/blob/develop/napalm_ansible/modules/napalm_ping.py) - Executes ping on the device and returns response using NAPALM
+- [napalm_validate](https://github.com/napalm-automation/napalm-ansible/blob/develop/napalm_ansible/modules/napalm_validate.py) - Validate deployments using YAML file describing the state you expect your devices to be in. See [Validating deployments docs](http://napalm.readthedocs.io/en/latest/validate/).
 >Note that this is meant to validate state, meaning live data from the device, not the configuration. Because that something is configured doesn’t mean it looks as you want.
 
 Although the code in our repository has been designed for Cisco IOS, it can be adapted to work with other vendors by changing very little code thanks to NAPALM. 
@@ -222,14 +223,14 @@ Running VM / Vagrant File
 > Note: The first time this is run the vagrant image will be downloaded and VM will be provisioned. This may take some time, it will be faster after initial launch. (Make sure you are on a network that can download the image) 
 5. Type `vagrant ssh` to ssh into the VM and access it's shell
 6. To exit SSH type `exit` 
-7. To turn off the VM type `vagrant halt -f`
+7. To turn off the VM type `vagrant halt`
 8. Synced Folders - Any files stored in the Ansible folder can be accessed by the VM via the path /vagrant
 
 Start/Stop Vagrant image
 -------------------------------
 - Start VM - To start the VM you simply need to navigate to the Ansible folder and type `vagrant up`
 - SSH - You can access the VM shell by entering `vagrant ssh` command. Type `exit` to exit ssh. You can ssh into the VM in multiple windows.
-- Stop VM - To stop the VM either type `poweroff` from the SSH shell or `vagrant halt -f` from cmd Ansible folder.
+- Stop VM - To stop the VM type `vagrant halt` from cmd Ansible folder.
 
 Running Ansible
 =============
@@ -268,7 +269,7 @@ To run these two containers we will utilising the `docker-compose.yml` file whic
 ### Start ARA and Ansible container:
 1. SSH into vagrant VM (see [Running VM / Vagrant File](#running-vm--vagrant-file))
 2. Enter the following command:
-<pre><code>cd /vagrant && docker-compose run --service-ports --name ara -d ara && docker-compose run --service-ports --rm ansible</code></pre>
+<pre><code>cd /vagrant && docker-compose run --service-ports --name ara -d ara --rm && docker-compose run --service-ports --rm ansible</code></pre>
 
 >  - cd /vagrant - change directory to Ansible folder
 >  - docker-compose run - starts the container using the configuration in the `docker-compose.yml` file
@@ -278,6 +279,10 @@ To run these two containers we will utilising the `docker-compose.yml` file whic
 >  - --rm - remove container on exit (Not working on ara container?)
 
 Note: docker-compose up is not used as the ansible container needs to run bash in interactive mode
+
+### Start Ansible container only:
+1. Enter the following command from VM:
+<pre><code>cd /vagrant && docker-compose run --service-ports --rm ansible</code></pre>
 
 ### Stop and remove containers:
 1. `exit` out of Ansible container (also removes due to --rm flag)
