@@ -4,3 +4,4 @@ files/*
 .vagrant/*
 .vagrant
 tmp/
+.retry
