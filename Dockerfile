@@ -44,7 +44,7 @@ RUN echo "===> Adding Ansible's PPA..."  && \
     echo "===> Installing ara Ansible record report (optional)..."  && \
     pip install ara                                                 && \
     export ANSIBLE_CALLBACK_PLUGINS="$(python -c 'import os,ara; print(os.path.dirname(ara.__file__))')/plugins/callbacks"  && \
-    export ARA_DATABASE="sqlite:////ansible/files/db/ara.sqlite"    && \
+    export ARA_DATABASE="sqlite:////ansible/db/ara.sqlite"    && \
     #ara-manage runserver -h 0.0.0.0 -p 9191
     \
     \

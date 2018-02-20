@@ -12,7 +12,9 @@ provider:
   username: '{{ ansible_user }}'         #The username to ssh with
   password: '{{ ansible_password }}'     #The line level password
   dev_os: 'ios'                          #The hardware operating system 
-
+  
+  platform: "cisco_ios"                  #NTC-Ansible specific variable
+  connection: 'ssh'
 
 
                                          #!! Change dev_os for compatability with other Network OS !!

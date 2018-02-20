@@ -19,6 +19,7 @@ Vagrant.configure(2) do |config|
   
   #Download latest Ansible-Networking Docker Image
   config.vm.provision "shell", inline: "sudo docker pull theknightcoder/ansible-networking"
+  config.vm.provision "shell", inline: "sudo docker pull theknightcoder/ara"
 
   #Install Docker Compose
   config.vm.provision "shell", inline: "sudo curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose"

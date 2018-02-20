@@ -4,12 +4,11 @@
   hosts: all
   gather_facts: false
   connection: local 
-   
+  roles: 
+    - ios/connect 
+  
     
   tasks:      
-    - include_role:
-        name: ios/connect
-        
     - name: get facts from device
       napalm_get_facts:                      
         provider: "{{ provider }}"
