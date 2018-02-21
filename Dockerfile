@@ -47,6 +47,7 @@ RUN echo "===> Adding Ansible's PPA..."  && \
     export ANSIBLE_CALLBACK_PLUGINS=$ara_location/plugins/callbacks  && \
     export ANSIBLE_ACTION_PLUGINS=$ara_location/plugins/actions  && \
     export ARA_DATABASE="sqlite:////ansible/db/ara.sqlite"    && \
+    #run ara server (preferrable to use seperate container)
     #ara-manage runserver -h 0.0.0.0 -p 9191
     \
     \
