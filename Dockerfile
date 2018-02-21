@@ -43,10 +43,6 @@ RUN echo "===> Adding Ansible's PPA..."  && \
     \
     echo "===> Installing ara Ansible record report (optional)..."  && \
     pip install ara && \
-    export ara_location=$(python -c "import os,ara; print(os.path.dirname(ara.__file__))")  && \
-    export ANSIBLE_CALLBACK_PLUGINS="$ara_location/plugins/callbacks"  && \
-    export ANSIBLE_ACTION_PLUGINS="$ara_location/plugins/actions"  && \
-    export ARA_DATABASE="sqlite:////ansible/db/ara.sqlite"    && \
     #run ara server (preferrable to use seperate container)
     #ara-manage runserver -h 0.0.0.0 -p 9191
     \
@@ -57,6 +53,14 @@ RUN echo "===> Adding Ansible's PPA..."  && \
     \
     echo "===> Adding hosts for convenience..."  && \
     echo 'localhost' > /etc/ansible/hosts
+
+    
+    
+ENV ara_location "/usr/local/lib/python2.7/dist-packages/ara"
+ENV ANSIBLE_CALLBACK_PLUGINS "${ara_location}/plugins/callbacks"
+ENV ANSIBLE_ACTION_PLUGINS="${ara_location}/plugins/actions"
+ENV ARA_DATABASE="sqlite:////ansible/db/ara.sqlite"
+    
     
 # ==> Copying Ansible playbook....
 WORKDIR /ansible
