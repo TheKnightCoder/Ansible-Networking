@@ -269,7 +269,7 @@ To run these two containers we will utilising the `docker-compose.yml` file whic
 ### Start ARA and Ansible container:
 1. SSH into vagrant VM (see [Running VM / Vagrant File](#running-vm--vagrant-file))
 2. Enter the following command:
-<pre><code>cd /vagrant && docker-compose run --service-ports --name ara -d ara --rm && docker-compose run --service-ports --rm ansible</code></pre>
+<pre><code>cd /vagrant && docker-compose run --service-ports --rm --name ara -d ara  && docker-compose run --service-ports --rm ansible</code></pre>
 
 >  - cd /vagrant - change directory to Ansible folder
 >  - docker-compose run - starts the container using the configuration in the `docker-compose.yml` file
