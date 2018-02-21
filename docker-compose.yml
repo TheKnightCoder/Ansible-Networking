@@ -7,13 +7,15 @@ services:
       - "2222:22"
     volumes:
       - "./:/ansible"
+    environment:
+      ARA_DATABASE: "sqlite:////ansible/db/ara.sqlite"
       
   ara:
     image: theknightcoder/ara
     ports:
       - 9191:9191
     volumes:
-      - "./db/ara.sqlite:/db/ara.sqlite"
+      - "./db/:/db/"
     environment:
       ARA_DATABASE: "sqlite:////db/ara.sqlite"
 
