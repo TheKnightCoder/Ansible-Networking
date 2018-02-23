@@ -58,8 +58,8 @@ RUN echo "===> Adding Ansible's PPA..."  && \
     
 ENV ara_location "/usr/local/lib/python2.7/dist-packages/ara"
 ENV ANSIBLE_CALLBACK_PLUGINS "${ara_location}/plugins/callbacks"
-ENV ANSIBLE_ACTION_PLUGINS="${ara_location}/plugins/actions"
-ENV ARA_DATABASE="sqlite:////ansible/db/ara.sqlite"
+ENV ANSIBLE_ACTION_PLUGINS "${ara_location}/plugins/actions"
+ENV ARA_DATABASE "sqlite:////ansible/db/ara.sqlite"
     
     
 # ==> Copying Ansible playbook....
