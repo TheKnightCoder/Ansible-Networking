@@ -29,7 +29,7 @@ Ansible Networking
 <ul>
 <li><a href="#start-ara-and-ansible-container">Start ARA and Ansible container:</a></li>
 <li><a href="#start-ansible-container-only">Start Ansible container only:</a></li>
-<li><a href="#stop-and-remove-containers">Stop and remove containers:</a></li>
+<li><a href="#stop-containers">Stop containers:</a></li>
 </ul>
 </li>
 <li><a href="#running-ansible-playbook">Running Ansible Playbook</a>
@@ -268,15 +268,16 @@ To run these two containers we will utilising the `docker-compose.yml` file whic
 
 ### Start ARA and Ansible container:
 1. SSH into vagrant VM (see [Running VM / Vagrant File](#running-vm--vagrant-file))
-2. Enter the following command:
-<pre><code>cd /vagrant && docker-compose run --service-ports --rm --name ara -d ara  && docker-compose run --service-ports --rm ansible</code></pre>
-
+2. Enter the following command on **first ever** run:
+<pre><code>cd /vagrant && docker-compose run --service-ports  --name ara -d ara  && docker-compose run --service-ports --rm ansible</code></pre>
+3. Enter the following command on subsequent runs:
+<pre><code>cd /vagrant && docker start ara  && docker-compose run --service-ports --rm ansible</code></pre>
 >  - cd /vagrant - change directory to Ansible folder
 >  - docker-compose run - starts the container using the configuration in the `docker-compose.yml` file
 >  - --name <container name> - specifies container name
 >  - --service-ports - maps the ports defined in the `docker-compose.yml` file
 >  - -d - run in detached mode
->  - --rm - remove container on exit (Not working on ara container?)
+>  - --rm - remove container on exit (Not working with ARA container)
 
 Note: docker-compose up is not used as the ansible container needs to run bash in interactive mode
 
@@ -284,9 +285,9 @@ Note: docker-compose up is not used as the ansible container needs to run bash i
 1. Enter the following command from VM:
 <pre><code>cd /vagrant && docker-compose run --service-ports --rm ansible</code></pre>
 
-### Stop and remove containers:
-1. `exit` out of Ansible container (also removes due to --rm flag)
-2. `docker rm ara -f`  stop and remove ARA container
+### Stop containers:
+1. `exit` out of Ansible container (this will stop and remove container due to --rm flag)
+2. `docker stop ara`  stop ARA container
 
 Running Ansible Playbook
 --------------------------------
