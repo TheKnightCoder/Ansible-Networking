@@ -29,7 +29,7 @@ Ansible Networking
 <ul>
 <li><a href="#start-ara-and-ansible-container">Start ARA and Ansible container:</a></li>
 <li><a href="#start-ansible-container-only">Start Ansible container only:</a></li>
-<li><a href="#stop-and-remove-containers">Stop and remove containers:</a></li>
+<li><a href="#stop-containers">Stop containers:</a></li>
 </ul>
 </li>
 <li><a href="#running-ansible-playbook">Running Ansible Playbook</a>
@@ -72,7 +72,7 @@ Ansible Networking
 Network Automation using Ansible
 ============================
 
-The focus of this document is to explain the process of network automation for Cisco IOS devices. I will take you through the fundamentals of Ansible and provide a user guide for this [Ansible-Networking Git repository](https://github.com/TheKnightCoder/Ansible-Networking).
+The focus of this document is to explain the process of network automation for Cisco IOS devices. I will take you through the fundamentals of Ansible and provide a user guide for the [Ansible-Networking Git repository](https://github.com/TheKnightCoder/Ansible-Networking).
 
 The two main automation processes covered in this document are:
 > - Adding/Replacing Config
@@ -112,7 +112,7 @@ A lot can be accomplished with the above information however Jinja2 is capable o
 
 An in-depth understanding of Ansible and Python is not needed for most config changes, however it can be useful when making more complex templates. An example of this is when you need to add config to every interface on multiple switches of varying models. One device may have 4 interfaces while the other has 7, and the interfaces may have different names such as Fa0/1 and Gi0/1. One way to solve this problem is to use a show command to dynamically get the list of interfaces and then apply the config to those interfaces, this will need comprehensive understanding of Ansible. A simpler solution to this problem would be to group the devices by model and manually list the interfaces for each group (in the group vars). This would require knowledge of the number and names of the interfaces for each model in the network but would require no additional Ansible/Python.
 
-N.B. This specific problem has been solved, see _X_ for more detail.
+N.B. This specific problem has been solved, see source code for more detail.
  
 For more information visit the [Jinja2 docs](http://jinja.pocoo.org/docs/).
 
@@ -164,7 +164,7 @@ The ntc_show_command templates do not take into account text which spans over mu
 
 ![CLI table](https://user-images.githubusercontent.com/24293640/34607820-4551031e-f20d-11e7-88e7-0e89fa6b6254.png)
 
-See section _X_ to see how a custom TextFSM templates were used to resolve this problem. Although this solution works for a span over 2 lines it may not work for more.
+See section source code to see how a custom TextFSM templates were used to resolve this problem. Although this solution works for a span over 2 lines it may not work for more.
 
 To learn more about regular expressions watch [The Coding Train Videos](https://www.youtube.com/watch?v=7DG3kCDx53c&list=PLRqwX-V7Uu6YEypLuls7iidwHMdCM6o2w).
 
@@ -184,13 +184,13 @@ As you can see from the image above, ARA shows you a complete summary of playboo
 
 Installation
 =========
-Ansible only runs on linux and therefore you need a Virtual Machine (VM) if you are running Mac OSX or Windows. A VM is virtual operating system (OS) running on-top of your current OS, allowing you to run linux on Windows/OSX. This guide will assume you are running windows, if you are using Linux you will need to install docker and skip to X .
+Ansible only runs on linux and therefore you need a Virtual Machine (VM) if you are running Mac OSX or Windows. A VM is virtual operating system (OS) running on-top of your current OS, allowing you to run linux on Windows/OSX. This guide will assume you are running windows, if you are using Linux you will need to install docker and skip to Running Ansible section.
 
 Enable Virtualisation
 -------------------------
 You must enable virtualisation to run Virtual Machine (VM). To do this you need to enable Intel VT-x and VT-d if available in the BIOS/UEFI. You may need to visit your system Administrator. 
 
-1.  Turn on your computer and repeatedly press Delete, Esc, F1, F2, or F4. (Exact button depends on your PC model).
+1. Turn on your computer and repeatedly press Delete, Esc, F1, F2, or F4. (Exact button depends on your PC model).
 2. Find and enable Intel-VTx (The option may also be called VT-x, AMD-V, SVM, or Vanderpool).
 3. If available enable Intel VT-d or AMD IOMMU
 
@@ -210,7 +210,7 @@ You will now need to reboot to complete the installation.
 
 Running VM / Vagrant File
 --------------------------------
-1. Create a New Folder and rename it
+1. Create a New Folder and rename it.
 	This is your Ansible folder, this will be where all your Ansible files are stored.
 2. Download and extract the [repository](https://github.com/TheKnightCoder/Ansible-Networking/archive/master.zip) into the root of your Ansible folder.
 >Make sure the actual files (vagrantfile etc.) are in the root of the Ansible folder.
@@ -268,15 +268,16 @@ To run these two containers we will utilising the `docker-compose.yml` file whic
 
 ### Start ARA and Ansible container:
 1. SSH into vagrant VM (see [Running VM / Vagrant File](#running-vm--vagrant-file))
-2. Enter the following command:
-<pre><code>cd /vagrant && docker-compose run --service-ports --rm --name ara -d ara  && docker-compose run --service-ports --rm ansible</code></pre>
-
+2. Enter the following command on **first ever** run:
+<pre><code>cd /vagrant && docker-compose run --service-ports  --name ara -d ara  && docker-compose run --service-ports --rm ansible</code></pre>
+3. Enter the following command on subsequent runs:
+<pre><code>cd /vagrant && docker start ara  && docker-compose run --service-ports --rm ansible</code></pre>
 >  - cd /vagrant - change directory to Ansible folder
 >  - docker-compose run - starts the container using the configuration in the `docker-compose.yml` file
 >  - --name <container name> - specifies container name
 >  - --service-ports - maps the ports defined in the `docker-compose.yml` file
 >  - -d - run in detached mode
->  - --rm - remove container on exit (Not working on ara container?)
+>  - --rm - remove container on exit (Not working with ARA container)
 
 Note: docker-compose up is not used as the ansible container needs to run bash in interactive mode
 
@@ -284,9 +285,9 @@ Note: docker-compose up is not used as the ansible container needs to run bash i
 1. Enter the following command from VM:
 <pre><code>cd /vagrant && docker-compose run --service-ports --rm ansible</code></pre>
 
-### Stop and remove containers:
-1. `exit` out of Ansible container (also removes due to --rm flag)
-2. `docker rm ara -f`  stop and remove ARA container
+### Stop containers:
+1. `exit` out of Ansible container (this will stop and remove container due to --rm flag)
+2. `docker stop ara`  stop ARA container
 
 Running Ansible Playbook
 --------------------------------
@@ -317,11 +318,11 @@ YAML is white space sensitive, the indentation is very important when writing in
 
 - `---` Three Hyphens - This serves to signal the start of a document for YAML files
 - `- name: Hello World!` - This is the name of the playbook being run
-- `hosts: localhost`  - This tells Ansible which hosts to run the playbook on
-- `gather_facts: false` - By default ansible will gather facts about each host it connects to. This task fails when connecting to Cisco devices and therefore is set to false.
+- `  hosts: localhost`  - This tells Ansible which hosts to run the playbook on
+- `  gather_facts: false` - By default ansible will gather facts about each host it connects to. This task fails when connecting to Cisco devices and therefore is set to false.
 - `tasks:`  - This is where the list of tasks begin for the playbook
 - `-name: Create a directory` - descriptive name of task
-- `file: path=hello_world state=directory` - The name of the module to be run followed by arguments sent to the module.
+- ` file: path=hello_world state=directory` - The name of the module to be run followed by arguments sent to the module.
 `path` is the file being managed and `state=directory` is the state the path should be in. 
 See [docs](http://docs.ansible.com/ansible/latest/file_module.html) for more information on the file module.
 
@@ -353,7 +354,7 @@ ask_pass = True
 - library - Path to library files
 - roles_path - Path to Roles
 - retry_files_save_path - Path to .retry files when a playbook fails
-- remote_user - default username ansible will connect as 
+- remote_user - default username Ansible will connect as 
 - ask_pass - This controls whether an Ansible playbook should prompt for a password by default. 
 
 For more settings visit the [docs](http://docs.ansible.com/ansible/latest/intro_configuration.html)
