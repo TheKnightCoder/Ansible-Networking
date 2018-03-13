@@ -318,11 +318,11 @@ YAML is white space sensitive, the indentation is very important when writing in
 
 - `---` Three Hyphens - This serves to signal the start of a document for YAML files
 - `- name: Hello World!` - This is the name of the playbook being run
-- `hosts: localhost`  - This tells Ansible which hosts to run the playbook on
-- `gather_facts: false` - By default ansible will gather facts about each host it connects to. This task fails when connecting to Cisco devices and therefore is set to false.
+- `  hosts: localhost`  - This tells Ansible which hosts to run the playbook on
+- `  gather_facts: false` - By default ansible will gather facts about each host it connects to. This task fails when connecting to Cisco devices and therefore is set to false.
 - `tasks:`  - This is where the list of tasks begin for the playbook
 - `-name: Create a directory` - descriptive name of task
-- `file: path=hello_world state=directory` - The name of the module to be run followed by arguments sent to the module.
+- ` file: path=hello_world state=directory` - The name of the module to be run followed by arguments sent to the module.
 `path` is the file being managed and `state=directory` is the state the path should be in. 
 See [docs](http://docs.ansible.com/ansible/latest/file_module.html) for more information on the file module.
 
