@@ -338,7 +338,7 @@ Prerequisite:
 - GNS3 installed 
 - IOS image on local server
 
-![gns3](https://user-images.githubusercontent.com/24293640/37344276-d8f08566-26c1-11e8-841a-9a3275172dc8.png =250x)
+![gns3](https://user-images.githubusercontent.com/24293640/37344276-d8f08566-26c1-11e8-841a-9a3275172dc8.png = 250x)
 
 
 ![gns3-2](https://user-images.githubusercontent.com/24293640/37344675-ec844c4c-26c2-11e8-963d-aff6e0e2e45f.png)
