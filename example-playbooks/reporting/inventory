@@ -1,4 +1,4 @@
-[group_A]
+[groupA]
 hostA  ansible_host='192.168.1.1'
 hostB ansible_host='192.168.1.2'
 hostC ansible_host='192.168.1.3' 

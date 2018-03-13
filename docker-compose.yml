@@ -22,4 +22,7 @@ services:
 #docker-compose run --service-ports -d --rm ara
 #docker-compose run --service-ports --rm ansible
 
+#cd /vagrant && docker-compose run --service-ports  --name ara -d ara  && docker-compose run --service-ports --rm ansible
+#cd /vagrant && docker start ara  && docker-compose run --service-ports --rm ansible
+
 #cd /vagrant && docker-compose run --service-ports --rm ansible 
