@@ -42,7 +42,8 @@ Ansible Networking
 <li><a href="#running-ansible-on-network-devices">Running Ansible on Network Devices</a>
 <ul>
 <li><a href="#gns3-as-a-test-platform-optional">GNS3 as a test platform (optional)</a></li>
-<li><a href="#configuration-file---ansible.cfg">Configuration file - Ansible.cfg</a></li>
+<li><a href="#gns3-3configuration-file---ansible.cfg">
+Configuration file - Ansible.cfg</a></li>
 <li><a href="#inventory-file--hosts-file">Inventory File / Hosts File</a></li>
 <li><a href="#host-vars--group-vars">host vars / group vars</a></li>
 <li><a href="#vars-in-excel-sheet">Vars in Excel sheet</a></li>
@@ -333,6 +334,16 @@ Running Ansible on Network Devices
 =============================
 GNS3 as a test platform (optional)
 -----------------------------------------
+Prerequisite:
+- GNS3 installed 
+- IOS image on local server
+
+![gns3](https://user-images.githubusercontent.com/24293640/37344276-d8f08566-26c1-11e8-841a-9a3275172dc8.png)
+
+
+![gns3-2](https://user-images.githubusercontent.com/24293640/37344675-ec844c4c-26c2-11e8-963d-aff6e0e2e45f.png)
+
+![gns3-3](https://user-images.githubusercontent.com/24293640/37345990-2a9a1b94-26c6-11e8-9eb0-d1408230809a.png)
 Configuration file - Ansible.cfg
 -------------------------------------
 The `ansible.cfg` file is used to modify the settings of Ansible, it resides in the same folder as the Ansible playbook.
