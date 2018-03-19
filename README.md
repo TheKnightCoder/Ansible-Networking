@@ -344,20 +344,25 @@ Prerequisite:
 2. Right click the cloud and click configure.
 
 ![gns3-2](https://user-images.githubusercontent.com/24293640/37344675-ec844c4c-26c2-11e8-963d-aff6e0e2e45f.png)
+
 3. You must now select a network interface for your virtual network to connect to.
 4. Check `Show special Ethernet interfaces` to see all networks
 5. Select `VirtualBox Host-Only Network`, then click 'Add' and 'OK'
 6. Next build out your virtual network, you may connect your PC (cloud) to the network via a simple Ethernet Switch
 
 ![gns3-3](https://user-images.githubusercontent.com/24293640/37345990-2a9a1b94-26c6-11e8-9eb0-d1408230809a.png)
+
 7. If you will be using NAPALM Config replace, NAPALM will require flash memory on the device. 
     To enable this on GNS3
     - Right click the device and select Configure.
     - Select memory and disks tab
     - Add memory to PCMCIA disk0
     - Click OK
+
 ![flash](https://user-images.githubusercontent.com/24293640/37591394-4df31892-2b63-11e8-98bb-ab399c795c79.png)    
+
 8. Configure your network devices. SSH must be enabled on the devices. When configuring please consider the subnet of the network selected on step 5 which is used to connect the PC to the virtual network.
+
 ![subnet](https://user-images.githubusercontent.com/24293640/37591390-4aa21e54-2b63-11e8-986c-36ff2e1da563.png)
 
 
