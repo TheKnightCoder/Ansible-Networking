@@ -42,8 +42,7 @@ Ansible Networking
 <li><a href="#running-ansible-on-network-devices">Running Ansible on Network Devices</a>
 <ul>
 <li><a href="#gns3-as-a-test-platform-optional">GNS3 as a test platform (optional)</a></li>
-<li><a href="#gns3-3configuration-file---ansible.cfg">
-Configuration file - Ansible.cfg</a></li>
+<li><a href="#configuration-file---ansible.cfg">Configuration file - Ansible.cfg</a></li>
 <li><a href="#inventory-file--hosts-file">Inventory File / Hosts File</a></li>
 <li><a href="#host-vars--group-vars">host vars / group vars</a></li>
 <li><a href="#vars-in-excel-sheet">Vars in Excel sheet</a></li>
@@ -263,7 +262,7 @@ For an in-depth guide on Docker see the many tutorials on YouTube.
 
 Running Ansible Docker Container
 ------------------------------------------
-The Ansible networking repository has two containers that can be run. One is the container that runs Ansible itself, the source code for this container can be found in `Dockerfile`. The other is ARA web server which allows you to view a report of all Ansible playbooks that have run via the web browser, the source code for this container can be found in `ARADokcerfile`.
+The Ansible networking repository has two containers that can be run. One is the container that runs Ansible itself, the source code for this container can be found in `Dockerfile`. The other is ARA web server which allows you to view a report of all Ansible playbooks that have run via the web browser, the source code for this container can be found in `ARADockerfile`.
 
 To run these two containers we will utilising the `docker-compose.yml` file which contains configuration for the containers such as ports and volumes.
 
@@ -283,19 +282,21 @@ To run these two containers we will utilising the `docker-compose.yml` file whic
 Note: docker-compose up is not used as the ansible container needs to run bash in interactive mode
 
 ### Start Ansible container only:
-1. Enter the following command from VM:
+1. If you would like to start Ansible without ARA. Enter the following command from VM:
 <pre><code>cd /vagrant && docker-compose run --service-ports --rm ansible</code></pre>
 
 ### Stop containers:
 1. `exit` out of Ansible container (this will stop and remove container due to --rm flag)
 2. `docker stop ara`  stop ARA container
 
+>Note: To stop all containers enter command `docker stop $(docker ps -aq)`
+
 Running Ansible Playbook
 --------------------------------
 
 ### Run Playbook - HelloWorld.yml
 To run the `HelloWorld.yml` playbook go the `example-playbooks` folder directory then enter the following command:
-```ansible-run HelloWorld.yml```
+```ansible-playbook HelloWorld.yml```
 
 If successful the playbook will have created a new folder with the name `hello_world`
 
@@ -339,11 +340,29 @@ Prerequisite:
 - IOS image on local server
 
 ![gns3](https://user-images.githubusercontent.com/24293640/37344276-d8f08566-26c1-11e8-841a-9a3275172dc8.png)
-
+1. Add a cloud device, this will represents your PC and will be used to connect your PC to the network. 
+2. Right click the cloud and click configure.
 
 ![gns3-2](https://user-images.githubusercontent.com/24293640/37344675-ec844c4c-26c2-11e8-963d-aff6e0e2e45f.png)
+3. You must now select a network interface for your virtual network to connect to.
+4. Check `Show special Ethernet interfaces` to see all networks
+5. Select `VirtualBox Host-Only Network`, then click 'Add' and 'OK'
+6. Next build out your virtual network, you may connect your PC (cloud) to the network via a simple Ethernet Switch
 
 ![gns3-3](https://user-images.githubusercontent.com/24293640/37345990-2a9a1b94-26c6-11e8-9eb0-d1408230809a.png)
+7. If you will be using NAPALM Config replace, NAPALM will require flash memory on the device. 
+    To enable this on GNS3
+    - Right click the device and select Configure.
+    - Select memory and disks tab
+    - Add memory to PCMCIA disk0
+    - Click OK
+![flash](https://user-images.githubusercontent.com/24293640/37591394-4df31892-2b63-11e8-98bb-ab399c795c79.png)    
+8. Configure your network devices. SSH must be enabled on the devices. When configuring please consider the subnet of the network selected on step 5 which is used to connect the PC to the virtual network.
+![subnet](https://user-images.githubusercontent.com/24293640/37591390-4aa21e54-2b63-11e8-986c-36ff2e1da563.png)
+
+
+
+
 Configuration file - Ansible.cfg
 -------------------------------------
 The `ansible.cfg` file is used to modify the settings of Ansible, it resides in the same folder as the Ansible playbook.
