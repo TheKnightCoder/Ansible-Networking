@@ -49,6 +49,7 @@ Ansible Networking
 <li><a href="#running-playbook-on-ios">Running Playbook on IOS</a></li>
 </ul>
 </li>
+<li><a href="#ara">ARA</a></li>
 <li><a href="#facts">Facts</a>
 <ul>
 <li><a href="#show-commands">Show Commands</a></li>
@@ -362,10 +363,11 @@ Prerequisite:
 ![flash](https://user-images.githubusercontent.com/24293640/37591394-4df31892-2b63-11e8-98bb-ab399c795c79.png)    
 
 8. Configure your network devices. SSH must be enabled on the devices. When configuring please consider the subnet of the network selected on step 5 which is used to connect the PC to the virtual network.
+9. To configure start the device then right click and select console.
 
 ![subnet](https://user-images.githubusercontent.com/24293640/37591390-4aa21e54-2b63-11e8-986c-36ff2e1da563.png)
 
-
+10. Once devices have been configured, start the devices and get ready to use Ansible with your virtual GNS3 network
 
 
 Configuration file - Ansible.cfg
@@ -379,17 +381,15 @@ host_key_checking = false
 timeout = 5
 library = /ansible/lib/modules/
 roles_path = /ansible/lib/roles/
-retry_files_save_path = /ansible/files/tmp/
 remote_user = user
 ask_pass = True
 ```
 - inventory - Path to the inventory file
 - host_key_checking - SSH key checking (see [docs](http://docs.ansible.com/ansible/latest/intro_getting_started.html#host-key-checking) for more info)
 - timeout - SSH timeout to use on connection attempts
-- library - Path to library files
-- roles_path - Path to Roles
-- retry_files_save_path - Path to .retry files when a playbook fails
-- remote_user - default username Ansible will connect as 
+- library - Path to library/module files. Modules allow you to run user created custom functionality on Ansible  (see [docs](http://docs.ansible.com/ansible/latest/dev_guide/developing_modules.html) to find out more about modules).
+- roles_path - Path to Roles. Roles essentially assist in the re-usability of Ansible tasks (see [docs](http://docs.ansible.com/ansible/latest/playbooks_reuse_roles.html) to find out more about roles).
+- remote_user - default username Ansible will use in SSH 
 - ask_pass - This controls whether an Ansible playbook should prompt for a password by default. 
 
 For more settings visit the [docs](http://docs.ansible.com/ansible/latest/intro_configuration.html)
@@ -416,12 +416,26 @@ Visit the [docs](http://docs.ansible.com/ansible/latest/intro_inventory.html) fo
 
 host vars / group vars
 --------------------------
+
+
 Vars in Excel sheet
---------------------
+----------------------
+I have created the `generate_vars` module that converts an excel sheet into group var and host var YAML files so that it can be read by Ansible. This does mean that var files will have less flexibility due the the 2 dimensional nature of excel sheets. The excel sheet is not able to represent 2 dimensional arrays or an object within an object. Arrays can be represented by using comma separated values in square bracket in a single cell, for example `[foo,bar]`.
+
+![host_vars](https://user-images.githubusercontent.com/24293640/37835079-3960ca18-2ea7-11e8-9eb9-7e3bf4c3a7e8.png)
+
+Above is an example of sheet for host vars, the sheet must be named `host_vars`. 
+The first column is a list of all hostnames for which you would like to generate host var yaml files. All subsequent columns are variables, the heading of each column defines the variable name and the value in each cell is the value of that variable for a given host. When square brackets are used in a cell, with commas to separate the value it will be interpreted as and array.
+
+![group_vars](https://user-images.githubusercontent.com/24293640/37834987-03b74bbc-2ea7-11e8-945e-be91d1e9073a.png)
+
+The exact same rules apply to group vars as host vars. The sheet must be named `group_vars` and the first column is a list of group names.
+
 Running Playbook on IOS
 -------------------------------
 
-
+ARA
+===
 
 Facts
 =====
