@@ -25,7 +25,7 @@ Ansible Networking
 <li><a href="#running-ansible">Running Ansible</a>
 <ul>
 <li><a href="#explaining-docker">Explaining Docker</a></li>
-<li><a href="#running-ansible-docker-container">Running Ansible Docker Container</a>
+<li><a href="#running-ansible--ara-docker-container">Running Ansible & ARA Docker Container</a>
 <ul>
 <li><a href="#start-ara-and-ansible-container">Start ARA and Ansible container:</a></li>
 <li><a href="#start-ansible-container-only">Start Ansible container only:</a></li>
@@ -261,7 +261,7 @@ In this setup we use a Vagrant Synced folder to map your Ansible folder to /vagr
 See [this video](https://www.youtube.com/watch?v=pGYAg7TMmp0&index=1&list=PLoYCgNOIyGAAzevEST2qm2Xbe3aeLFvLc) from LearnCode.academy for a overview of docker.
 For an in-depth guide on Docker see the many tutorials on YouTube.  
 
-Running Ansible Docker Container
+Running Ansible & ARA Docker Container
 ------------------------------------------
 The Ansible networking repository has two containers that can be run. One is the container that runs Ansible itself, the source code for this container can be found in `Dockerfile`. The other is ARA web server which allows you to view a report of all Ansible playbooks that have run via the web browser, the source code for this container can be found in `ARADockerfile`.
 
@@ -430,12 +430,31 @@ The first column is a list of all hostnames for which you would like to generate
 ![group_vars](https://user-images.githubusercontent.com/24293640/37834987-03b74bbc-2ea7-11e8-945e-be91d1e9073a.png)
 
 The exact same rules apply to group vars as host vars. The sheet must be named `group_vars` and the first column is a list of group names.
+See  \example-playbooks\config\var.xlsx for an example
+
+Example (see \example-playbooks\config\generate_vars.yml):
+```
+  tasks:
+    - name: generating vars
+      generate_vars:
+        src: vars.xlsx
+```
+After running the playbook your excel file will be converted into yml files that can be read by ansible. The files will be placed in a host_vars and group_vars folder.
+![generated_hostvars](https://user-images.githubusercontent.com/24293640/37907019-ce9897a4-30fb-11e8-842c-2f5c8a718631.png)
+
+|parameter  |required  |comment  |
+|--|--|--|
+|src  |Yes  |Path to excel var file  |
+
 
 Running Playbook on IOS
 -------------------------------
 
 ARA
 ===
+ARA is a third party application which keeps record and records Ansible playbook runs. To access ARA run the ARA docker container in the [Running Ansible & ARA Docker Container](#Running Ansible & ARA Docker Container) section then open a web browser and visit [http://127.0.0.1:9191](http://127.0.0.1/9191)
+![ara](https://user-images.githubusercontent.com/24293640/37907452-124b4176-30fd-11e8-9f8e-ea9fe9c87985.png)
+
 
 Facts
 =====
@@ -460,8 +479,6 @@ Config Backup
 ------------------
 Config on interfaces / Dynamic Config
 -----------------------------------------------
-
-
 
 
 
