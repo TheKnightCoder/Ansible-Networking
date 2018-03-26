@@ -452,7 +452,7 @@ Running Playbook on IOS
 
 ARA
 ===
-ARA is a third party application which keeps record and records Ansible playbook runs. To access ARA run the ARA docker container in the [Running Ansible & ARA Docker Container](#Running Ansible & ARA Docker Container) section then open a web browser and visit [http://127.0.0.1:9191](http://127.0.0.1/9191)
+ARA is a third party application which keeps record and records Ansible playbook runs. To access ARA run the ARA docker container in the [Running Ansible & ARA Docker Container](#running-ansible--ara-docker-container) section then open a web browser and visit [http://127.0.0.1:9191](http://127.0.0.1:9191)
 ![ara](https://user-images.githubusercontent.com/24293640/37907452-124b4176-30fd-11e8-9f8e-ea9fe9c87985.png)
 
 
