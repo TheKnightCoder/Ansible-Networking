@@ -416,11 +416,45 @@ Visit the [docs](http://docs.ansible.com/ansible/latest/intro_inventory.html) fo
 
 host vars / group vars
 --------------------------
+Each host and group assigned in the [inventory file](#inventory-file--hosts-file) can have variables assigned to them. This can be done within the inventory file itself, just like the `ansible_host` variable in the file above.
 
+Defining variables in the inventory file can become inconvenient and convoluted, to resolve this we can use host_vars and group_vars variable files. These variable files are located in the folder `group_vars` and `host_vars` relative to the Ansible playbook file.
+
+The files are named after the host/group name without an extension. For example the variable file for `hostA` will be located at `host_vars\hostA`. This file will be a YAML file (see [YAML docs](http://www.yaml.org/spec/1.2/spec.html) on how to write YAML files).
+
+Here is an example variable file for hostA, 
+```
+hostname : hostA
+vlans: 
+	- name : VLAN_34
+      ID: 34
+      IP_address: 10.120.53.254 
+      subnet_mask: 255.255.255.128
+interfaces:
+	- name : Fa0/1
+      link_type : trunk
+      description : Network::FROM_A::B
+      allowed_vlans : [34,242,1,431,434,13]
+    - name : Fa0/2
+      link_type : trunk
+      description : Network::FROM_A::C
+      allowed_vlans : [34,232,431,414,13]
+```
+Same rules apply to group vars. All variables in a group var file will be given to each host within that group.
+
+The variables can be used within the playbook and Jinja2 templates. To access the variables use Jinja2 notation, for example to access the hostname in the variable file type `{{ hostname }}`. 
+
+N.B: When using variables in Ansible playbook they should also be surrounded in quotes e.g. `"This is {{ hostname }}"`
+
+To access an index in a array use square brackets [i] and to access a variable within a object use dot separators.
+e.g. `{{ interfaces[1].name }}` will refer to `Fa0/2`
+
+To find out more about host and group variables visit [invnetory docs](http://docs.ansible.com/ansible/latest/intro_inventory.html#hosts-and-groups).
+To find out more about variable visit [variable docs](http://docs.ansible.com/ansible/latest/playbooks_variables.html)
 
 Vars in Excel sheet
 ----------------------
-I have created the `generate_vars` module that converts an excel sheet into group var and host var YAML files so that it can be read by Ansible. This does mean that var files will have less flexibility due the the 2 dimensional nature of excel sheets. The excel sheet is not able to represent 2 dimensional arrays or an object within an object. Arrays can be represented by using comma separated values in square bracket in a single cell, for example `[foo,bar]`.
+If you needed to generate config for 50 switches you may need to create 50 different host_var files. To make this easier I have created the `generate_vars` module that converts an excel sheet into group var and host var YAML files so that it can be read by Ansible. This does mean that var files will have less flexibility due the the 2 dimensional nature of excel sheets. The excel sheet is not able to represent 2 dimensional arrays or an object within an object. Arrays can be represented by using comma separated values in square bracket in a single cell, for example `[foo,bar]`.
 
 ![host_vars](https://user-images.githubusercontent.com/24293640/37835079-3960ca18-2ea7-11e8-9eb9-7e3bf4c3a7e8.png)
 
@@ -449,6 +483,46 @@ After running the playbook your excel file will be converted into yml files that
 
 Running Playbook on IOS
 -------------------------------
+To run Ansible on Cisco IOS some parameters and settings need to be set. Firstly in the ansible.cfg it is essential that `host_key_checking = false` also within the playbook  `gather_facts: false` and `connection: local`. Connection is set to local because Cisco IOS devices cannot run python, therefore in local mode the Ansible controller will run the python and communicate with IOS device via SSH.
+
+Here is an example of a simple playbook for IOS. It will run the `show ip interface brief`command and display it on screen.
+```
+---
+- name: Output Show command
+  hosts: "all"
+  gather_facts: false
+  connection: local
+  
+  tasks:                                    
+    - name: show cmd that user entered 
+      ios_command:
+        commands: "show ip int br"
+      register: output
+
+    - name: show output on screen
+      debug:
+        var: output
+```
+A similar playbook can be found in `example-playbooks/reporting/show_cmd.yml`
+Ansible.cfg:
+```
+[defaults]
+inventory = ./inventory
+host_key_checking = false
+timeout = 5
+library = /ansible/lib/modules/:$ara_location/plugins/modules
+roles_path = /ansible/lib/roles/
+remote_user = user
+ask_pass = True
+```
+This file can be found in `example-playbooks/ansible.cfg` (Must be in same folder as playbook)
+
+To run this playbook on a Cisco IOS device:
+1. Make sure SSH is enabled and configured on the device and connected to your Ansible control machine via an Ethernet cable.
+2. Make sure the `ansible.cfg` file settings are correct and is in the same folder as the playbook
+3. Run the following command 
+`ansible-playbook PLAYBOOK.yml -e ansible_user=USERNAME`
+(You must replace PLAYBOOK with the name of your playbook and USERNAME with the SSH username used to access your  Cisco device)
 
 ARA
 ===
