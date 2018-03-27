@@ -583,6 +583,7 @@ The `ios/connect` role abstracts the provider variable needed to connect to napa
 This playbook is currently outputting the `get_facts()` function in the [docs](http://napalm.readthedocs.io/en/latest/base.html#napalm.base.base.NetworkDriver). To output other functions you must change`filter: 'facts'` in the playbook to the name of the function in the docs omitting the `get_`.
 
 For example `filter: 'interfaces'` for the `get_interfaces()` function. 
+
 (`output.ansible_facts.napalm_facts` may also need to be changed)
 
 Update: It is possible to extend drivers and add custom functionality to NAPALM such as adding `show cdp neighbors` to the IOS driver. This has not been explored as the documentation for this was not available at the time of creating this repository. To find out for visit the [NAPALM docs](http://napalm.readthedocs.io/en/latest/tutorials/extend_driver.html)
