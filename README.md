@@ -42,6 +42,7 @@ Ansible Networking
 <li><a href="#running-ansible-on-network-devices">Running Ansible on Network Devices</a>
 <ul>
 <li><a href="#gns3-as-a-test-platform-optional">GNS3 as a test platform (optional)</a></li>
+<li><a href="#roles">Roles</a></li>
 <li><a href="#configuration-file---ansible.cfg">Configuration file - Ansible.cfg</a></li>
 <li><a href="#inventory-file--hosts-file">Inventory File / Hosts File</a></li>
 <li><a href="#host-vars--group-vars">host vars / group vars</a></li>
@@ -54,8 +55,7 @@ Ansible Networking
 <ul>
 <li><a href="#show-commands">Show Commands</a></li>
 <li><a href="#napalm-get-facts">NAPALM Get Facts</a></li>
-<li><a href="#however-due-to-its-vendor-agnostic-nature-it-does-not-include-commands-specific-to-cisco-such-as-show-cdp-neighborsntc_show_command">however due to its vendor agnostic nature it does not include commands specific to Cisco such as show cdp neighbors
-ntc_show_command</a></li>
+<li><a href="#ntc_show_command">ntc_show_command</a></li>
 <li><a href="#textfsm">TextFSM</a></li>
 </ul>
 </li>
@@ -370,6 +370,8 @@ Prerequisite:
 
 10. Once devices have been configured, start the devices and get ready to use Ansible with your virtual GNS3 network
 
+Roles
+-------
 
 Configuration file - Ansible.cfg
 -------------------------------------
@@ -543,14 +545,51 @@ Ansible has a [built-in modules](http://docs.ansible.com/ansible/latest/modules/
 
 This module is great for quickly displaying or logging a show command however it is not ideal in more complex operations due to the format Cisco IOS show commands are formatted.
 
-See Example: `example-playbooks\reporting\show_cmd.yml`
+See Example Playbook: `example-playbooks\reporting\show_cmd.yml`
 
 
 NAPALM Get Facts
 -----------------------
-however due to its vendor agnostic nature it does not include commands specific to Cisco such as `show cdp neighbors`
+The `napalm_get_facts` module is able to retrieve structured data from network devices, this module creates a layer of abstraction allowing you to use the same playbook for multiple vendors. However due to its vendor agnostic nature it does not include commands specific to Cisco such as `show cdp neighbors` in it's base network driver (Network drivers can be extended to add functionality).
+
+To get a full list of base data structures NAPALM is able to retrieve visit the [Network Driver](http://napalm.readthedocs.io/en/latest/base.html) section in the docs.
+
+See Example Playbook: `example-playbooks\reporting\napalm_get_facts.yml`
+
+```
+---
+
+- name: Napalm get facts
+  hosts: all
+  gather_facts: false
+  connection: local 
+  roles: 
+    - ios/connect 
+
+  tasks:      
+    - name: get facts from device
+      napalm_get_facts:                      
+        provider: "{{ provider }}"
+        filter: 'facts'               
+      register: output                      
+
+    - name: output to screen
+      debug:
+        var: output.ansible_facts.napalm_facts
+```
+
+The `ios/connect` role abstracts the provider variable needed to connect to napalm. This role can be found in `lib/roles/ios/connect`
+
+This playbook is currently outputting the `get_facts()` function in the [docs](http://napalm.readthedocs.io/en/latest/base.html#napalm.base.base.NetworkDriver). To output other functions you must change`filter: 'facts'` in the playbook to the name of the function in the docs omitting the `get_`.
+
+For example `filter: 'interfaces'` for the `get_interfaces()` function. 
+(`output.ansible_facts.napalm_facts` may also need to be changed)
+
+Update: It is possible to extend drivers and add custom functionality to NAPALM such as adding `show cdp neighbors` to the IOS driver. This has not been explored as the documentation for this was not available at the time of creating this repository. To find out for visit the [NAPALM docs](http://napalm.readthedocs.io/en/latest/tutorials/extend_driver.html)
+
 ntc_show_command 
 --------------------------
+
 TextFSM
 -----------
 
