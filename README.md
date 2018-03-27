@@ -48,6 +48,8 @@ Ansible Networking
 <li><a href="#host-vars--group-vars">host vars / group vars</a></li>
 <li><a href="#vars-in-excel-sheet">Vars in Excel sheet</a></li>
 <li><a href="#running-playbook-on-ios">Running Playbook on IOS</a></li>
+<li><a href="#providers-authentication">Providers (Authentication)</a></li>
+<li><a href="#ios-connect-role">IOS Connect Role</a></li>
 </ul>
 </li>
 <li><a href="#ara">ARA</a></li>
@@ -529,6 +531,11 @@ To run this playbook on a Cisco IOS device:
 `ansible-playbook PLAYBOOK.yml -e ansible_user=USERNAME`
 (You must replace PLAYBOOK with the name of your playbook and USERNAME with the SSH username used to access your  Cisco device)
 
+Providers (Authentication)
+--------------------------------
+IOS Connect Role
+---------------------
+
 ARA
 ===
 ARA is a third party application which keeps record and records Ansible playbook runs. To access ARA run the ARA docker container in the [Running Ansible & ARA Docker Container](#running-ansible--ara-docker-container) section then open a web browser and visit [http://127.0.0.1:9191](http://127.0.0.1:9191)
@@ -589,24 +596,73 @@ For example `filter: 'interfaces'` for the `get_interfaces()` function.
 
 (`output.ansible_facts.napalm_facts` may also need to be changed)
 
-Update: It is possible to extend drivers and add custom functionality to NAPALM such as adding `show cdp neighbors` to the IOS driver. This has not been explored as the documentation for this was not available at the time of creating this repository. The documentation can be found in the [NAPALM docs](http://napalm.readthedocs.io/en/latest/tutorials/extend_driver.html)
+Update: It is possible to extend drivers and add custom functionality to NAPALM such as adding `show cdp neighbors` to the IOS driver. This has not been explored as the documentation for this was not available at the time of creating this repository. The documentation can be found in the [NAPALM docs](http://napalm.readthedocs.io/en/latest/tutorials/extend_driver.html).
 
 NTC Show Command 
 --------------------------
+NTC Ansible's ntc_show_command is another Ansible module that will assist you in gather data from your networking devices. NTC Ansible supports IOS, NX-API for Nexus, and eAPI for Arista. 
+
+NTC Ansible uses [TextFSM](#textfsm) to parse show commands into dictionaries. The TextFSM templates for NTC Ansible can be found in `lib/modules/ntc-ansible/ntc-templates/` directory. In the folder you are able to see all show commands supported and can view the source code to see how it works and/or to edit. Additional show commands can be easily added by creating a template and editing the `index` file in the ntc-template folder. (It may be better to use Ansible's native TextFSM support. see [TextFSM](#textfsm) section)
+
+![templates](https://user-images.githubusercontent.com/24293640/37966732-3bf46b64-31c1-11e8-9ca1-fba8b0dce684.png)
+
+NTC Template location `lib/modules/ntc-ansible/ntc-templates/`
+
+See Example Playbook: `example-playbooks\reporting\ntc_show_command.yml`
+```
+---
+- name: NTC Ansible show
+  hosts: all
+  gather_facts: false
+  connection: local 
+  roles: 
+    - ios/connect 
+   
+  tasks:      
+    - ntc_show_command:
+        command: 'show ip int brief'
+        template_dir: '/ansible/lib/modules/ntc-ansible/ntc-templates/templates'
+        provider: "{{ provider }}"
+      register: output                      
+
+    - name: output to screen
+      debug:
+        var: output
+```
+template_dir - Path to NTC templates
+command - show command you are trying to retrieve. Supported show commands can be found by looking in the NTC templates folder
+
+Note: A limitation to create your own ntc_show_command is that every show command can only be linked to one template file. Therefore you cannot have two different data structures for a single command. In this case you may use Ansible's native TextFSM support.
+
+For more visit [NTC Ansible docs](https://github.com/networktocode/ntc-ansible)
 
 TextFSM
 -----------
+![cdp n](https://user-images.githubusercontent.com/24293640/37968074-18de3016-31c5-11e8-9c69-78ecc01371d4.png)
+
+![cdp_neighbor_v2](https://user-images.githubusercontent.com/24293640/37968295-a38871cc-31c5-11e8-92e2-76287382246a.png)
+
+
+[TextFSM docs](https://github.com/google/textfsm/wiki/TextFSM)
+To learn more about regular expressions watch [The Coding Train Videos](https://www.youtube.com/watch?v=7DG3kCDx53c&list=PLRqwX-V7Uu6YEypLuls7iidwHMdCM6o2w).
+
+Also practice regular expressions at [regexr.com](https://regexr.com/). Make sure to turn on the multi-line flag as TextFSM uses multi-line regex.
 
 Config
 ======
 Jinja2 Templating
 ---------------------
+[Jinja2 docs](http://jinja.pocoo.org/docs/2.10/)
+
 Config Merge
 ----------------
+
 Config Replace
 -----------------
+
 Config Backup
 ------------------
+
 Config on interfaces / Dynamic Config
 -----------------------------------------------
 
