@@ -3,6 +3,11 @@ Ansible Networking
 
 
 <ul>
+<li>
+<ul>
+<li><a href="#useful-commands">Useful Commands</a></li>
+</ul>
+</li>
 <li><a href="#network-automation-using-ansible">Network Automation using Ansible</a>
 <ul>
 <li><a href="#ansibles-role-in-network-automation">Ansible’s role in Network Automation</a></li>
@@ -72,6 +77,13 @@ Ansible Networking
 </li>
 </ul>
  
+
+Useful Commands
+----------------------
+|  |  |
+|--|--|
+|  |  |
+
 
 Network Automation using Ansible
 ============================
@@ -456,7 +468,7 @@ N.B: When using variables in Ansible playbook they should also be surrounded in 
 To access an index in a array use square brackets [i] and to access a variable within a object use dot separators.
 e.g. `{{ interfaces[1].name }}` will refer to `Fa0/2`
 
-To find out more about host and group variables visit [invnetory docs](http://docs.ansible.com/ansible/latest/intro_inventory.html#hosts-and-groups).
+To find out more about host and group variables visit [inventory docs](http://docs.ansible.com/ansible/latest/intro_inventory.html#hosts-and-groups).
 To find out more about variable visit [variable docs](http://docs.ansible.com/ansible/latest/playbooks_variables.html)
 
 Vars in Excel sheet
@@ -530,6 +542,8 @@ To run this playbook on a Cisco IOS device:
 3. Run the following command 
 `ansible-playbook PLAYBOOK.yml -e ansible_user=USERNAME`
 (You must replace PLAYBOOK with the name of your playbook and USERNAME with the SSH username used to access your  Cisco device)
+
+`-e` allows you to set an Ansible variable via the command line before run-time.
 
 Providers (Authentication)
 --------------------------------
