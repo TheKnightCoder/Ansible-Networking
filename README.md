@@ -55,7 +55,7 @@ Ansible Networking
 <ul>
 <li><a href="#show-commands">Show Commands</a></li>
 <li><a href="#napalm-get-facts">NAPALM Get Facts</a></li>
-<li><a href="#ntc_show_command">ntc_show_command</a></li>
+<li><a href="#ntc-show-command">NTC Show Command</a></li>
 <li><a href="#textfsm">TextFSM</a></li>
 </ul>
 </li>
@@ -587,7 +587,7 @@ For example `filter: 'interfaces'` for the `get_interfaces()` function.
 
 Update: It is possible to extend drivers and add custom functionality to NAPALM such as adding `show cdp neighbors` to the IOS driver. This has not been explored as the documentation for this was not available at the time of creating this repository. To find out for visit the [NAPALM docs](http://napalm.readthedocs.io/en/latest/tutorials/extend_driver.html)
 
-ntc_show_command 
+NTC Show Command 
 --------------------------
 
 TextFSM
