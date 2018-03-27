@@ -54,7 +54,8 @@ Ansible Networking
 <ul>
 <li><a href="#show-commands">Show Commands</a></li>
 <li><a href="#napalm-get-facts">NAPALM Get Facts</a></li>
-<li><a href="#ntc_show_command">ntc_show_command</a></li>
+<li><a href="#however-due-to-its-vendor-agnostic-nature-it-does-not-include-commands-specific-to-cisco-such-as-show-cdp-neighborsntc_show_command">however due to its vendor agnostic nature it does not include commands specific to Cisco such as show cdp neighbors
+ntc_show_command</a></li>
 <li><a href="#textfsm">TextFSM</a></li>
 </ul>
 </li>
@@ -534,10 +535,20 @@ For more on ARA see [docs](https://ara.readthedocs.io/en/latest/)
 
 Facts
 =====
+In this section we will go over how to retrieve data from network devices and convert the data from human readable text to data structures that computers can easily manipulate. For example the command`show cdp neighbors` displays an output of a white space separated table, this data is difficult for computers to work with and it would be better if the data was converted to variables/dictionaries. 
+
 Show Commands
 ----------------------
+Ansible has a [built-in modules](http://docs.ansible.com/ansible/latest/modules/list_of_all_modules.html) for Cisco IOS and other network devices. One of these modules is the [ios_command](http://docs.ansible.com/ansible/latest/modules/ios_command_module.html) module which allows you to enter show commands and retrieve the output.
+
+This module is great for quickly displaying or logging a show command however it is not ideal in more complex operations due to the format Cisco IOS show commands are formatted.
+
+See Example: `example-playbooks\reporting\show_cmd.yml`
+
+
 NAPALM Get Facts
 -----------------------
+however due to its vendor agnostic nature it does not include commands specific to Cisco such as `show cdp neighbors`
 ntc_show_command 
 --------------------------
 TextFSM
