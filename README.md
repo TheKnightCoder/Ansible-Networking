@@ -372,6 +372,9 @@ Prerequisite:
 
 Roles
 -------
+Roles are essentially tasks and variables from a playbook that have been separated for re-usability and abstraction. For more detail on roles visit the [Ansible docs](http://docs.ansible.com/ansible/latest/user_guide/playbooks_reuse_roles.html).
+
+The roles created in this repository can be found in `lib/roles`
 
 Configuration file - Ansible.cfg
 -------------------------------------
@@ -404,7 +407,6 @@ The inventory file lists all the hosts that Ansible will connect to. These hosts
 Hosts can be listed with their domain name, if a domain name does not exist then an alias can be used and paired with the hosts IP address as shown below.
 
 A host can have multiple groups and groups can child group within it. See [docs.](http://docs.ansible.com/ansible/latest/intro_inventory.html#groups-of-groups-and-group-variables)
-
 ```
 [group_A]
 hostA ansible_host='192.168.1.1'
@@ -532,6 +534,7 @@ ARA
 ARA is a third party application which keeps record and records Ansible playbook runs. To access ARA run the ARA docker container in the [Running Ansible & ARA Docker Container](#running-ansible--ara-docker-container) section then open a web browser and visit [http://127.0.0.1:9191](http://127.0.0.1:9191)
 
 For more on ARA see [docs](https://ara.readthedocs.io/en/latest/)
+
 ![ara](https://user-images.githubusercontent.com/24293640/37907452-124b4176-30fd-11e8-9f8e-ea9fe9c87985.png)
 
 
@@ -586,7 +589,7 @@ For example `filter: 'interfaces'` for the `get_interfaces()` function.
 
 (`output.ansible_facts.napalm_facts` may also need to be changed)
 
-Update: It is possible to extend drivers and add custom functionality to NAPALM such as adding `show cdp neighbors` to the IOS driver. This has not been explored as the documentation for this was not available at the time of creating this repository. To find out for visit the [NAPALM docs](http://napalm.readthedocs.io/en/latest/tutorials/extend_driver.html)
+Update: It is possible to extend drivers and add custom functionality to NAPALM such as adding `show cdp neighbors` to the IOS driver. This has not been explored as the documentation for this was not available at the time of creating this repository. The documentation can be found in the [NAPALM docs](http://napalm.readthedocs.io/en/latest/tutorials/extend_driver.html)
 
 NTC Show Command 
 --------------------------
