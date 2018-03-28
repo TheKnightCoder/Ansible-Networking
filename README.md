@@ -54,7 +54,6 @@ Ansible Networking
 <li><a href="#vars-in-excel-sheet">Vars in Excel sheet</a></li>
 <li><a href="#running-playbook-on-ios">Running Playbook on IOS</a></li>
 <li><a href="#providers-authentication">Providers (Authentication)</a></li>
-<li><a href="#ios-connect-role">IOS Connect Role</a></li>
 </ul>
 </li>
 <li><a href="#ara">ARA</a></li>
@@ -176,15 +175,11 @@ Regular Expression (Regex) is another essential skill which is needed in network
 
 To create TextFSM templates you will need to know regex. This will give you the ability to parse any show command into Ansible. To learn regex I recommend watching these [videos tutorials by The Coding Train](https://www.youtube.com/watch?v=7DG3kCDx53c&list=PLRqwX-V7Uu6YEypLuls7iidwHMdCM6o2w). The ntc_show_commands has a library of templates already written for IOS show commands. These templates can be found in `Ansible-Networking\lib\modules\ntc-ansible\ntc-templates\templates`
 
-The ntc_show_command templates do not take into account text which spans over multiple lines in a CLI table. An example of this situation is when you have a very long hostname, which results in the initial portion of the hostname being cut off. This is a problem I faced with `show cdp neigbors`. 
-
-![CLI table](https://user-images.githubusercontent.com/24293640/34607820-4551031e-f20d-11e7-88e7-0e89fa6b6254.png)
-
-See section source code to see how a custom TextFSM templates were used to resolve this problem. Although this solution works for a span over 2 lines it may not work for more.
-
 To learn more about regular expressions watch [The Coding Train Videos](https://www.youtube.com/watch?v=7DG3kCDx53c&list=PLRqwX-V7Uu6YEypLuls7iidwHMdCM6o2w).
 
 Also practice regular expressions at [regexr.com](https://regexr.com/). Make sure to turn on the multi-line flag as TextFSM uses multi-line regex.
+
+See the [TextFSM docs](https://github.com/google/textfsm/wiki/TextFSM) to learn how to create templates.
 
 ARA: Ansible Run Analysis
 --------------------------------
@@ -542,13 +537,32 @@ To run this playbook on a Cisco IOS device:
 3. Run the following command 
 `ansible-playbook PLAYBOOK.yml -e ansible_user=USERNAME`
 (You must replace PLAYBOOK with the name of your playbook and USERNAME with the SSH username used to access your  Cisco device)
+Note: if `ask_pass = false` in ansible.cfg then add `-k` flag to the ansible-playbook command to prompt for password
 
 `-e` allows you to set an Ansible variable via the command line before run-time.
 
 Providers (Authentication)
 --------------------------------
-IOS Connect Role
----------------------
+When connecting to network devices authentication is usually needed. This authentication data needs to given to the provider parameter in modules (NAPALM, NTC-Ansible and built-in modules). This can be done by creating a dictionary variable in the playbook/group vars/host vars. To make this easier I have created an Ansible role which is compatible with NAPALM, NTC-Ansible and built-in modules (See /lib/roles/ios/connect).
+
+ios/connect role (default/main.yml)
+```
+provider:
+  hostname: "{{ ansible_host }}"         #This is a parameter and is derived from your ansible inventory file
+  host: "{{ ansible_host }}"             #Added for use with in-build IOS modules  
+  username: '{{ ansible_user }}'         #The username to ssh with
+  password: '{{ ansible_password }}'     #The line level password
+  dev_os: 'ios'                          #The hardware operating system 
+  
+  platform: "cisco_ios"                  #NTC-Ansible specific variable
+  connection: 'ssh'
+```
+As you can see the username is stored in the `ansible_user` variable and the password is stored in the `ansible_password` variable. The `ansible_user` variable should be entered in the command to run the playbook using the `-e` flag. The `ansible_password` will be prompted for if `ask_pass=true` in the ansible.cfg or the `-k` flag is used e.g. `ansible-playbook PLAYBOOK.yml -e ansible_user=USERNAME -k`.
+(If you would like to store usernames and passwords I recommend using [Ansible Vault](https://docs.ansible.com/ansible/2.4/vault.html) for security)
+
+N.B: The default user can be changed in the ansible.cfg file `remote_user = user`
+N.B: ios/connect will not work in cases where user and passwords are different for each network devices. In these cases you can use group vars and host vars. (use [Ansible Vault](https://docs.ansible.com/ansible/2.4/vault.html) to secure any stored passwords)
+
 
 ARA
 ===
@@ -565,7 +579,7 @@ In this section we will go over how to retrieve data from network devices and co
 
 Show Commands
 ----------------------
-Ansible has a [built-in modules](http://docs.ansible.com/ansible/latest/modules/list_of_all_modules.html) for Cisco IOS and other network devices. One of these modules is the [ios_command](http://docs.ansible.com/ansible/latest/modules/ios_command_module.html) module which allows you to enter show commands and retrieve the output.
+Ansible has a [built-in network modules](http://docs.ansible.com/ansible/latest/modules/list_of_network_modules.html) for Cisco IOS and other network devices. One of these modules is the [ios_command](http://docs.ansible.com/ansible/latest/modules/ios_command_module.html) module which allows you to enter show commands and retrieve the output.
 
 This module is great for quickly displaying or logging a show command however it is not ideal in more complex operations due to the format Cisco IOS show commands are formatted.
 
@@ -652,15 +666,35 @@ For more visit [NTC Ansible docs](https://github.com/networktocode/ntc-ansible)
 
 TextFSM
 -----------
+TextFSM is a flexible generic text parser that is primarily used for parsing the output of router CLI commands in Python. By writing relatively simple regex based text files, a multitude of command outputs can be parsed with minimal code.
+
+The engine takes two inputs - a template file, and text input (such as command responses from the CLI of a device) and returns a list of records that contains the data parsed from the text.
+
+It is essential to learn regex to be able to create TextFSM templates. To learn more about regular expressions watch [The Coding Train Videos](https://www.youtube.com/watch?v=7DG3kCDx53c&list=PLRqwX-V7Uu6YEypLuls7iidwHMdCM6o2w). Also practice regular expressions at [regexr.com](https://regexr.com/). Make sure to turn on the multi-line flag as TextFSM uses multi-line regex.
+
+Once you have learned regex see the [TextFSM docs](https://github.com/google/textfsm/wiki/TextFSM) to learn how to create templates. 
+
+The ntc_show_command templates do not take into account text which spans over multiple lines in a CLI table. An example of this situation is when you have a very long hostname, which results in the initial portion of the hostname being cut off when parsing the data. This is a problem I faced with `show cdp neigbors`. 
+
+####Advanced TextFSM - Multi-line parsing 
+
+![CLI table](https://user-images.githubusercontent.com/24293640/34607820-4551031e-f20d-11e7-88e7-0e89fa6b6254.png)
+
+NTC-Ansible CDP Neigbors Template
 ![cdp n](https://user-images.githubusercontent.com/24293640/37968074-18de3016-31c5-11e8-9c69-78ecc01371d4.png)
 
+Custom CDP Neigbors Template to handel multiple lines
 ![cdp_neighbor_v2](https://user-images.githubusercontent.com/24293640/37968295-a38871cc-31c5-11e8-92e2-76287382246a.png)
 
+As you can see from the above images I have used `-> Continue` line action to the read the Device ID over multiple lines. 
 
-[TextFSM docs](https://github.com/google/textfsm/wiki/TextFSM)
-To learn more about regular expressions watch [The Coding Train Videos](https://www.youtube.com/watch?v=7DG3kCDx53c&list=PLRqwX-V7Uu6YEypLuls7iidwHMdCM6o2w).
+Every line of regex written in the template is a rule (excluding value lines).
+Each state definition consists of a list of one or more rules. The FSM reads a line from the input buffer and tests it against each rule, in turn, starting from the top of the current state. If a rule matches the line, then the action is carried out and the process repeats (from the top of the state again) with the next line.
 
-Also practice regular expressions at [regexr.com](https://regexr.com/). Make sure to turn on the multi-line flag as TextFSM uses multi-line regex.
+The Next line action is the default line action.
+Next line action - 
+
+
 
 Config
 ======
