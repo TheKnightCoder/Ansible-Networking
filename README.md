@@ -88,11 +88,11 @@ Common Commands
 | start vagrant | vagrant up |
 | ssh into vagrant | vagrant ssh |  
 | start Ansible and ARA containers | cd /vagrant && docker start ara  && docker-compose run --service-ports --rm ansible |
-| Run Ansible Playbook |ansible-playbook PLAYBOOK.yml -e ansible_user=USERNAME|
+| Run Ansible Playbook | ansible-playbook PLAYBOOK.yml -e ansible_user=USERNAME |
 | shutdown vagrant machine | vagrant halt |
 | view all containers | docker ps -a |
-| stop all containers |docker stop $(docker ps -aq)|
-| remove all containers|docker rm $(docker ps -aq)|
+| stop all containers | docker stop $(docker ps -aq) |
+| remove all containers| docker rm $(docker ps -aq) |
 | Container initial launch | cd /vagrant && docker-compose run --service-ports  --name ara -d ara  && docker-compose run --service-ports --rm ansible |
 
 Network Automation using Ansible
@@ -706,7 +706,12 @@ Config
 ======
 Jinja2 Templating
 ---------------------
-[Jinja2 docs](http://jinja.pocoo.org/docs/2.10/)
+When automating configs for network devices Jinja2 is essential to learn. I highly recommend going through the 
+[Jinja2 docs](http://jinja.pocoo.org/docs/2.10/) which is very well documented and easy to read.
+
+A Jinja2 template is just a regular text file with a twist, it contains special notations which will be replaced with a variable. Jinja2 variables have the following notation `{{ foo }}`. When the template is processed to produce an output text file, it will replace all `{{ foo }}` with the actual 'foo' variable defined in Ansible. (foo may be replaced with any variable name).
+
+A lot can be accomplished with the above information however Jinja2 is capable of much more with its ability to use for loops, if statements, filters and inheritance. The [Jinja2 documentation](http://jinja.pocoo.org/docs/2.10/) is very well written and can be used to learn how to implement these concepts.
 
 Config Merge
 ----------------
