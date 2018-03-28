@@ -88,12 +88,12 @@ Common Commands
 | start vagrant | vagrant up |
 | ssh into vagrant | vagrant ssh |  
 | start Ansible and ARA containers | cd /vagrant && docker start ara  && docker-compose run --service-ports --rm ansible |
-| Container initial launch | cd /vagrant && docker-compose run --service-ports  --name ara -d ara  && docker-compose run --service-ports --rm ansible |
 | Run Ansible Playbook |ansible-playbook PLAYBOOK.yml -e ansible_user=USERNAME|
 | shutdown vagrant machine | vagrant halt |
 | view all containers | docker ps -a |
 | stop all containers |docker stop $(docker ps -aq)|
 | remove all containers|docker rm $(docker ps -aq)|
+| Container initial launch | cd /vagrant && docker-compose run --service-ports  --name ara -d ara  && docker-compose run --service-ports --rm ansible |
 
 Network Automation using Ansible
 ============================
