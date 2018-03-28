@@ -51,7 +51,7 @@ Ansible Networking
 <li><a href="#configuration-file---ansible.cfg">Configuration file - Ansible.cfg</a></li>
 <li><a href="#inventory-file--hosts-file">Inventory File / Hosts File</a></li>
 <li><a href="#host-vars--group-vars">host vars / group vars</a></li>
-<li><a href="#vars-in-excel-sheet">Vars in Excel sheet</a></li>
+<li><a href="#vars-in-excel">Vars in Excel</a></li>
 <li><a href="#running-playbook-on-ios">Running Playbook on IOS</a></li>
 <li><a href="#providers-authentication">Providers (Authentication)</a></li>
 </ul>
@@ -72,9 +72,9 @@ Ansible Networking
 <li><a href="#config">Config</a>
 <ul>
 <li><a href="#jinja2-templating">Jinja2 Templating</a></li>
-<li><a href="#config-merge">Config Merge</a></li>
-<li><a href="#config-replace">Config Replace</a></li>
-<li><a href="#config-backup">Config Backup</a></li>
+<li><a href="#config-merge-role">Config Merge Role</a></li>
+<li><a href="#config-replace-role">Config Replace Role</a></li>
+<li><a href="#config-backup-role">Config Backup Role</a></li>
 <li><a href="#config-on-interfaces--dynamic-config">Config on interfaces / Dynamic Config</a></li>
 </ul>
 </li>
@@ -477,8 +477,8 @@ e.g. `{{ interfaces[1].name }}` will refer to `Fa0/2`
 To find out more about host and group variables visit [inventory docs](http://docs.ansible.com/ansible/latest/intro_inventory.html#hosts-and-groups).
 To find out more about variable visit [variable docs](http://docs.ansible.com/ansible/latest/playbooks_variables.html)
 
-Vars in Excel sheet
-----------------------
+Vars in Excel 
+----------------
 If you needed to generate config for 50 switches you may need to create 50 different host_var files. To make this easier I have created the `generate_vars` module that converts an excel sheet into group var and host var YAML files so that it can be read by Ansible. This does mean that var files will have less flexibility due the the 2 dimensional nature of excel sheets. The excel sheet is not able to represent 2 dimensional arrays or an dictionary within an dictionary. Arrays can be represented by using comma separated values in square bracket in a single cell, for example `[foo,bar]`.
 
 ![host_vars](https://user-images.githubusercontent.com/24293640/37835079-3960ca18-2ea7-11e8-9eb9-7e3bf4c3a7e8.png)
@@ -713,14 +713,67 @@ A Jinja2 template is just a regular text file with a twist, it contains special 
 
 A lot can be accomplished with the above information however Jinja2 is capable of much more with its ability to use for loops, if statements, filters and inheritance. The [Jinja2 documentation](http://jinja.pocoo.org/docs/2.10/) is very well written and can be used to learn how to implement these concepts.
 
-Config Merge
-----------------
+Config Merge Role
+----------------------
+NAPALM has a module called `napalm_install_config` which will automate the process of installing config onto network devices. The ios/merge role (path `lib/roles/ios/merge`) uses the napalm_install_config module to merge configs. This role was built for Cisco IOS devices but can easily be adapted to work with other vendors. 
 
-Config Replace
------------------
+> N.B: To use with other vendors modify the provider (`dev_os` variable) of `ios/connect`. Also the ios/backup role must be recreated to work with the vendor. You may also use ios/universal_backup instead of ios/backup but it will be slower during run-time. 
 
-Config Backup
-------------------
+This role will: 
+- Use your Jinja2 config template file
+- Generate the config files with template and variables (either using the excel sheet or the standard group_vars/host_vars folder)
+- Create a backup of your current running config
+- Generate Diff files of differences between old and new config
+- Prompt to continue with Merge
+- Merge the config
+- Create config backup after changes
+
+Dependencies:
+- NAPALM Ansible
+- ios/backup
+- ios/connect
+- generate_vars module
+
+|parameter  |required  |comment  |
+|--|--|--|
+| template_path | Yes  | Path to config template  |
+| var_path | Optional | Path to vars excel file. Uses generate_var module to convert excel to host/group vars. See [Vars in excel](#vars-in-excel) |
+| dest | optional | Path to output files (default ./files/config)|
+
+See NAPALM docs to find out more about `napalm_install_config` module.
+
+Config Replace Role
+------------------------
+NAPALM has a module called `napalm_install_config` which will automate the process of installing config onto network devices. The ios/replace role (path `lib/roles/ios/replace`) uses the napalm_install_config module to replace configs. This role was built for Cisco IOS devices but can easily be adapted to work with other vendors. 
+
+> N.B: To use with other vendors modify the provider (`dev_os` variable) of `ios/connect`. Also the ios/backup role must be recreated to work with the vendor. You may also use ios/universal_backup instead of ios/backup but it will be slower during run-time. Remove `configure archive` task (replace if needed).
+
+This role will: 
+- Turn on archive and set path to flash:mybackup (Cisco IOS cannot run a config replace without an archive path)
+- Use your Jinja2 config template file
+- Generate the config files with template and variables (either using the excel sheet or the standard group_vars/host_vars folder)
+- Create a backup of your current running config
+- Generate Diff files of differences between old and new config
+- Prompt to continue with Replace
+- Replace the config
+- Create config backup after changes
+
+Dependencies:
+- NAPALM Ansible
+- ios/backup
+- ios/connect
+- generate_vars module
+
+|parameter  |required  |comment  |
+|--|--|--|
+| template_path | Yes  | Path to config template  |
+| var_path | Optional | Path to vars excel file. Uses generate_var module to convert excel to host/group vars. See [Vars in excel](#vars-in-excel) |
+| dest | optional | Path to output files (default ./files/config)|
+
+See NAPALM docs to find out more about `napalm_install_config` module.
+
+Config Backup Role
+------------------------
 
 Config on interfaces / Dynamic Config
 -----------------------------------------------
