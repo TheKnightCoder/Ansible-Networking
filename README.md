@@ -5,7 +5,7 @@ Ansible Networking
 <ul>
 <li>
 <ul>
-<li><a href="#useful-commands">Useful Commands</a></li>
+<li><a href="#common-commands">Common Commands</a></li>
 </ul>
 </li>
 <li><a href="#network-automation-using-ansible">Network Automation using Ansible</a>
@@ -81,7 +81,7 @@ Ansible Networking
 </ul>
  
 
-Useful Commands
+Common Commands
 ----------------------
 | Command | Description |
 |--|--|
