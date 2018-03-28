@@ -1,0 +1,47 @@
+---
+#IOS Running Config Backups
+#This role is for Cisco IOS only
+#It runs the command `show run` the devices and stores into a text file within a dated folder
+#It then compresses it if isArchive is True
+
+- name: Check if required variables are defined
+  fail: msg="Variable '{{ item }}' is not defined"
+  when: item not in vars
+  with_items: 
+    - backup_dir
+    - isArchive
+
+- name: Get Date@Time and set in a variable
+  shell: 'date +%Y-%m-%d@%H%M%S'
+  register: timestamp #Time output is stored in timestamp.stdout
+  run_once: true
+- set_fact: 
+    output_dir: "{{ backup_dir }}/{{ timestamp.stdout }}_Backup"
+  run_once: true
+
+- name: Create output directory
+  file: path={{ output_dir }} state=directory
+  run_once: true
+  
+- name: Backup Config
+  napalm_install_config:
+    provider: "{{ provider }}"
+    config_file: "{{ output_dir }}/Config_{{ inventory_hostname }}.txt"  
+    commit_changes: false
+    replace_config: false    
+    get_diffs: false
+
+- name: Compress Config
+  archive:
+    path: "{{ output_dir }}"
+    dest: "{{ output_dir }}.zip"
+    format: zip
+  run_once: true
+  when: isArchive 
+
+- name: Delete uncompressed config folder
+  file:
+    state: absent
+    path: "{{ output_dir }}"
+  run_once: true
+  when: isArchive 
