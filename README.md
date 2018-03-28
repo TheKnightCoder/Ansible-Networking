@@ -689,12 +689,7 @@ Custom CDP Neigbors Template to handel multiple lines
 As you can see from the above images I have used `-> Continue` line action to the read the Device ID over multiple lines. 
 
 Every line of regex written in the template is a rule (excluding value lines).
-Each state definition consists of a list of one or more rules. The FSM reads a line from the input buffer and tests it against each rule, in turn, starting from the top of the current state. If a rule matches the line, then the action is carried out and the process repeats (from the top of the state again) with the next line.
-
-The Next line action is the default line action.
-Next line action - 
-
-
+Each state definition consists of a list of one or more rules. The FSM reads a line from the input buffer and tests it against each rule, in turn, starting from the top of the current state. If a rule matches the line, then the action is carried out and the process repeats (from the top of the state again) with the next line. However when the continue line action is used, the current line is retained and the next line resumes matching from the current rule. Since 'continue' line action retains the current line it allows matching over multiple lines. 
 
 Config
 ======
