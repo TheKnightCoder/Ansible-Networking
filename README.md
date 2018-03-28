@@ -64,11 +64,7 @@ Ansible Networking
 <li><a href="#ntc-show-command">NTC Show Command</a></li>
 <li><a href="#textfsm">TextFSM</a>
 <ul>
-<li>
-<ul>
 <li><a href="#advanced-textfsm---multi-line-parsing">Advanced TextFSM - Multi-line parsing</a></li>
-</ul>
-</li>
 </ul>
 </li>
 </ul>
@@ -87,10 +83,17 @@ Ansible Networking
 
 Useful Commands
 ----------------------
-|  |  |
+| Command | Description |
 |--|--|
-|  |  |
-
+| start vagrant | vagrant up |
+| ssh into vagrant | vagrant ssh |  
+| start Ansible and ARA containers | cd /vagrant && docker start ara  && docker-compose run --service-ports --rm ansible |
+| Container initial launch | cd /vagrant && docker-compose run --service-ports  --name ara -d ara  && docker-compose run --service-ports --rm ansible |
+| Run Ansible Playbook |ansible-playbook PLAYBOOK.yml -e ansible_user=USERNAME|
+| shutdown vagrant machine | vagrant halt |
+| view all containers | docker ps -a |
+| stop all containers |docker stop $(docker ps -aq)|
+| remove all containers|docker rm $(docker ps -aq)|
 
 Network Automation using Ansible
 ============================
@@ -468,7 +471,7 @@ The variables can be used within the playbook and Jinja2 templates. To access th
 
 N.B: When using variables in Ansible playbook they should also be surrounded in quotes e.g. `"This is {{ hostname }}"`
 
-To access an index in a array use square brackets [i] and to access a variable within a object use dot separators.
+To access an index in a array use square brackets [i] and to access a variable within a dictionaries use dot separators.
 e.g. `{{ interfaces[1].name }}` will refer to `Fa0/2`
 
 To find out more about host and group variables visit [inventory docs](http://docs.ansible.com/ansible/latest/intro_inventory.html#hosts-and-groups).
@@ -476,7 +479,7 @@ To find out more about variable visit [variable docs](http://docs.ansible.com/an
 
 Vars in Excel sheet
 ----------------------
-If you needed to generate config for 50 switches you may need to create 50 different host_var files. To make this easier I have created the `generate_vars` module that converts an excel sheet into group var and host var YAML files so that it can be read by Ansible. This does mean that var files will have less flexibility due the the 2 dimensional nature of excel sheets. The excel sheet is not able to represent 2 dimensional arrays or an object within an object. Arrays can be represented by using comma separated values in square bracket in a single cell, for example `[foo,bar]`.
+If you needed to generate config for 50 switches you may need to create 50 different host_var files. To make this easier I have created the `generate_vars` module that converts an excel sheet into group var and host var YAML files so that it can be read by Ansible. This does mean that var files will have less flexibility due the the 2 dimensional nature of excel sheets. The excel sheet is not able to represent 2 dimensional arrays or an dictionary within an dictionary. Arrays can be represented by using comma separated values in square bracket in a single cell, for example `[foo,bar]`.
 
 ![host_vars](https://user-images.githubusercontent.com/24293640/37835079-3960ca18-2ea7-11e8-9eb9-7e3bf4c3a7e8.png)
 
@@ -684,7 +687,7 @@ Once you have learned regex see the [TextFSM docs](https://github.com/google/tex
 
 The ntc_show_command templates do not take into account text which spans over multiple lines in a CLI table. An example of this situation is when you have a very long hostname, which results in the initial portion of the hostname being cut off when parsing the data. This is a problem I faced with `show cdp neigbors`. 
 
-#### Advanced TextFSM - Multi-line parsing 
+### Advanced TextFSM - Multi-line parsing 
 
 ![CLI table](https://user-images.githubusercontent.com/24293640/34607820-4551031e-f20d-11e7-88e7-0e89fa6b6254.png)
 
