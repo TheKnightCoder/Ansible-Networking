@@ -394,6 +394,8 @@ Roles
 -------
 Roles are essentially tasks and variables from a playbook that have been separated for re-usability and abstraction. For more detail on roles visit the [Ansible docs](http://docs.ansible.com/ansible/latest/user_guide/playbooks_reuse_roles.html).
 
+To use a role in the middle of a playbook use the [`include_role`](http://docs.ansible.com/ansible/latest/modules/include_role_module.html) module. See `example-playbook/config/storm_control.yml` for an example.
+
 The roles created in this repository can be found in `lib/roles`
 
 Configuration file - Ansible.cfg
@@ -685,9 +687,13 @@ It is essential to learn regex to be able to create TextFSM templates. To learn 
 
 Once you have learned regex see the [TextFSM docs](https://github.com/google/textfsm/wiki/TextFSM) to learn how to create templates. 
 
-The ntc_show_command templates do not take into account text which spans over multiple lines in a CLI table. An example of this situation is when you have a very long hostname, which results in the initial portion of the hostname being cut off when parsing the data. This is a problem I faced with `show cdp neigbors`. 
+To use the template in Ansible see the [docs](http://docs.ansible.com/ansible/latest/user_guide/playbooks_filters.html#network-cli-filters)
+Also see the Example Playbook at `/example-playbooks/reporting/TextFSM_example.yml`
+
 
 ### Advanced TextFSM - Multi-line parsing 
+
+The ntc_show_command templates do not take into account text which spans over multiple lines in a CLI table. An example of this situation is when you have a very long hostname, which results in the initial portion of the hostname being cut off when parsing the data. This is a problem I faced with `show cdp neigbors`. 
 
 ![CLI table](https://user-images.githubusercontent.com/24293640/34607820-4551031e-f20d-11e7-88e7-0e89fa6b6254.png)
 
@@ -789,7 +795,79 @@ See Example Playbook `example-playbooks\config\backup.yml`
 
 Config on interfaces / Dynamic Config
 -----------------------------------------------
+By bringing together fact gathering and config templates you are able to produce dynamic configs. The idea is to pull data from network devices and use that information to produce a config. This is useful when working with interfaces as the number of interfaces may differ between network devices.
 
+One specific example of this is adding storm control to every access port on the network. To do this we first need to gather a list of access ports then we apply the config with a template.
 
+1.  To gather a list of access ports we first check the [NAPALM](http://napalm.readthedocs.io/en/latest/base.html) and [NTC-Ansible](https://github.com/networktocode/ntc-templates/tree/eabee5b6740d5128c272201c848b311db9d336ad/templates) library to see if there was any available templates to gather the data I needed.
+2. If there are no suitable template we need to create our own using [TextFSM](#textfsm) and the [ios_command](http://docs.ansible.com/ansible/latest/modules/ios_command_module.html) module.
+
+We can create a template to parse the `show interfaces status` command. This command displays both trunk and access ports, however we only want the access ports. Therefore we need to keep this in mind when creating our TextFSM template. As you can see from the image below all access ports have a number in the 'Vlan' column whereas trunk ports are labelled trunk. 
+
+![show-interface-status](https://user-images.githubusercontent.com/24293640/38034036-498556b6-3299-11e8-98dd-b5191f520fcc.jpg)
+
+Here is the TextFSM template:
+```
+Value INTERFACE (\S+\/\d+)
+
+Start
+  ^$INTERFACE\s+\S*\s+\S+\s+\d+\s+\S+\s+\S+\s+\S+ -> Record
+```
+I have used the `\d+` regular expression to only select rows where the 'vlan' columns have a number.
+
+3. We now can create the Ansible playbook that uses the TextFSM template
+```
+---
+- name: Apply storm control to all access ports (not trunk)
+  hosts: "all"
+  gather_facts: false
+  connection: local
+  
+  tasks:                                    
+    - name: Get access ports
+      ios_command:
+        commands: "show interface status"
+      register: interfaces_temp
+    - set_fact: 
+        interfaces: "{{ interfaces_temp.stdout[0] | parse_cli_textfsm('/ansible/lib/parse_cli/cisco_ios_get_access_ports.template') }}"
+    
+    - name: Output test
+	  debug:
+	    var: interfaces
+```
+As you can see we have used the `ios_command` module to run the `show interface status` command and store the output into `interfaces_temp` variable. We then use the `set_fact` module to copy `interfaces_temp` to `interfaces` after using the [parse_cli_textfsm](http://docs.ansible.com/ansible/latest/user_guide/playbooks_filters.html#network-cli-filters) filter to parse the cli output with our TextFSM template. 
+
+Then the debug module is used for testing, to see if the output is as expected.
+
+4. Creating the [Jinja2 Config](#jinja2-templating)
+The config is simply a for loop, looping through the list of interfaces extracted and applying storm control to each interface.
+```
+{% for int in interfaces %}
+interface {{ int.INTERFACE }}
+  storm-control broadcast level 5.00 3.00
+{% endfor %}
+```
+5. Bringing it all together and completing the playbook
+```
+---
+- name: Apply storm control to all access ports (not trunk)
+  hosts: "all"
+  gather_facts: false
+  connection: local
+  
+  tasks:                                    
+    - name: Get access ports
+      ios_command:
+        commands: "show interface status"
+      register: interfaces_temp
+    - set_fact: 
+        interfaces: "{{ interfaces_temp.stdout[0] | parse_cli_textfsm('/ansible/lib/parse_cli/cisco_ios_get_access_ports.template') }}"
+        
+    - include_role: 
+        name: ios/merge
+      vars:
+        template_path: "files/templates/storm_control.j2"
+```
+Replace the debug module with the ios/merge role with the template_path directing to your config template.
 
 
