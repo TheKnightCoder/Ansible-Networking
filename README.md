@@ -738,9 +738,11 @@ Dependencies:
 |--|--|--|
 | template_path | Yes  | Path to config template  |
 | var_path | Optional | Path to vars excel file. Uses generate_var module to convert excel to host/group vars. See [Vars in excel](#vars-in-excel) |
-| dest | optional | Path to output files (default ./files/config)|
+| dest | Optional | Path to output files (default ./files/config)|
 
-See NAPALM docs to find out more about `napalm_install_config` module.
+See Example Playbook `example-playbooks\config\config_merge.yml`
+
+See [NAPALM docs](http://napalm.readthedocs.io/en/latest/tutorials/ansible-napalm.html#install) to find out more about `napalm_install_config` module.
 
 Config Replace Role
 ------------------------
@@ -768,12 +770,22 @@ Dependencies:
 |--|--|--|
 | template_path | Yes  | Path to config template  |
 | var_path | Optional | Path to vars excel file. Uses generate_var module to convert excel to host/group vars. See [Vars in excel](#vars-in-excel) |
-| dest | optional | Path to output files (default ./files/config)|
+| dest | Optional | Path to output files (default ./files/config)|
 
-See NAPALM docs to find out more about `napalm_install_config` module.
+See Example Playbook `example-playbooks\config\config_replace.yml`
+
+See [NAPALM docs](http://napalm.readthedocs.io/en/latest/tutorials/ansible-napalm.html#install) to find out more about `napalm_install_config` module.
 
 Config Backup Role
 ------------------------
+This role uses Ansible's built in [`ios_command`](http://docs.ansible.com/ansible/latest/modules/ios_command_module.html) module to run a `show running-config` command then stores the output in a text file. As it uses IOS specific modules and commands it will only work with IOS devices and must be recreated for other vendors. There is also the option to compress the output.
+
+See Example Playbook `example-playbooks\config\backup.yml`
+
+|parameter  |required  |comment  |
+|--|--|--|
+| backup_dir | Optional | Path to output backup configs (Default ./files/backup ) |
+| isArchive | Optional | If set to true the output will be compressed (Default = true) |
 
 Config on interfaces / Dynamic Config
 -----------------------------------------------
