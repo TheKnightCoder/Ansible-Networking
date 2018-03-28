@@ -6,7 +6,8 @@
   connection: local 
   roles: 
     - ios/connect 
-
+  
+    
   tasks:      
     - name: get facts from device
       napalm_get_facts:                      
@@ -17,3 +18,13 @@
     - name: output to screen
       debug:
         var: output.ansible_facts.napalm_facts
+   
+    - name: Get Date@Time and set in a variable
+      shell: 'date +%Y-%m-%d@%H%M%S'
+      register: timestamp
+      run_once: true
+
+    - name: Export as Excel file
+      export_facts: 
+        content: "{{ output }}"
+        dest: "./files/{{ timestamp.stdout }}_facts.xlsx"

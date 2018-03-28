@@ -5,7 +5,6 @@
 #It also works for in-built IOS commands but not needed as the values are 
 #automatically mapped by Ansible if no provider is given
 #
-#Will not work for NTC-Ansible. See NTC-Ansible doc to find out how to connect
 provider:
   hostname: "{{ ansible_host }}"         #This is a parameter and is derived from your ansible inventory file
   host: "{{ ansible_host }}"             #Added for use with in-build IOS modules  

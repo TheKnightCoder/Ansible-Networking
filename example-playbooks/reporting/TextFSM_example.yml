@@ -1,0 +1,20 @@
+---
+- name: TextFSM example
+  hosts: all
+  gather_facts: false
+  connection: local 
+  roles: 
+    - ios/connect 
+   
+  tasks:      
+    - name: parse cdp neighbors
+      ios_command:
+        commands: "show cdp neighbors"
+      register: cdpVar_temp
+    - set_fact: 
+        cpdVar: "{{ cdpVar_temp.stdout[0] | parse_cli_textfsm('/ansible/lib/parse_cli/cisco_ios_show_cdp_neighbors.template') }}"
+    
+    - name: output to screen
+      debug:
+        var: cpdVar
+   
