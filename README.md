@@ -700,7 +700,7 @@ The ntc_show_command templates do not take into account text which spans over mu
 NTC-Ansible CDP Neigbors Template
 ![cdp n](https://user-images.githubusercontent.com/24293640/37968074-18de3016-31c5-11e8-9c69-78ecc01371d4.png)
 
-Custom CDP Neigbors Template to handel multiple lines
+Custom CDP Neigbors Template to handle multiple lines
 ![cdp_neighbor_v2](https://user-images.githubusercontent.com/24293640/37968295-a38871cc-31c5-11e8-92e2-76287382246a.png)
 
 As you can see from the above images I have used `-> Continue` line action to the read the Device ID over multiple lines. 
