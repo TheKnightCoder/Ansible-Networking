@@ -64,7 +64,11 @@ Ansible Networking
 <li><a href="#ntc-show-command">NTC Show Command</a></li>
 <li><a href="#textfsm">TextFSM</a>
 <ul>
+<li>
+<ul>
 <li><a href="#advanced-textfsm---multi-line-parsing">Advanced TextFSM - Multi-line parsing</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -680,7 +684,7 @@ Once you have learned regex see the [TextFSM docs](https://github.com/google/tex
 
 The ntc_show_command templates do not take into account text which spans over multiple lines in a CLI table. An example of this situation is when you have a very long hostname, which results in the initial portion of the hostname being cut off when parsing the data. This is a problem I faced with `show cdp neigbors`. 
 
-### Advanced TextFSM - Multi-line parsing 
+#### Advanced TextFSM - Multi-line parsing 
 
 ![CLI table](https://user-images.githubusercontent.com/24293640/34607820-4551031e-f20d-11e7-88e7-0e89fa6b6254.png)
 
