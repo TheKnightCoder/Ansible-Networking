@@ -116,7 +116,7 @@ Think of Ansible as the distribution center, it will send a task to many devices
 
 So if we break it down we are essentially running python code on multiple devices and Ansible is helping us do that, it is like the glue that sticks everything together.
 
-As Cisco IOS devices cannot run python we set Ansible to run in 'local' connection mode and we access the IOS devices via SSH. The python code is run on the local machine and commands are sent and outputs to devices retrieved from the devices via SSH.
+As Cisco IOS devices cannot run python we set Ansible to run in 'local' connection mode and we access the IOS devices via SSH. The python code is run on the control machine and commands are sent and outputs to devices retrieved from the devices via SSH.
 
 ![1ansible_diagram](https://user-images.githubusercontent.com/24293640/33616163-0c3ff590-d9d4-11e7-95f4-19280b1c223c.png)
 
