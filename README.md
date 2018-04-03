@@ -234,19 +234,21 @@ Running VM / Vagrant File
 --------------------------------
 1. Create a New Folder and rename it.
 	I will be referring to this folder as the 'Ansible folder', this will be where all your Ansible files are stored.
-2. Download and extract the [repository](https://github.com/TheKnightCoder/Ansible-Networking/archive/master.zip) into the root of your Ansible folder.
->Make sure the actual files (vagrantfile etc.) are in the root of the Ansible folder.
+2. Download and extract the [repository](https://github.com/TheKnightCoder/Ansible-Networking/archive/master.zip) into the root of your Ansible folder. (or you can clone the repo with recursive mode enabled)
 
-3. Open command prompt and navigate to the Ansible folder's location
+>Make sure the actual files (vagrantfile etc.) are in the root of the Ansible folder.
+>N.B: Alternatively you can clone the git command `git clone --recurse-submodules https://github.com/TheKnightCoder/Ansible-Networking-Docker /ansible`. Make sure recursive is enabled to ensure sub-modules are also cloned.
+
+4. Open command prompt and navigate to the Ansible folder's location
 	- Win+R then type `cmd` then ok
 	- Enter command `cd C:\Path\to\AnsibleFolder` (replace the path)
 >Tip: You can `Shift + Right Click` in the file explorer and select `open command window here`
-4. Type `vagrant up` to start the VM
+5. Type `vagrant up` to start the VM
 > Note: The first time this is run the vagrant image will be downloaded and VM will be provisioned. This may take some time, it will be faster after initial launch. (Make sure you are on a network that can does not block vagrant cloud or docker hub) 
-5. Type `vagrant ssh` to ssh into the VM and access it's shell
-6. To exit SSH type `exit` 
-7. To turn off the VM type `vagrant halt`
-8. Synced Folders - Any files stored in the Ansible folder can be accessed by the VM via the path /vagrant
+6. Type `vagrant ssh` to ssh into the VM and access it's shell
+7. To exit SSH type `exit` 
+8. To turn off the VM type `vagrant halt`
+9. Synced Folders - Any files stored in the Ansible folder can be accessed by the VM via the path /vagrant
 
 Start/Stop Vagrant image
 -------------------------------
