@@ -754,7 +754,7 @@ Config Replace Role
 ------------------------
 NAPALM has a module called `napalm_install_config` which will automate the process of installing config onto network devices. The ios/replace role (path `lib/roles/ios/replace`) uses the napalm_install_config module to replace configs. This role was built for Cisco IOS devices but can easily be adapted to work with other vendors. 
 
-> N.B: To use with other vendors modify the provider (`dev_os` variable) of `ios/connect`. Also the ios/backup role must be recreated to work with the vendor. You may also use ios/universal_backup instead of ios/backup but it will be slower during run-time. Remove `configure archive` task (replace if needed).
+> N.B: To use with other vendors modify the provider (`dev_os` variable) of `ios/connect` (see [drivers names](http://napalm.readthedocs.io/en/latest/support/index.html) for supported devices) . Also the ios/backup role must be recreated to work with the vendor. You may also use ios/universal_backup instead of ios/backup but it will be slower during run-time. Remove `configure archive` task (replace if needed).
 
 This role will: 
 - Turn on archive and set path to flash:mybackup (Cisco IOS cannot run a config replace without an archive path)
