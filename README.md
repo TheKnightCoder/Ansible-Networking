@@ -138,7 +138,7 @@ A lot can be accomplished with the above information however Jinja2 is capable o
 
 An in-depth understanding of Ansible and Python is not needed for most config changes, however it can be useful when making more complex templates. An example of this is when you need to add config to every interface on multiple switches of varying models. One device may have 4 interfaces while the other has 7, and the interfaces may have different names such as Fa0/1 and Gi0/1. One way to solve this problem is to use a show command to dynamically get the list of interfaces and then apply the config to those interfaces, this will need comprehensive understanding of Ansible. A simpler solution to this problem would be to group the devices by model and manually list the interfaces for each group (in the group vars). This would require knowledge of the number and names of the interfaces for each model in the network but would require no additional Ansible/Python.
 
-N.B. This specific problem has been solved, see source code for more detail.
+N.B. This specific problem has been solved, see [Dynamic Config](#config-on-interfaces--dynamic-config) section for more detail.
  
 For more information visit the [Jinja2 docs](http://jinja.pocoo.org/docs/).
 
