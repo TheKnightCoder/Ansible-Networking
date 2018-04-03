@@ -267,6 +267,7 @@ Docker is a resource friendly way to run applications in an isolated environment
 ![docker-vm-container](https://user-images.githubusercontent.com/24293640/33762832-02dabeca-dc06-11e7-8bde-c6be1fa530b8.png)
 
 Docker File - A Docker file is the source code of the Docker image. It is very similar to a vagrant file and contains information on what packages to install when building the image. Once compiled it forms a Docker Image.
+
 Docker Image - This image contains the actual packages etc that were defined in the Docker File.
 
 Container - This is an instance of the docker image. You may have multiple containers of one image and any change in one container is not reflected in the next container.
@@ -277,10 +278,10 @@ Port Forwarding - For the docker container to access ports on your machine you m
 
 Note: This must also be define in your Vagrant file so that the VM can access your machine
 
-In this setup we use a Vagrant Synced folder to map your Ansible folder to /vagrant. We will then map this /vagrant folder to the Docker Container using volumes resulting in a link between your machine and the Docker container.
+In this setup we use a Vagrant Synced folder to map your Ansible folder to /vagrant. We will then map this /vagrant folder to the Docker Container using volumes resulting in a link between your machine and the Docker container. (This folder in the docker container will be named /ansible)
 
 See [this video](https://www.youtube.com/watch?v=pGYAg7TMmp0&index=1&list=PLoYCgNOIyGAAzevEST2qm2Xbe3aeLFvLc) from LearnCode.academy for a overview of docker.
-For an in-depth guide on Docker see the many tutorials on YouTube.  
+For an in-depth guide on Docker search the many available tutorials on YouTube.  
 
 Running Ansible & ARA Docker Container
 ------------------------------------------
