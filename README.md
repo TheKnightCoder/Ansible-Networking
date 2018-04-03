@@ -83,7 +83,7 @@ Ansible Networking
 
 Common Commands
 ----------------------
-| Command | Description |
+| Description | Command |
 |--|--|
 | start vagrant | vagrant up |
 | ssh into vagrant | vagrant ssh |  
