@@ -83,7 +83,7 @@ Ansible Networking
 
 Common Commands
 ----------------------
-| Command | Description |
+| Description | Command |
 |--|--|
 | start vagrant | vagrant up |
 | ssh into vagrant | vagrant ssh |  
@@ -116,7 +116,7 @@ Think of Ansible as the distribution center, it will send a task to many devices
 
 So if we break it down we are essentially running python code on multiple devices and Ansible is helping us do that, it is like the glue that sticks everything together.
 
-As Cisco IOS devices cannot run python we set Ansible to run in 'local' connection mode and we access the IOS devices via SSH. The python code is run on the local machine and commands are sent and outputs to devices retrieved from the devices via SSH.
+As Cisco IOS devices cannot run python we set Ansible to run in 'local' connection mode and we access the IOS devices via SSH. The python code is run on the control machine and commands are sent and outputs to devices retrieved from the devices via SSH.
 
 ![1ansible_diagram](https://user-images.githubusercontent.com/24293640/33616163-0c3ff590-d9d4-11e7-95f4-19280b1c223c.png)
 
@@ -132,13 +132,13 @@ Templating with Jinja2
 
 Templating is the most important thing to know when automating network config, thankfully it can also be the simplest. 
 
-A Jinja2 template is just a regular text file with a twist, it contains special notations which will be replaced with a variable. Jinja2 variables have the following notation `{{ foo }}`. When the template is processed to produce an output text file, it will replace all `{{ foo }}` with the actual 'foo' variable defined in Ansible. (foo may be replaced with any variable name).
+A Jinja2 template is just a regular text file with a twist, it uses special notations which are then replaced with a variables. Jinja2 variables have the following notation `{{ foo }}`. When the template is processed to produce an output text file, it will replace all `{{ foo }}` with the actual 'foo' variable defined in Ansible. (foo may be replaced with any variable name).
 
 A lot can be accomplished with the above information however Jinja2 is capable of much more with its ability to use for loops, if statements, filters and inheritance. The [Jinja2 documentation](http://jinja.pocoo.org/docs/2.10/) is very well written and can be used to learn how to implement these concepts.
 
 An in-depth understanding of Ansible and Python is not needed for most config changes, however it can be useful when making more complex templates. An example of this is when you need to add config to every interface on multiple switches of varying models. One device may have 4 interfaces while the other has 7, and the interfaces may have different names such as Fa0/1 and Gi0/1. One way to solve this problem is to use a show command to dynamically get the list of interfaces and then apply the config to those interfaces, this will need comprehensive understanding of Ansible. A simpler solution to this problem would be to group the devices by model and manually list the interfaces for each group (in the group vars). This would require knowledge of the number and names of the interfaces for each model in the network but would require no additional Ansible/Python.
 
-N.B. This specific problem has been solved, see source code for more detail.
+N.B. This specific problem has been solved, see [Dynamic Config](#config-on-interfaces--dynamic-config) section for more detail.
  
 For more information visit the [Jinja2 docs](http://jinja.pocoo.org/docs/).
 
@@ -146,11 +146,11 @@ NAPALM
 ------------
 ![NAPALM Logo](https://avatars0.githubusercontent.com/u/16415577?s=200&v=4)
 
-NAPALM (Network Automation and Programmability Abstraction Layer with Multi-vendor support) is a Python library that implements a set of functions to interact with different network device Operating Systems using a unified API. By using NAPALM it makes it much easier to carry out tasks on network devices such as config replacement. NAPALM has Ansible modules which allows them to fully integrate.
+NAPALM (Network Automation and Programmability Abstraction Layer with Multi-vendor support) is a Python library that implements a set of functions to interact with different network device Operating Systems using a unified API. By using NAPALM it makes it much easier to carry out tasks on network devices such as config replacement. NAPALM has Ansible modules which allows them to fully integrate with Ansible.
 
 In the Ansible Networking repository NAPALM is primarily used to install config by using the [napalm_install_config](https://github.com/napalm-automation/napalm-ansible/blob/develop/napalm_ansible/modules/napalm_install_config.py) module. When NAPALM is used to replace/merge your config it is able to generate a diff file, this file will outline all changes that will be made on the devices which can then be verified and then committed. A backup is also automatically generated and stored in a offline location (and locally on network device) ensuring you are able to rollback changes.
 
-NAPALM also has other useful modules. [napalm_get_facts](https://github.com/napalm-automation/napalm-ansible/blob/develop/napalm_ansible/modules/napalm_get_facts.py) is a module that standardises the retrieval of information from network devices regardless of which vendor is being used. This means that the same code can be used and the structure of the output is known. To find out more about the information napalm_get_facts is capable of retrieving visit 'NetworkDevices' in the [docs](http://napalm.readthedocs.io/en/latest/base.html). Also see `Ansible-Networking\example-playbooks\reporting\napalm_get_facts.yml` playbook for an example of how to use 'napalm_get_facts' with Ansible.
+NAPALM also has other useful modules such as [napalm_get_facts](https://github.com/napalm-automation/napalm-ansible/blob/develop/napalm_ansible/modules/napalm_get_facts.py) which is a module that standardises the retrieval of information from network devices regardless of which vendor is being used. This means that the same code can be used and the structure of the output is known. To find out more about the information napalm_get_facts is capable of retrieving visit 'NetworkDevices' in the [docs](http://napalm.readthedocs.io/en/latest/base.html). Also see `Ansible-Networking\example-playbooks\reporting\napalm_get_facts.yml` playbook for an example of how to use 'napalm_get_facts' with Ansible.
 
 Other useful NAPALM Modules:
 - [napalm_ping](https://github.com/napalm-automation/napalm-ansible/blob/develop/napalm_ansible/modules/napalm_ping.py) - Executes ping on the device and returns response using NAPALM
@@ -181,7 +181,7 @@ For more information visit the [NTC-Ansible repository](https://github.com/netwo
 
 Regex / TextFSM
 ---------------------
-Regular Expression (Regex) is another essential skill which is needed in network automation, it will give you the ability to format a 'show' command into something a computer can easily handle. Currently the Cisco IOS is built for human-readability however it is not very good for computers. For computers to be able to handle data it needs to be formatted in a way that is more appropriate such as csv, json, sql etc rather than a block of text. TextFSM will help you do just that, it will take a template file, and text input (such as command responses from the CLI of a device) and returns a list of records that contains the data parsed from the text. It is a python library which is integrated into Ansible. 
+Regular Expression (Regex) is another essential skill which is needed in network automation, it will give you the ability to format a 'show' command into something a computer can easily handle. Currently the Cisco IOS is built for human-readability however it is not very good for computers. For computers to be able to handle data it needs to be formatted in a way that is more appropriate such as dictionaries, csv, json, sql etc rather than a block of text. TextFSM will help you do just that, it will take a template file, and text input (such as command responses from the CLI of a device) and returns a list of records that contains the data parsed from the text. It is a python library which is integrated into Ansible. 
 (NTC-Ansible ntc_show_commands also uses TextFSM to parse it's data.)
 
 To create TextFSM templates you will need to know regex. This will give you the ability to parse any show command into Ansible. To learn regex I recommend watching these [videos tutorials by The Coding Train](https://www.youtube.com/watch?v=7DG3kCDx53c&list=PLRqwX-V7Uu6YEypLuls7iidwHMdCM6o2w). The ntc_show_commands has a library of templates already written for IOS show commands. These templates can be found in `Ansible-Networking\lib\modules\ntc-ansible\ntc-templates\templates`
@@ -202,11 +202,11 @@ If needed the ARA database can be changed to a centralized database by changing 
 
 ![ARA screenshot](https://github.com/openstack/ara/raw/master/doc/source/_static/reports.png)
 
-As you can see from the image above, ARA shows you a complete summary of playbooks that have been run. It gives you very useful information such as which hosts the playbook was run on, the time is took and whether the playbook was successful.
+As you can see from the image above, ARA shows you a complete summary of playbooks that have been run. It gives you very useful information such as which hosts the playbook was run on, the duration of the run and whether the playbook was successful.
 
 Installation
 =========
-Ansible only runs on linux and therefore you need a Virtual Machine (VM) if you are running Mac OSX or Windows. A VM is virtual operating system (OS) running on-top of your current OS, allowing you to run linux on Windows/OSX. This guide will assume you are running windows, if you are using Linux you will need to install docker and skip to Running Ansible section.
+Ansible only runs on linux and therefore you need a Virtual Machine (VM) if you are running Mac OSX or Windows. A VM is a virtual operating system (OS) running on-top of your current OS, allowing you to run linux on Windows/OSX. This guide will assume you are running windows, if you are using Linux you will need to install docker and skip to [Running Ansible](#running-ansible) section.
 
 Enable Virtualisation
 -------------------------
@@ -224,7 +224,7 @@ Virtual Box is a free open-source software that allows you to run a virtual mach
 
 Install Vagrant
 ------------------
-Vagrant is a tool for building and managing virtual machine environments in a single workflow. It will allow you to set up your virtual machine and install all the software packages with a single command  and the vagrant file found in this repository. By using vagrant we can ensure that all VMs using the same vagrant file is identical.
+Vagrant is a tool for building and managing virtual machine environments in a single workflow. It will allow you to set up your virtual machine and install all the software packages with a single command  and the vagrant file found in this repository. By using vagrant we can ensure that all VMs using the same vagrant file are identical.
 
 To install Vagrant [download](https://www.vagrantup.com/downloads.html) the installer, run the installer and keep hitting next until the installation is complete.
 
@@ -233,16 +233,16 @@ You will now need to reboot to complete the installation.
 Running VM / Vagrant File
 --------------------------------
 1. Create a New Folder and rename it.
-	This is your Ansible folder, this will be where all your Ansible files are stored.
+	I will be referring to this folder as the 'Ansible folder', this will be where all your Ansible files are stored.
 2. Download and extract the [repository](https://github.com/TheKnightCoder/Ansible-Networking/archive/master.zip) into the root of your Ansible folder.
 >Make sure the actual files (vagrantfile etc.) are in the root of the Ansible folder.
 
 3. Open command prompt and navigate to the Ansible folder's location
-	- Win+R the type `cmd` then ok
+	- Win+R then type `cmd` then ok
 	- Enter command `cd C:\Path\to\AnsibleFolder` (replace the path)
 >Tip: You can `Shift + Right Click` in the file explorer and select `open command window here`
 4. Type `vagrant up` to start the VM
-> Note: The first time this is run the vagrant image will be downloaded and VM will be provisioned. This may take some time, it will be faster after initial launch. (Make sure you are on a network that can download the image) 
+> Note: The first time this is run the vagrant image will be downloaded and VM will be provisioned. This may take some time, it will be faster after initial launch. (Make sure you are on a network that can does not block vagrant cloud or docker hub) 
 5. Type `vagrant ssh` to ssh into the VM and access it's shell
 6. To exit SSH type `exit` 
 7. To turn off the VM type `vagrant halt`
@@ -256,7 +256,7 @@ Start/Stop Vagrant image
 
 Running Ansible
 =============
-To run Ansible I have created a Docker container with all the tools needed for network automation in this container. This has quite a few advantages over installing it directly onto the VM via vagrant such as being able to run network automation on any Linux machine and using less resources if multiple instances of Ansible is needed.
+To run Ansible I have created a Docker container with all the tools needed for network automation in this container. This has quite a few advantages over installing it directly onto the VM via vagrant such as being able to run network automation on any Linux machine without installation using the Docker image and using less resources if multiple instances of Ansible is needed.
 
 Watch this video on [Docker Containers](https://www.youtube.com/watch?v=pGYAg7TMmp0) to find out more about the differences between Docker and Vagrant.
 
@@ -267,6 +267,7 @@ Docker is a resource friendly way to run applications in an isolated environment
 ![docker-vm-container](https://user-images.githubusercontent.com/24293640/33762832-02dabeca-dc06-11e7-8bde-c6be1fa530b8.png)
 
 Docker File - A Docker file is the source code of the Docker image. It is very similar to a vagrant file and contains information on what packages to install when building the image. Once compiled it forms a Docker Image.
+
 Docker Image - This image contains the actual packages etc that were defined in the Docker File.
 
 Container - This is an instance of the docker image. You may have multiple containers of one image and any change in one container is not reflected in the next container.
@@ -277,10 +278,10 @@ Port Forwarding - For the docker container to access ports on your machine you m
 
 Note: This must also be define in your Vagrant file so that the VM can access your machine
 
-In this setup we use a Vagrant Synced folder to map your Ansible folder to /vagrant. We will then map this /vagrant folder to the Docker Container using volumes resulting in a link between your machine and the Docker container.
+In this setup we use a Vagrant Synced folder to map your Ansible folder to /vagrant. We will then map this /vagrant folder to the Docker Container using volumes resulting in a link between your machine and the Docker container. (This folder in the docker container will be named /ansible)
 
 See [this video](https://www.youtube.com/watch?v=pGYAg7TMmp0&index=1&list=PLoYCgNOIyGAAzevEST2qm2Xbe3aeLFvLc) from LearnCode.academy for a overview of docker.
-For an in-depth guide on Docker see the many tutorials on YouTube.  
+For an in-depth guide on Docker search the many available tutorials on YouTube.  
 
 Running Ansible & ARA Docker Container
 ------------------------------------------
@@ -754,7 +755,7 @@ Config Replace Role
 ------------------------
 NAPALM has a module called `napalm_install_config` which will automate the process of installing config onto network devices. The ios/replace role (path `lib/roles/ios/replace`) uses the napalm_install_config module to replace configs. This role was built for Cisco IOS devices but can easily be adapted to work with other vendors. 
 
-> N.B: To use with other vendors modify the provider (`dev_os` variable) of `ios/connect`. Also the ios/backup role must be recreated to work with the vendor. You may also use ios/universal_backup instead of ios/backup but it will be slower during run-time. Remove `configure archive` task (replace if needed).
+> N.B: To use with other vendors modify the provider (`dev_os` variable) of `ios/connect` (see [drivers names](http://napalm.readthedocs.io/en/latest/support/index.html) for supported devices) . Also the ios/backup role must be recreated to work with the vendor. You may also use ios/universal_backup instead of ios/backup but it will be slower during run-time. Remove `configure archive` task (replace if needed).
 
 This role will: 
 - Turn on archive and set path to flash:mybackup (Cisco IOS cannot run a config replace without an archive path)
