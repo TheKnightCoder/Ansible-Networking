@@ -24,7 +24,7 @@ Container initial launch
 cd /vagrant && docker-compose run --service-ports --name ara -d ara && docker-compose run --service-ports --rm ansible
 
 Clone Git
-git clone https://github.com/TheKnightCoder/Ansible-Networking-Docker /ansible
+git clone --recurse-submodules https://github.com/TheKnightCoder/Ansible-Networking-Docker /ansible 
 
 Update git submodules
 git submodule update --recursive --remote
@@ -36,7 +36,7 @@ Run playbook example
 ansible-playbook show_run.yml -e ansible_user=user -k
 
 Excel forumla for inventory file
-=A47 & "    ansible_host='" & B47 & "'"
+=A1 & "    ansible_host='" & B1 & "'"
 
 
 resources
