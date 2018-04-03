@@ -202,11 +202,11 @@ If needed the ARA database can be changed to a centralized database by changing 
 
 ![ARA screenshot](https://github.com/openstack/ara/raw/master/doc/source/_static/reports.png)
 
-As you can see from the image above, ARA shows you a complete summary of playbooks that have been run. It gives you very useful information such as which hosts the playbook was run on, the time is took and whether the playbook was successful.
+As you can see from the image above, ARA shows you a complete summary of playbooks that have been run. It gives you very useful information such as which hosts the playbook was run on, the duration of the run and whether the playbook was successful.
 
 Installation
 =========
-Ansible only runs on linux and therefore you need a Virtual Machine (VM) if you are running Mac OSX or Windows. A VM is virtual operating system (OS) running on-top of your current OS, allowing you to run linux on Windows/OSX. This guide will assume you are running windows, if you are using Linux you will need to install docker and skip to Running Ansible section.
+Ansible only runs on linux and therefore you need a Virtual Machine (VM) if you are running Mac OSX or Windows. A VM is a virtual operating system (OS) running on-top of your current OS, allowing you to run linux on Windows/OSX. This guide will assume you are running windows, if you are using Linux you will need to install docker and skip to [Running Ansible](#running-ansible) section.
 
 Enable Virtualisation
 -------------------------
@@ -224,7 +224,7 @@ Virtual Box is a free open-source software that allows you to run a virtual mach
 
 Install Vagrant
 ------------------
-Vagrant is a tool for building and managing virtual machine environments in a single workflow. It will allow you to set up your virtual machine and install all the software packages with a single command  and the vagrant file found in this repository. By using vagrant we can ensure that all VMs using the same vagrant file is identical.
+Vagrant is a tool for building and managing virtual machine environments in a single workflow. It will allow you to set up your virtual machine and install all the software packages with a single command  and the vagrant file found in this repository. By using vagrant we can ensure that all VMs using the same vagrant file are identical.
 
 To install Vagrant [download](https://www.vagrantup.com/downloads.html) the installer, run the installer and keep hitting next until the installation is complete.
 
@@ -233,16 +233,16 @@ You will now need to reboot to complete the installation.
 Running VM / Vagrant File
 --------------------------------
 1. Create a New Folder and rename it.
-	This is your Ansible folder, this will be where all your Ansible files are stored.
+	I will be referring to this folder as the 'Ansible folder', this will be where all your Ansible files are stored.
 2. Download and extract the [repository](https://github.com/TheKnightCoder/Ansible-Networking/archive/master.zip) into the root of your Ansible folder.
 >Make sure the actual files (vagrantfile etc.) are in the root of the Ansible folder.
 
 3. Open command prompt and navigate to the Ansible folder's location
-	- Win+R the type `cmd` then ok
+	- Win+R then type `cmd` then ok
 	- Enter command `cd C:\Path\to\AnsibleFolder` (replace the path)
 >Tip: You can `Shift + Right Click` in the file explorer and select `open command window here`
 4. Type `vagrant up` to start the VM
-> Note: The first time this is run the vagrant image will be downloaded and VM will be provisioned. This may take some time, it will be faster after initial launch. (Make sure you are on a network that can download the image) 
+> Note: The first time this is run the vagrant image will be downloaded and VM will be provisioned. This may take some time, it will be faster after initial launch. (Make sure you are on a network that can does not block vagrant cloud or docker hub) 
 5. Type `vagrant ssh` to ssh into the VM and access it's shell
 6. To exit SSH type `exit` 
 7. To turn off the VM type `vagrant halt`
@@ -256,7 +256,7 @@ Start/Stop Vagrant image
 
 Running Ansible
 =============
-To run Ansible I have created a Docker container with all the tools needed for network automation in this container. This has quite a few advantages over installing it directly onto the VM via vagrant such as being able to run network automation on any Linux machine and using less resources if multiple instances of Ansible is needed.
+To run Ansible I have created a Docker container with all the tools needed for network automation in this container. This has quite a few advantages over installing it directly onto the VM via vagrant such as being able to run network automation on any Linux machine without installation using the Docker image and using less resources if multiple instances of Ansible is needed.
 
 Watch this video on [Docker Containers](https://www.youtube.com/watch?v=pGYAg7TMmp0) to find out more about the differences between Docker and Vagrant.
 
